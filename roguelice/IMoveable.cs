@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class Program
+    interface IMoveable : IMapObject
     {
-        static void Main(string[] args)
-        {
-            var game = new Game();
-        }
+        bool Move(Point targetPosition);
     }
 }

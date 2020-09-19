@@ -43,8 +43,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI.cs" />
+    <Compile Include="CellularAutomata.cs" />
+    <Compile Include="ChamberTree.cs" />
+    <Compile Include="CombatSystem.cs" />
+    <Compile Include="Dungeon.cs" />
+    <Compile Include="DungeonLevel.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="Generator.cs" />
+    <Compile Include="Graphics.cs" />
+    <Compile Include="HealingPlant.cs" />
+    <Compile Include="IFighter.cs" />
+    <Compile Include="IMapObject.cs" />
+    <Compile Include="IMoveable.cs" />
+    <Compile Include="Monster.cs" />
+    <Compile Include="MonsterAI.cs" />
+    <Compile Include="MonsterModifier.cs" />
+    <Compile Include="MonsterSpecies.cs" />
+    <Compile Include="Numbers.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rectangle.cs" />
+    <Compile Include="Tile.cs" />
+    <Compile Include="Tilemap.cs" />
+    <Compile Include="UI.cs" />
+    <Compile Include="Weapon.cs" />
+    <Compile Include="WeaponModifier.cs" />
+    <Compile Include="WeaponType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
