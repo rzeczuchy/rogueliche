@@ -15,7 +15,7 @@ namespace roguelice
         private readonly UI ui;
         private readonly Stopwatch loopTimer;
         private const double fps = 30;
-        private const double timePerFrame = (1 / fps) * 1000;
+        private const double timeStep = (1 / fps) * 1000;
         private readonly Stack<GameState> gameStates;
         private bool isRunning;
 
@@ -27,13 +27,18 @@ namespace roguelice
             loopTimer = new Stopwatch();
             
             gameStates = new Stack<GameState>();
-            gameStates.Push(new GameActionState());
+            PushGameState(new GameActionState());
 
             isRunning = true;
             Run();
         }
 
-        private static void SetUpConsole()
+        public void PushGameState(GameState state)
+        {
+            gameStates.Push(state);
+        }
+
+        private void SetUpConsole()
         {
             Console.Title = GameTitle;
             Console.BackgroundColor = ConsoleColor.Black;
@@ -47,7 +52,7 @@ namespace roguelice
             Console.OutputEncoding = Encoding.Unicode;
         }
 
-        public void Close()
+        private void Close()
         {
             isRunning = false;
         }
@@ -102,7 +107,7 @@ namespace roguelice
             Draw();
             while (isRunning)
             {
-                if (loopTimer.Elapsed.Milliseconds > timePerFrame)
+                if (loopTimer.Elapsed.Milliseconds > timeStep)
                 {
                     Update();
                     Draw();
