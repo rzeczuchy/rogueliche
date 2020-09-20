@@ -27,7 +27,7 @@ namespace roguelice
 
         public override void Draw(Graphics render, UI ui)
         {
-            render.DrawStringC("Welcome to " + Game.GameTitle + "! Press ENTER to start new game.", render.Height / 2);
+            render.DrawStringC("Welcome to " + Game.GameTitle + "! Press ENTER to start.", render.Height / 2);
             render.Draw();
         }
 

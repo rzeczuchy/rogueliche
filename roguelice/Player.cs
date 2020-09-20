@@ -108,6 +108,11 @@ namespace roguelice
                 int healthLoss = Exertion - MaxExertion;
                 ChangeHealth(-healthLoss);
                 Exertion = MaxExertion;
+
+                if (Health <= 0)
+                {
+                    Die();
+                }
             }
         }
 
@@ -259,9 +264,14 @@ namespace roguelice
             }
         }
 
-        public void Die(IFighter attacker)
+        public void Die()
         {
             IsDead = true;
+        }
+
+        public void Die(IFighter attacker)
+        {
+            Die();
         }
 
         public void Kill(IFighter target)
