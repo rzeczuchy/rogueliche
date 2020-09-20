@@ -27,7 +27,7 @@ namespace roguelice
             loopTimer = new Stopwatch();
             
             gameStates = new Stack<GameState>();
-            PushGameState(new GameActionState());
+            PushGameState(new GameStartState(this));
 
             isRunning = true;
             Run();
@@ -36,6 +36,11 @@ namespace roguelice
         public void PushGameState(GameState state)
         {
             gameStates.Push(state);
+        }
+
+        public void CloseState()
+        {
+            gameStates.Pop();
         }
 
         private void SetUpConsole()
@@ -65,14 +70,7 @@ namespace roguelice
 
                 if (gameStates.Any())
                 {
-                    if (gameStates.Peek().End)
-                    {
-                        gameStates.Pop();
-                    }
-                    else
-                    {
-                        gameStates.Peek().Update(ui, input);
-                    }
+                    gameStates.Peek().Update(ui, input);
                 }
                 else
                 {
@@ -94,10 +92,7 @@ namespace roguelice
         {
             if (gameStates.Any())
             {
-                if (!gameStates.Peek().End)
-                {
-                    gameStates.Peek().Draw(render, ui);
-                }
+                gameStates.Peek().Draw(render, ui);
             }
         }
 

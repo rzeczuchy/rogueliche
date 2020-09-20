@@ -8,24 +8,26 @@ namespace roguelice
 {
     class GameActionState : GameState
     {
+        private readonly Game game;
         private Dungeon dungeon;
         private Player player;
 
-        public GameActionState()
+        public GameActionState(Game game)
         {
+            this.game = game;
             dungeon = new Dungeon();
             DungeonLevel startingLevel = dungeon.NewLevel();
             player = new Player(startingLevel, startingLevel.Entrance);
         }
 
-        public override void Close()
-        {
-            End = true;
-        }
-
         public override void Update(UI ui, ConsoleKey input)
         {
             player.Update(input, ui, dungeon);
+
+            if (player.IsDead)
+            {
+                EndGame();
+            }
         }
 
         public override void Draw(Graphics render, UI ui)
@@ -33,6 +35,12 @@ namespace roguelice
             player.Location.Tilemap.Draw(render, player);
             ui.Draw(render, player);
             render.Draw();
+        }
+
+        private void EndGame()
+        {
+            game.CloseState();
+            game.PushGameState(new GameOverState(game, player));
         }
     }
 }
