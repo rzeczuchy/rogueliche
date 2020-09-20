@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
+using System.Diagnostics;
 
 namespace roguelice
 {
@@ -12,14 +13,18 @@ namespace roguelice
 
         private readonly Graphics render;
         private readonly UI ui;
+        private readonly Stopwatch loopTimer;
+        private const double fps = 30;
+        private const double timePerFrame = (1 / fps) * 1000;
+        private readonly Stack<GameState> gameStates;
         private bool isRunning;
-        private Stack<GameState> gameStates;
 
         public Game()
         {
             SetUpConsole();
             render = new Graphics();
             ui = new UI();
+            loopTimer = new Stopwatch();
             
             gameStates = new Stack<GameState>();
             gameStates.Push(new GameActionState());
@@ -69,6 +74,15 @@ namespace roguelice
                     Close();
                 }
             }
+            FlushInput();
+        }
+
+        private void FlushInput()
+        {
+            while (Console.KeyAvailable)
+            {
+                Console.ReadKey(true);
+            }
         }
 
         private void Draw()
@@ -84,11 +98,16 @@ namespace roguelice
 
         private void Run()
         {
+            loopTimer.Start();
             Draw();
             while (isRunning)
             {
-                Update();
-                Draw();
+                if (loopTimer.Elapsed.Milliseconds > timePerFrame)
+                {
+                    Update();
+                    Draw();
+                    loopTimer.Restart();
+                }
             }
         }
     }
