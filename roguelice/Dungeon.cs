@@ -33,6 +33,7 @@ namespace roguelice
             MaxRoomHeight = 7;
             MonstersPerLevel = 10;
             WeaponsPerLevel = 3;
+            PlantsPerLevel = 5;
             CaveChance = 50;
             ForceRegularRooms = false;
         }
@@ -41,6 +42,7 @@ namespace roguelice
         public Generator Generator { get; private set; }
         public int MonstersPerLevel { get; set; }
         public int WeaponsPerLevel { get; set; }
+        public int PlantsPerLevel { get; set; }
         public int Width { get => minWidth; set => minWidth = Numbers.Clamp(value, 20, 250); }
         public int Height { get => minHeight; set => minHeight = Numbers.Clamp(value, 20, 250); }
         public int MinRooms { get => minRooms; set => minRooms = Numbers.Clamp(value, 2, 250); }

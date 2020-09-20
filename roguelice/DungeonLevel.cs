@@ -119,6 +119,7 @@ namespace roguelice
             PlaceObject(TryPlaceStairsDown, 1);
             PlaceObject(TryPlaceMonster, dungeon.MonstersPerLevel);
             PlaceObject(TryPlaceItem, dungeon.WeaponsPerLevel);
+            PlaceObject(TryPlacePlant, dungeon.PlantsPerLevel);
         }
 
         void PlaceObject(Func<bool> tryPlace, int amount)
@@ -153,7 +154,7 @@ namespace roguelice
         {
             Point pos = RandomPosition(ChamberTree.GetRandomChamber());
 
-            if (CanPlaceObject(pos))
+            if (CanPlaceCreature(pos))
             {
                 dungeon.Generator.NewMonster(this, pos, LevelIndex);
                 return true;
@@ -173,7 +174,19 @@ namespace roguelice
             return false;
         }
 
-        bool CanPlaceObject(Point pos)
+        private bool TryPlacePlant()
+        {
+            Point pos = RandomPosition(ChamberTree.GetRandomChamber());
+
+            if (CanPlaceCreature(pos))
+            {
+                new HealingPlant(this, pos);
+                return true;
+            }
+            return false;
+        }
+
+        bool CanPlaceCreature(Point pos)
         {
             return Tilemap.IsPositionWithinTilemap(pos) && Tilemap.IsWalkable(pos) &&
                 Tilemap.GetCreature(pos) == null && Tilemap.GetTile(pos).Type != Tile.TileType.exit;
