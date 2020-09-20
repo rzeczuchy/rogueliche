@@ -34,7 +34,7 @@ namespace roguelice
             MonstersPerRoom = 0.5;
             WeaponsPerRoom = 0.2;
             PlantsPerRoom = 0.3;
-            CaveChance = 50;
+            CaveChance = 10;
             ForceRegularRooms = false;
         }
 

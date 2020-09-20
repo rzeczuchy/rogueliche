@@ -111,11 +111,11 @@ namespace roguelice
             }
         }
 
-        public void Update(Game game, UI ui, Dungeon dungeon)
+        public void Update(ConsoleKey input, UI ui, Dungeon dungeon)
         {
             if (!IsDead)
             {
-                HandleInput(game, ui, dungeon);
+                HandleInput(input, ui, dungeon);
 
                 if (endTurn == true)
                 {
@@ -123,8 +123,6 @@ namespace roguelice
                     endTurn = false;
                 }
             }
-            else
-                game.DisplayDeathScreen();
         }
 
         void Wait()
@@ -139,81 +137,71 @@ namespace roguelice
             return Point.Distance(Position, new Point(x, y)) < 25;
         }
 
-        public void HandleInput(Game game, UI ui, Dungeon dungeon)
+        public void HandleInput(ConsoleKey input, UI ui, Dungeon dungeon)
         {
-            bool validKey;
-            do
+            switch (input)
             {
-                validKey = true;
-                ConsoleKey input = Console.ReadKey(true).Key;
-                switch (input)
-                {
-                    // MOVE UP
-                    case ConsoleKey.UpArrow:
-                    case ConsoleKey.NumPad8:
-                        Move(new Point(Position.X, Position.Y - 1));
-                        break;
-                    // MOVE DOWN
-                    case ConsoleKey.DownArrow:
-                    case ConsoleKey.NumPad2:
-                        Move(new Point(Position.X, Position.Y + 1));
-                        break;
-                    // MOVE LEFT
-                    case ConsoleKey.LeftArrow:
-                    case ConsoleKey.NumPad4:
-                        Move(new Point(Position.X - 1, Position.Y));
-                        break;
-                    // MOVE RIGHT
-                    case ConsoleKey.RightArrow:
-                    case ConsoleKey.NumPad6:
-                        Move(new Point(Position.X + 1, Position.Y));
-                        break;
-                    // MOVE UP-LEFT
-                    case ConsoleKey.NumPad7:
-                        Move(new Point(Position.X - 1, Position.Y - 1));
-                        break;
-                    // MOVE UP-RIGHT
-                    case ConsoleKey.NumPad9:
-                        Move(new Point(Position.X + 1, Position.Y - 1));
-                        break;
-                    // MOVE DOWN-LEFT
-                    case ConsoleKey.NumPad1:
-                        Move(new Point(Position.X - 1, Position.Y + 1));
-                        break;
-                    // MOVE DOWN-RIGHT
-                    case ConsoleKey.NumPad3:
-                        Move(new Point(Position.X + 1, Position.Y + 1));
-                        break;
-                    // WAIT
-                    case ConsoleKey.NumPad5:
-                    case ConsoleKey.Spacebar:
-                    case ConsoleKey.W:
-                        Wait();
-                        break;
-                    // USE EXIT
-                    case ConsoleKey.Enter:
-                    case ConsoleKey.E:
-                        EnterNextLevel(dungeon);
-                        break;
-                    // SWITCH WEAPON
-                    case ConsoleKey.S:
-                    case ConsoleKey.NumPad0:
-                        SwitchWeapon();
-                        break;
-                    // TOGGLE OVERHEAD DISPLAY
-                    case ConsoleKey.Tab:
-                    case ConsoleKey.Divide:
-                        ui.ToggleOverheads();
-                        break;
-                    // QUIT GAME
-                    case ConsoleKey.Escape:
-                        game.Close();
-                        break;
-                    default:
-                        validKey = false;
-                        break;
-                }
-            } while (!validKey);
+                // MOVE UP
+                case ConsoleKey.UpArrow:
+                case ConsoleKey.NumPad8:
+                    Move(new Point(Position.X, Position.Y - 1));
+                    break;
+                // MOVE DOWN
+                case ConsoleKey.DownArrow:
+                case ConsoleKey.NumPad2:
+                    Move(new Point(Position.X, Position.Y + 1));
+                    break;
+                // MOVE LEFT
+                case ConsoleKey.LeftArrow:
+                case ConsoleKey.NumPad4:
+                    Move(new Point(Position.X - 1, Position.Y));
+                    break;
+                // MOVE RIGHT
+                case ConsoleKey.RightArrow:
+                case ConsoleKey.NumPad6:
+                    Move(new Point(Position.X + 1, Position.Y));
+                    break;
+                // MOVE UP-LEFT
+                case ConsoleKey.NumPad7:
+                    Move(new Point(Position.X - 1, Position.Y - 1));
+                    break;
+                // MOVE UP-RIGHT
+                case ConsoleKey.NumPad9:
+                    Move(new Point(Position.X + 1, Position.Y - 1));
+                    break;
+                // MOVE DOWN-LEFT
+                case ConsoleKey.NumPad1:
+                    Move(new Point(Position.X - 1, Position.Y + 1));
+                    break;
+                // MOVE DOWN-RIGHT
+                case ConsoleKey.NumPad3:
+                    Move(new Point(Position.X + 1, Position.Y + 1));
+                    break;
+                // WAIT
+                case ConsoleKey.NumPad5:
+                case ConsoleKey.Spacebar:
+                case ConsoleKey.W:
+                    Wait();
+                    break;
+                // USE EXIT
+                case ConsoleKey.Enter:
+                case ConsoleKey.E:
+                    EnterNextLevel(dungeon);
+                    break;
+                // SWITCH WEAPON
+                case ConsoleKey.S:
+                case ConsoleKey.NumPad0:
+                    SwitchWeapon();
+                    break;
+                // TOGGLE OVERHEAD DISPLAY
+                case ConsoleKey.Tab:
+                case ConsoleKey.Divide:
+                    ui.ToggleOverheads();
+                    break;
+                default:
+                    break;
+            }
+
         }
 
         void SwitchWeapon()

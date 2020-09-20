@@ -12,17 +12,19 @@ namespace roguelice
 
         private readonly Graphics render;
         private readonly UI ui;
-        private Dungeon dungeon;
         private bool isRunning;
-        private Player player;
+        private Stack<GameState> gameStates;
 
         public Game()
         {
             SetUpConsole();
             render = new Graphics();
             ui = new UI();
+            
+            gameStates = new Stack<GameState>();
+            gameStates.Push(new GameActionState());
+
             isRunning = true;
-            Initialize();
             Run();
         }
 
@@ -45,50 +47,44 @@ namespace roguelice
             isRunning = false;
         }
 
-        public void DisplayDeathScreen()
-        {
-            render.DrawStringC("You died.", render.Height / 2);
-            render.DrawStringC("You killed " + player.KillCount + " beasts and attained level " + player.Lvl + ".", render.Height / 2 + 1);
-            render.DrawStringC("You reached floor " + player.Location.LevelIndex + " of the dungeon.", render.Height / 2 + 2);
-            render.DrawStringC("You broke " + player.BrokenWeapons + " weapons.", render.Height / 2 + 3);
-            render.DrawStringC("Press a key to restart.", render.Height / 2 + 4);
-
-            render.Draw();
-            Console.ReadKey(true);
-            Initialize();
-        }
-
-        public void DisplayStartScreen()
-        {
-            render.DrawStringC("Welcome to " + GameTitle + "! Press a key to start new game.", render.Height / 2);
-            render.Draw();
-            Console.ReadKey(true);
-            Draw();
-        }
-
-        private void Initialize()
-        {
-            dungeon = new Dungeon();
-            DungeonLevel startingLevel = dungeon.NewLevel();
-            player = new Player(startingLevel, startingLevel.Entrance);
-
-            DisplayStartScreen();
-        }
-
         private void Update()
         {
-            player.Update(this, ui, dungeon);
+            if (Console.KeyAvailable)
+            {
+                ConsoleKey input = Console.ReadKey(true).Key;
+
+                if (gameStates.Any())
+                {
+                    if (gameStates.Peek().End)
+                    {
+                        gameStates.Pop();
+                    }
+                    else
+                    {
+                        gameStates.Peek().Update(ui, input);
+                    }
+                }
+                else
+                {
+                    Close();
+                }
+            }
         }
 
         private void Draw()
         {
-            player.Location.Tilemap.Draw(render, player);
-            ui.Draw(render, player);
-            render.Draw();
+            if (gameStates.Any())
+            {
+                if (!gameStates.Peek().End)
+                {
+                    gameStates.Peek().Draw(render, ui);
+                }
+            }
         }
 
         private void Run()
         {
+            Draw();
             while (isRunning)
             {
                 Update();
