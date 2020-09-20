@@ -22,27 +22,27 @@ namespace roguelice
         public Dungeon()
         {
             Generator = new Generator();
-            Width = 100;
-            Height = 100;
+            Width = 200;
+            Height = 200;
             LevelIndex = 0;
             MinRooms = 10;
-            MaxRooms = 30;
+            MaxRooms = 50;
             MinRoomWidth = 3;
             MaxRoomWidth = 7;
             MinRoomHeight = 3;
             MaxRoomHeight = 7;
-            MonstersPerLevel = 10;
-            WeaponsPerLevel = 3;
-            PlantsPerLevel = 5;
+            MonstersPerRoom = 0.5;
+            WeaponsPerRoom = 0.2;
+            PlantsPerRoom = 0.3;
             CaveChance = 50;
             ForceRegularRooms = false;
         }
 
         public int LevelIndex { get => levelIndex; private set => levelIndex = Numbers.Clamp(value, 0, 99999); }
         public Generator Generator { get; private set; }
-        public int MonstersPerLevel { get; set; }
-        public int WeaponsPerLevel { get; set; }
-        public int PlantsPerLevel { get; set; }
+        public double MonstersPerRoom { get; set; }
+        public double WeaponsPerRoom { get; set; }
+        public double PlantsPerRoom { get; set; }
         public int Width { get => minWidth; set => minWidth = Numbers.Clamp(value, 20, 250); }
         public int Height { get => minHeight; set => minHeight = Numbers.Clamp(value, 20, 250); }
         public int MinRooms { get => minRooms; set => minRooms = Numbers.Clamp(value, 2, 250); }

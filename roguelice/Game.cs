@@ -33,7 +33,7 @@ namespace roguelice
             Console.ForegroundColor = ConsoleColor.White;
             Console.CursorVisible = false;
             Console.SetWindowSize(1, 1);
-            Console.SetBufferSize(100, 65);
+            Console.SetBufferSize(160, 90);
             int windowWidth = Console.LargestWindowWidth > Console.BufferWidth ? Console.BufferWidth : Console.LargestWindowWidth - 1;
             int windowHeight = Console.LargestWindowHeight > Console.BufferHeight ? Console.BufferHeight : Console.LargestWindowHeight - 1;
             Console.SetWindowSize(windowWidth, windowHeight);

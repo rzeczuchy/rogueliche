@@ -117,9 +117,15 @@ namespace roguelice
             }
 
             PlaceObject(TryPlaceStairsDown, 1);
-            PlaceObject(TryPlaceMonster, dungeon.MonstersPerLevel);
-            PlaceObject(TryPlaceItem, dungeon.WeaponsPerLevel);
-            PlaceObject(TryPlacePlant, dungeon.PlantsPerLevel);
+
+            int monsters = (int)(dungeon.MonstersPerRoom * ChamberTree.Chambers.Count);
+            PlaceObject(TryPlaceMonster, monsters);
+
+            int weapons = (int)(dungeon.WeaponsPerRoom * ChamberTree.Chambers.Count);
+            PlaceObject(TryPlaceItem, weapons);
+
+            int plants = (int)(dungeon.PlantsPerRoom * ChamberTree.Chambers.Count);
+            PlaceObject(TryPlacePlant, plants);
         }
 
         void PlaceObject(Func<bool> tryPlace, int amount)
