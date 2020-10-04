@@ -39,11 +39,10 @@ namespace roguelice
             Tilemap.FillWithType(Bounds, Tile.TileType.wall);
             ChamberTree = new ChamberTree(Bounds.Size, dungeon.MinRooms, dungeon.MaxRooms, dungeon.MinRoomWidth, dungeon.MaxRoomWidth,
                 dungeon.MinRoomHeight, dungeon.MaxRoomHeight, dungeon.ForceRegularRooms);
-
-            Entrance = new Point(ChamberTree.StartingChamber.Center.X, ChamberTree.StartingChamber.Center.Y);
-
             ChamberTree.FillChambersWithTile(Tile.TileType.floor, Tilemap);
             ChamberTree.FillPassagesWithTile(Tile.TileType.floor, Tilemap);
+
+            Entrance = new Point(ChamberTree.StartingChamber.Center.X, ChamberTree.StartingChamber.Center.Y);
 
             if (Numbers.PassPercentileRoll(dungeon.CaveChance))
             {

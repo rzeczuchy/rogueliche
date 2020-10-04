@@ -108,13 +108,13 @@ namespace roguelice
                     var creature = level.Tilemap.GetCreature(pos);
 
                     if (item != null && item.Overhead != null && creature == null
-                        && render.IsWithinBuffer(x - xtransform, y - ytransform) && player.CanSee(x, y))
+                        && render.IsWithinBuffer(x - xtransform, y - ytransform) && player.CanSee(pos))
                     {
                         render.DrawString(item.Overhead, x - xtransform + offset.X, y - ytransform + offset.Y);
                     }
 
                     if (creature != null && creature.Overhead != null
-                        && render.IsWithinBuffer(x - xtransform, y - ytransform) && player.CanSee(x, y))
+                        && render.IsWithinBuffer(x - xtransform, y - ytransform) && player.CanSee(pos))
                     {
                         render.DrawString(creature.Overhead, x - xtransform + offset.X, y - ytransform + offset.Y);
                     }

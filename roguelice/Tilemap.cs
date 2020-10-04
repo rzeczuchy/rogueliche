@@ -249,33 +249,37 @@ namespace roguelice
 
         public void Draw(Graphics render, Player player)
         {
-            int xCameraTransform = player.Position.X - render.Width / 2;
-            int yCameraTransform = player.Position.Y - render.Height / 2;
-
             for (int y = 0; y < Height; y++)
                 for (int x = 0; x < Width; x++)
                 {
                     var pos = new Point(x, y);
-
-                    if (Tiles[x, y] != null)
-                    {
-                        if (render.IsWithinBuffer(x - xCameraTransform, y - yCameraTransform))
-                        {
-                            DrawTile(render, player, xCameraTransform, yCameraTransform, y, x);
-                        }
-                    }
-                    if (Items[x, y] != null && render.IsWithinBuffer(x - xCameraTransform, y - yCameraTransform) && player.CanSee(x, y))
-                        render.DrawChar(GetItem(pos).Symbol, x - xCameraTransform, y - yCameraTransform);
-
-                    if (Creatures[x, y] != null && render.IsWithinBuffer(x - xCameraTransform, y - yCameraTransform) && player.CanSee(x, y))
-                        render.DrawChar(GetCreature(pos).Symbol, x - xCameraTransform, y - yCameraTransform);
+                    DrawPosition(pos, render, player);
                 }
         }
 
-        private void DrawTile(Graphics render, Player player, int xCameraTransform, int yCameraTransform, int y, int x)
+        private void DrawPosition(Point pos, Graphics render, Player player)
+        {
+            int xCameraTransform = player.Position.X - render.Width / 2;
+            int yCameraTransform = player.Position.Y - render.Height / 2;
+
+            if (GetTile(pos) != null)
+            {
+                if (render.IsWithinBuffer(pos.X - xCameraTransform, pos.Y - yCameraTransform))
+                {
+                    DrawTile(render, player, xCameraTransform, yCameraTransform, pos);
+                }
+            }
+            if (GetItem(pos) != null && render.IsWithinBuffer(pos.X - xCameraTransform, pos.Y - yCameraTransform) && player.CanSee(pos))
+                render.DrawChar(GetItem(pos).Symbol, pos.X - xCameraTransform, pos.Y - yCameraTransform);
+
+            if (GetCreature(pos) != null && render.IsWithinBuffer(pos.X - xCameraTransform, pos.Y - yCameraTransform) && player.CanSee(pos))
+                render.DrawChar(GetCreature(pos).Symbol, pos.X - xCameraTransform, pos.Y - yCameraTransform);
+        }
+
+        private void DrawTile(Graphics render, Player player, int xCameraTransform, int yCameraTransform, Point pos)
         {
             char symbol;
-            switch (Tiles[x, y].Type)
+            switch (GetTile(pos).Type)
             {
                 case Tile.TileType.floor:
                     symbol = ' ';
@@ -292,11 +296,11 @@ namespace roguelice
             }
 
             List<Tile> neighbours = new List<Tile>();
-            for (int w = x - 1; w <= x + 1; w++)
-                for (int h = y - 1; h <= y + 1; h++)
+            for (int w = pos.X - 1; w <= pos.X + 1; w++)
+                for (int h = pos.Y - 1; h <= pos.Y + 1; h++)
                 {
-                    var pos = new Point(w, h);
-                    if (IsPositionWithinTilemap(pos))
+                    var neighbour = new Point(w, h);
+                    if (IsPositionWithinTilemap(neighbour))
                         neighbours.Add(Tiles[w, h]);
                 }
 
@@ -307,9 +311,9 @@ namespace roguelice
                     floor++;
             }
 
-            if (floor >= 1 && player.CanSee(x, y))
+            if (floor >= 1 && player.CanSee(pos))
             {
-                render.DrawChar(symbol, x - xCameraTransform, y - yCameraTransform);
+                render.DrawChar(symbol, pos.X - xCameraTransform, pos.Y - yCameraTransform);
             }
         }
     }

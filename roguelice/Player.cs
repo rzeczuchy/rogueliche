@@ -116,9 +116,9 @@ namespace roguelice
         {
         }
 
-        public bool CanSee(int x, int y)
+        public bool CanSee(Point pos)
         {
-            return Point.Distance(Position, new Point(x, y)) < 25;
+            return Point.Distance(Position, pos) < 25;
         }
 
         public void HandleInput(ConsoleKey input, UI ui, Dungeon dungeon)
