@@ -49,7 +49,6 @@
     <Compile Include="CombatSystem.cs" />
     <Compile Include="Dungeon.cs" />
     <Compile Include="DungeonLevel.cs" />
-    <Compile Include="Entity.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameActionState.cs" />
     <Compile Include="GameOverState.cs" />
@@ -58,8 +57,9 @@
     <Compile Include="Generator.cs" />
     <Compile Include="Graphics.cs" />
     <Compile Include="HealingPlant.cs" />
-    <Compile Include="IFighter.cs" />
-    <Compile Include="IMapObject.cs" />
+    <Compile Include="ICollidable.cs" />
+    <Compile Include="IFightable.cs" />
+    <Compile Include="IMappable.cs" />
     <Compile Include="IMoveable.cs" />
     <Compile Include="Monster.cs" />
     <Compile Include="MonsterAI.cs" />

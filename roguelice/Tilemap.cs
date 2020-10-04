@@ -21,8 +21,8 @@ namespace roguelice
             Height = height;
             Tiles = new Tile[Width + 1, Height + 1];
             FogOfWar = new bool[Width + 1, Height + 1];
-            Creatures = new IMapObject[Width, Height];
-            Items = new IMapObject[Width, Height];
+            Creatures = new IMappable[Width, Height];
+            Items = new IMappable[Width, Height];
         }
         
         public DungeonLevel Location { get; private set; }
@@ -30,10 +30,10 @@ namespace roguelice
         public int Height { get; private set; }
         public Tile[,] Tiles { get; private set; }
         public bool[,] FogOfWar { get; private set; }
-        public IMapObject[,] Creatures { get; private set; }
-        public IMapObject[,] Items { get; private set; }
+        public IMappable[,] Creatures { get; private set; }
+        public IMappable[,] Items { get; private set; }
 
-        public IMapObject GetCreature(Point position)
+        public IMappable GetCreature(Point position)
         {
             if (IsPositionWithinTilemap(position))
             {
@@ -45,7 +45,7 @@ namespace roguelice
             }
         }
 
-        public void SetCreature(IMapObject entity, Point position)
+        public void SetCreature(IMappable entity, Point position)
         {
             if (IsPositionWithinTilemap(position))
             {
@@ -53,7 +53,7 @@ namespace roguelice
             }
         }
 
-        public void ChangeObjectPosition(IMapObject entity, Point targetPosition)
+        public void ChangeObjectPosition(IMappable entity, Point targetPosition)
         {
             if (entity.Position != null)
             {
@@ -66,21 +66,21 @@ namespace roguelice
             entity.Position = targetPosition;
         }
 
-        public void ChangeObjectLocation(IMapObject entity, DungeonLevel targetLocation, Point targetPosition)
+        public void ChangeObjectLocation(IMappable mappableObject, DungeonLevel targetLocation, Point targetPosition)
         {
-            if (entity.Location != null && entity.Position != null)
+            if (mappableObject.Location != null && mappableObject.Position != null)
             {
-                entity.Location.Tilemap.SetCreature(null, entity.Position);
+                mappableObject.Location.Tilemap.SetCreature(null, mappableObject.Position);
             }
             if (targetLocation != null && targetPosition != null)
             {
-                targetLocation.Tilemap.SetCreature(entity, targetPosition);
+                targetLocation.Tilemap.SetCreature(mappableObject, targetPosition);
             }
-            entity.Location = targetLocation;
-            entity.Position = targetPosition;
+            mappableObject.Location = targetLocation;
+            mappableObject.Position = targetPosition;
         }
 
-        public IMapObject GetItem(Point position)
+        public IMappable GetItem(Point position)
         {
             if (IsPositionWithinTilemap(position))
             {
@@ -92,7 +92,7 @@ namespace roguelice
             }
         }
 
-        public void SetItem(IMapObject entity, Point position)
+        public void SetItem(IMappable entity, Point position)
         {
             if (IsPositionWithinTilemap(position))
             {
@@ -100,7 +100,7 @@ namespace roguelice
             }
         }
 
-        public void ChangeItemPosition(IMapObject entity, Point targetPosition)
+        public void ChangeItemPosition(IMappable entity, Point targetPosition)
         {
             if (entity.Position != null)
             {
@@ -113,7 +113,7 @@ namespace roguelice
             entity.Position = targetPosition;
         }
 
-        public void ChangeItemLocation(IMapObject entity, DungeonLevel targetLocation, Point targetPosition)
+        public void ChangeItemLocation(IMappable entity, DungeonLevel targetLocation, Point targetPosition)
         {
             if (entity.Location != null && entity.Position != null)
             {

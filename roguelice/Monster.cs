@@ -6,20 +6,24 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class Monster : Entity, IFighter
+    class Monster : IFightable, IMoveable, IMappable, ICollidable
     {
-        public Monster(DungeonLevel level, Point position, MonsterSpecies species, MonsterModifier modifier) : base(level, position)
+        public Monster(DungeonLevel level, Point position, MonsterSpecies species, MonsterModifier modifier)
         {
             Species = species;
             Modifier = modifier;
             Health = MaxHealth;
+            level.Tilemap.ChangeObjectLocation(this, level, position);
         }
 
         public MonsterSpecies Species { get; private set; }
         public MonsterModifier Modifier { get; private set; }
-        public override string Overhead { get { return Name; } }
-        public override string Name { get { return Modifier != null ? Modifier.NamePrefix + " " + Species.Name : Species.Name; } }
-        public override char Symbol { get { return Species.Symbol; } }
+        public DungeonLevel Location { get; set; }
+        public Point Position { get; set; }
+        public bool IsDead { get; set; }
+        public string Overhead { get { return Name; } }
+        public string Name { get { return Modifier != null ? Modifier.NamePrefix + " " + Species.Name : Species.Name; } }
+        public char Symbol { get { return Species.Symbol; } }
         public bool IsSpooked { get; set; }
         public int MaxHealth
         {
@@ -93,12 +97,35 @@ namespace roguelice
             }
         }
 
-        public override void Update(Player player)
+        public bool Move(Point targetPosition)
+        {
+            if (CanMoveToPosition(targetPosition))
+            {
+                if (CollidingEntity(targetPosition) == null)
+                {
+                    Location.Tilemap.ChangeObjectPosition(this, targetPosition);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool CanMoveToPosition(Point targetPosition)
+        {
+            return Location.Tilemap.IsPositionWithinTilemap(targetPosition) && Location.Tilemap.IsWalkable(targetPosition);
+        }
+
+        public IMappable CollidingEntity(Point targetPosition)
+        {
+            return Location.Tilemap.GetCreature(targetPosition);
+        }
+
+        public void Update(Player player)
         {
             MonsterAI.Behave(this, player);
         }
 
-        public override bool OnCollision(Player player)
+        public bool OnCollision(Player player)
         {
             player.Hit(this);
             return true;
@@ -116,13 +143,13 @@ namespace roguelice
         {
         }
 
-        public void Die(IFighter attacker)
+        public void Die(IFightable attacker)
         {
             IsDead = true;
             Location.RemoveCreature(this);
         }
 
-        public void Kill(IFighter target)
+        public void Kill(IFightable target)
         {
         }
     }

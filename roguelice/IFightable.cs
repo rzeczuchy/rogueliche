@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    interface IFighter : IMapObject, IMoveable
+    interface IFightable
     {
-        string Name { get; }
         Weapon CurrentWeapon { get; }
         int Health { get; }
         int MaxHealth { get; }
@@ -19,8 +18,8 @@ namespace roguelice
         void GainExp(int amount);
         void CheckLevelUp();
         void LevelUp();
-        void Die(IFighter attacker);
-        void Kill(IFighter target);
+        void Die(IFightable attacker);
+        void Kill(IFightable target);
     }
 
 }

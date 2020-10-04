@@ -18,7 +18,7 @@ namespace roguelice
                 {
                     if (monster.IsSpooked)
                     {
-                        RunAway(monster, player);
+                        RunFromPlayer(monster, player);
                     }
                     else
                     {
@@ -51,7 +51,7 @@ namespace roguelice
             }
         }
 
-        static void AttackPlayer(Monster monster, IFighter player)
+        static void AttackPlayer(Monster monster, Player player)
         {
             if (AI.AreNeighboring(monster, player))
             {
@@ -63,7 +63,7 @@ namespace roguelice
             }
         }
 
-        static void RunAway(Monster monster, IFighter player)
+        static void RunFromPlayer(Monster monster, Player player)
         {
             if (AI.CanMove(monster))
             {
@@ -79,7 +79,7 @@ namespace roguelice
             }
         }
 
-        static bool SeesPlayer(Monster monster, IFighter player)
+        static bool SeesPlayer(Monster monster, Player player)
         {
             return Point.Distance(monster.Position, player.Position)
                 <= monster.DetectRange;

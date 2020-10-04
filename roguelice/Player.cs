@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class Player : Entity, IFighter
+    class Player : IFightable, IMoveable, IMappable
     {
         private const int LevelCap = 111;
         private const int LevelIncreaseFactor = 11;
         private int staminaRegen;
         private bool endTurn;
 
-        public Player(DungeonLevel level, Point position) : base(level, position)
+        public Player(DungeonLevel level, Point position)
         {
+            level.Tilemap.ChangeObjectLocation(this, level, position);
+
             Name = "hero";
             Symbol = '@';
             MaxHealth = 50;
@@ -28,6 +30,12 @@ namespace roguelice
             CurrentWeapon = new Weapon(null, null, StartingWeapon, null);
         }
 
+        public string Name { get; }
+        public char Symbol { get; }
+        public DungeonLevel Location { get; set; }
+        public Point Position { get; set; }
+        public bool IsDead { get; set; }
+        public string Overhead { get { return Name; } }
         public int KillCount { get; private set; }
         public int BrokenWeapons { get; private set; }
         public WeaponType StartingWeapon { get; private set; }
@@ -130,6 +138,16 @@ namespace roguelice
             }
         }
 
+        // Update function called for objects in location. Leave empty.
+        public void Update(Player player)
+        {
+        }
+
+        // Player will never collide with itself. Leave empty.
+        public void OnCollision(Player player)
+        {
+        }
+
         void Wait()
         {
             staminaRegen++;
@@ -222,23 +240,34 @@ namespace roguelice
             }
         }
 
-        public override bool Move(Point targetPosition)
+        public bool Move(Point targetPosition)
         {
             if (CanMoveToPosition(targetPosition))
             {
+                IMappable entityAtTargetPosition = CollidingEntity(targetPosition);
                 endTurn = true;
-                if (CollidingEntity(targetPosition) == null)
+                if (entityAtTargetPosition == null)
                 {
                     staminaRegen = 0;
-                    MoveToPosition(targetPosition);
+                    Location.Tilemap.ChangeObjectPosition(this, targetPosition);
                     return true;
                 }
-                else if (CollidingEntity(targetPosition) != null && this is Player player)
+                else if (entityAtTargetPosition != null && entityAtTargetPosition is ICollidable collidable)
                 {
-                    return CollidingEntity(targetPosition).OnCollision(player);
+                    return collidable.OnCollision(this);
                 }
             }
             return false;
+        }
+
+        public bool CanMoveToPosition(Point targetPosition)
+        {
+            return Location.Tilemap.IsPositionWithinTilemap(targetPosition) && Location.Tilemap.IsWalkable(targetPosition);
+        }
+
+        public IMappable CollidingEntity(Point targetPosition)
+        {
+            return Location.Tilemap.GetCreature(targetPosition);
         }
 
         public void Hit(Monster monster)
@@ -269,12 +298,12 @@ namespace roguelice
             IsDead = true;
         }
 
-        public void Die(IFighter attacker)
+        public void Die(IFightable attacker)
         {
             Die();
         }
 
-        public void Kill(IFighter target)
+        public void Kill(IFightable target)
         {
             GainExp(target.ExpGained);
             KillCount++;

@@ -8,35 +8,35 @@ namespace roguelice
 {
     class CombatSystem
     {
-        public static void Hit(IFighter attacker, IFighter target)
+        public static void Hit(IFightable attacker, IFightable target)
         {
-            InflictDamage(attacker.Name, target, CalculateDamage(attacker, target));
+            InflictDamage(target, CalculateDamage(attacker, target));
             DamageWeapon(attacker);
             CheckIfDead(attacker, target);
         }
 
-        public static int GetMinDamage(IFighter fighter)
+        public static int GetMinDamage(IFightable fighter)
         {
             return fighter.Attack / 2;
         }
 
-        public static int GetMaxDamage(IFighter fighter)
+        public static int GetMaxDamage(IFightable fighter)
         {
             return fighter.Attack;
         }
 
-        private static int CalculateDamage(IFighter attacker, IFighter target)
+        private static int CalculateDamage(IFightable attacker, IFightable target)
         {
             int resulting = Numbers.RandomNumber(GetMinDamage(attacker), GetMaxDamage(attacker));
             return resulting > 0 ? resulting : 0;
         }
 
-        private static void InflictDamage(string source, IFighter target, int damage)
+        private static void InflictDamage(IFightable target, int damage)
         {
             target.ChangeHealth(-damage);
         }
 
-        private static void DamageWeapon(IFighter attacker)
+        private static void DamageWeapon(IFightable attacker)
         {
             if (attacker is Player player)
             {
@@ -48,7 +48,7 @@ namespace roguelice
             }
         }
 
-        private static void CheckIfDead(IFighter attacker, IFighter target)
+        private static void CheckIfDead(IFightable attacker, IFightable target)
         {
             if (target.Health <= 0)
             {

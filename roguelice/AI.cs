@@ -8,18 +8,18 @@ namespace roguelice
 {
     static class AI
     {
-        public static double DistanceBetween(IMoveable moveable, IMoveable target)
+        public static double DistanceBetween(IMappable moveable, IMappable target)
         {
             return (moveable.Position != null && target.Position != null) ?
                 Point.Distance(moveable.Position, target.Position) : 0;
         }
 
-        public static bool HasLowHealth(IFighter fighter)
+        public static bool HasLowHealth(IFightable fighter)
         {
             return fighter.Health < fighter.MaxHealth / 4;
         }
 
-        public static bool AreNeighboring(IMoveable moveable, IMoveable target)
+        public static bool AreNeighboring(IMappable moveable, IMappable target)
         {
             return DistanceBetween(moveable, target) < 2;
         }
@@ -44,18 +44,18 @@ namespace roguelice
             }
         }
 
-        public static void MoveTowards(IMoveable moveable, IMapObject mapObject)
+        public static void MoveTowards(IMoveable moveable, IMappable mapObject)
         {
             MoveTowards(moveable, mapObject.Position);
         }
 
-        private static double GetMinCost(IMoveable fighter, IMapObject mapObject)
+        private static double GetMinCost(IMoveable fighter, IMappable mapObject)
         {
             return OpenNeighbors(fighter).Min(p => MovementCost(fighter.Position, p,
                                 mapObject.Position));
         }
 
-        public static void MoveAwayFrom(IMoveable moveable, IMapObject mapObject)
+        public static void MoveAwayFrom(IMoveable moveable, IMappable mapObject)
         {
             if (moveable.Position != null && mapObject.Position != null && OpenNeighbors(moveable).Any())
             {
@@ -64,7 +64,7 @@ namespace roguelice
             }
         }
 
-        private static double GetMaxCost(IMoveable moveable, IMapObject mapObject)
+        private static double GetMaxCost(IMoveable moveable, IMappable mapObject)
         {
             return OpenNeighbors(moveable).Max(p => MovementCost(moveable.Position, p,
                                 mapObject.Position));

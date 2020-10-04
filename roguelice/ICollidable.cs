@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    interface IMoveable
+    interface ICollidable
     {
-        DungeonLevel Location { get; set; }
-        Point Position { get; set; }
-        bool Move(Point targetPosition);
+        bool OnCollision(Player player);
     }
 }

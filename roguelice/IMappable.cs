@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    interface IMapObject
+    interface IMappable
     {
         DungeonLevel Location { get; set; }
         Point Position { get; set; }
-        bool IsDead { get; set; }
+        bool IsDead { get; }
+        string Name { get; }
         char Symbol { get; }
         string Overhead { get; }
 
-        bool OnCollision(Player player);
         void Update(Player player);
     }
 
