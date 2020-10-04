@@ -94,36 +94,6 @@ namespace roguelice
             }
         }
 
-        void RegenStamina()
-        {
-            if (Exertion > 0)
-            {
-                Exertion -= staminaRegen;
-            }
-            if (Exertion <= 0)
-            {
-                Exertion = 0;
-                staminaRegen = 0;
-            }
-        }
-
-        void AddExertion(int amount)
-        {
-            Exertion += amount;
-
-            if (Exertion > MaxExertion)
-            {
-                int healthLoss = Exertion - MaxExertion;
-                ChangeHealth(-healthLoss);
-                Exertion = MaxExertion;
-
-                if (Health <= 0)
-                {
-                    Die();
-                }
-            }
-        }
-
         public void Update(ConsoleKey input, UI ui, Dungeon dungeon)
         {
             if (!IsDead)
@@ -138,21 +108,9 @@ namespace roguelice
             }
         }
 
-        // Update function called for objects in location. Leave empty.
+        // Update function called for objects in location on each turn.
         public void Update(Player player)
         {
-        }
-
-        // Player will never collide with itself. Leave empty.
-        public void OnCollision(Player player)
-        {
-        }
-
-        void Wait()
-        {
-            staminaRegen++;
-            RegenStamina();
-            endTurn = true;
         }
 
         public bool CanSee(int x, int y)
@@ -227,19 +185,6 @@ namespace roguelice
 
         }
 
-        void SwitchWeapon()
-        {
-            var item = Location.Tilemap.GetItem(Position);
-
-            if (item != null && item is Weapon weapon)
-            {
-                Weapon previousWeapon = CurrentWeapon;
-                CurrentWeapon = weapon;
-                Location.Tilemap.SetItem(previousWeapon, Position);
-                endTurn = true;
-            }
-        }
-
         public bool Move(Point targetPosition)
         {
             if (CanMoveToPosition(targetPosition))
@@ -277,22 +222,6 @@ namespace roguelice
             AddExertion(CurrentWeapon.StaminaCost);
         }
 
-        void EndTurn()
-        {
-            Location.UpdateObjects(this);
-        }
-
-        void EnterNextLevel(Dungeon dungeon)
-        {
-            if (Location.Tilemap.GetTile(Position).Type == Tile.TileType.exit)
-            {
-                if (Location is DungeonLevel level)
-                {
-                    level.GoDownOneLevel(this);
-                }
-            }
-        }
-
         public void Die()
         {
             IsDead = true;
@@ -312,6 +241,72 @@ namespace roguelice
         public void WeaponBroke()
         {
             BrokenWeapons++;
+        }
+        
+        private void AddExertion(int amount)
+        {
+            Exertion += amount;
+
+            if (Exertion > MaxExertion)
+            {
+                int healthLoss = Exertion - MaxExertion;
+                ChangeHealth(-healthLoss);
+                Exertion = MaxExertion;
+
+                if (Health <= 0)
+                {
+                    Die();
+                }
+            }
+        }
+
+        private void EndTurn()
+        {
+            Location.UpdateObjects(this);
+        }
+
+        private void EnterNextLevel(Dungeon dungeon)
+        {
+            if (Location.Tilemap.GetTile(Position).Type == Tile.TileType.exit)
+            {
+                if (Location is DungeonLevel level)
+                {
+                    level.GoDownOneLevel(this);
+                }
+            }
+        }
+        
+        private void RegenerateStamina()
+        {
+            if (Exertion > 0)
+            {
+                Exertion -= staminaRegen;
+            }
+            if (Exertion <= 0)
+            {
+                Exertion = 0;
+                staminaRegen = 0;
+            }
+        }
+
+        private void SwitchWeapon()
+        {
+            var item = Location.Tilemap.GetItem(Position);
+
+            if (item != null && item is Weapon weapon)
+            {
+                Weapon previousWeapon = CurrentWeapon;
+                CurrentWeapon = weapon;
+                Location.Tilemap.SetItem(previousWeapon, Position);
+                endTurn = true;
+            }
+        }
+
+        private void Wait()
+        {
+            staminaRegen++;
+            RegenerateStamina();
+            endTurn = true;
         }
     }
 }
