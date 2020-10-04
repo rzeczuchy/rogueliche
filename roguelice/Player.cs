@@ -205,16 +205,6 @@ namespace roguelice
             return false;
         }
 
-        public bool CanMoveToPosition(Point targetPosition)
-        {
-            return Location.Tilemap.IsPositionWithinTilemap(targetPosition) && Location.Tilemap.IsWalkable(targetPosition);
-        }
-
-        public IMappable CollidingEntity(Point targetPosition)
-        {
-            return Location.Tilemap.GetCreature(targetPosition);
-        }
-
         public void Hit(Monster monster)
         {
             CombatSystem.Hit(this, monster);
@@ -258,6 +248,16 @@ namespace roguelice
                     Die();
                 }
             }
+        }
+
+        private bool CanMoveToPosition(Point targetPosition)
+        {
+            return Location.Tilemap.IsPositionWithinTilemap(targetPosition) && Location.Tilemap.IsWalkable(targetPosition);
+        }
+
+        private IMappable CollidingEntity(Point targetPosition)
+        {
+            return Location.Tilemap.GetCreature(targetPosition);
         }
 
         private void EndTurn()

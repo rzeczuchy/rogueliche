@@ -18,7 +18,6 @@ namespace roguelice
         private int minRooms;
         private int maxRooms;
 
-
         public Dungeon()
         {
             Generator = new Generator();
@@ -53,13 +52,11 @@ namespace roguelice
         public int MaxRoomHeight { get => maxRoomHeight; set => maxRoomHeight = Numbers.Clamp(value, 3, 10); }
         public int CaveChance { get; set; }
         public bool ForceRegularRooms { get; set; }
-
-
+        
         public DungeonLevel NewLevel()
         {
             LevelIndex++;
             return new DungeonLevel(this, LevelIndex);
         }
-
     }
 }
