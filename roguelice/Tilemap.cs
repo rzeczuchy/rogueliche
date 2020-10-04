@@ -173,6 +173,11 @@ namespace roguelice
             return position.X >= 0 && position.X < Width && position.Y >= 0 && position.Y < Height;
         }
 
+        public Point RandomPosition(Rectangle rect)
+        {
+            return new Point(Numbers.RandomNumber(rect.Left, rect.Right), Numbers.RandomNumber(rect.Top, rect.Bottom));
+        }
+
         public bool IsWalkable(Point position)
         {
             return GetTile(position) != null && (GetTile(position).Type == Tile.TileType.floor || GetTile(position).Type == Tile.TileType.exit);
@@ -307,6 +312,5 @@ namespace roguelice
                 render.DrawChar(symbol, x - xCameraTransform, y - yCameraTransform);
             }
         }
-
     }
 }

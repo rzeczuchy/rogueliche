@@ -29,11 +29,6 @@ namespace roguelice
         public Tilemap Tilemap { get; private set; }
         public Rectangle Bounds { get; private set; }
 
-        public Point RandomPosition(Rectangle rect)
-        {
-            return new Point(Numbers.RandomNumber(rect.Left, rect.Right), Numbers.RandomNumber(rect.Top, rect.Bottom));
-        }
-
         public void UpdateObjects(Player player)
         {
             Tilemap.UpdateObjects(player);
@@ -97,7 +92,7 @@ namespace roguelice
 
         private bool TryPlaceMonster()
         {
-            Point pos = RandomPosition(ChamberTree.GetRandomChamber());
+            Point pos = Tilemap.RandomPosition(ChamberTree.GetRandomChamber());
 
             if (CanPlaceCreature(pos))
             {
@@ -109,7 +104,7 @@ namespace roguelice
 
         private bool TryPlaceItem()
         {
-            Point pos = RandomPosition(ChamberTree.GetRandomChamber());
+            Point pos = Tilemap.RandomPosition(ChamberTree.GetRandomChamber());
 
             if (CanPlaceItem(pos))
             {
@@ -121,7 +116,7 @@ namespace roguelice
 
         private bool TryPlacePlant()
         {
-            Point pos = RandomPosition(ChamberTree.GetRandomChamber());
+            Point pos = Tilemap.RandomPosition(ChamberTree.GetRandomChamber());
 
             if (CanPlaceCreature(pos))
             {
