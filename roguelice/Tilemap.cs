@@ -278,23 +278,16 @@ namespace roguelice
 
         private void DrawTile(Graphics render, Player player, int xCameraTransform, int yCameraTransform, Point pos)
         {
-            char symbol;
-            switch (GetTile(pos).Type)
+            char symbol = GetTile(pos).Symbol;
+            
+            if (IsTileVisible(pos, player))
             {
-                case Tile.TileType.floor:
-                    symbol = ' ';
-                    break;
-                case Tile.TileType.wall:
-                    symbol = '\u2591';
-                    break;
-                case Tile.TileType.exit:
-                    symbol = 'E';
-                    break;
-                default:
-                    symbol = '?';
-                    break;
+                render.DrawChar(symbol, pos.X - xCameraTransform, pos.Y - yCameraTransform);
             }
+        }
 
+        private bool IsTileVisible(Point pos, Player player)
+        {
             List<Tile> neighbours = new List<Tile>();
             for (int w = pos.X - 1; w <= pos.X + 1; w++)
                 for (int h = pos.Y - 1; h <= pos.Y + 1; h++)
@@ -311,10 +304,7 @@ namespace roguelice
                     floor++;
             }
 
-            if (floor >= 1 && player.CanSee(pos))
-            {
-                render.DrawChar(symbol, pos.X - xCameraTransform, pos.Y - yCameraTransform);
-            }
+            return floor >= 1 && player.CanSee(pos);
         }
     }
 }
