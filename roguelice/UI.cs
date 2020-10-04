@@ -52,7 +52,7 @@ namespace roguelice
             render.DrawString(exp, render.Width * 1 / 2 - exp.Length / 2, 3);
             render.DrawBar(player.Exp, player.ExpToNextLvl, hBarLength, render.Width / 2 - hBarLength / 2, 4);
 
-            string flr = "Floor: " + player.Location.LevelIndex;
+            string flr = "Location: " + player.Location.Name;
             render.DrawString(flr, render.Width * 4 / 5 - flr.Length / 2, 3);
 
             string hp = "Health: " + player.Health + "/" + player.MaxHealth;
@@ -99,7 +99,7 @@ namespace roguelice
             // overhead offset
             Point offset = new Point(-2, -2);
 
-            DungeonLevel level = player.Location;
+            ILocation level = player.Location;
             for (int y = 0; y < level.Tilemap.Height; y++)
                 for (int x = 0; x < level.Tilemap.Width; x++)
                 {

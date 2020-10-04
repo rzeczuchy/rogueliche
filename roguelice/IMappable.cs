@@ -8,7 +8,7 @@ namespace roguelice
 {
     interface IMappable
     {
-        DungeonLevel Location { get; set; }
+        ILocation Location { get; set; }
         Point Position { get; set; }
         bool IsDead { get; }
         string Name { get; }

@@ -53,7 +53,7 @@ namespace roguelice
         public int CaveChance { get; set; }
         public bool ForceRegularRooms { get; set; }
         
-        public DungeonLevel NewLevel()
+        public ILocation NewLevel()
         {
             LevelIndex++;
             return new DungeonLevel(this, LevelIndex);

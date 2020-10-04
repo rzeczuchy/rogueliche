@@ -16,7 +16,7 @@ namespace roguelice
         {
             this.game = game;
             dungeon = new Dungeon();
-            DungeonLevel startingLevel = dungeon.NewLevel();
+            ILocation startingLevel = dungeon.NewLevel();
             player = new Player(startingLevel, startingLevel.Entrance);
         }
 

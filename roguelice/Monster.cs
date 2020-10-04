@@ -8,17 +8,21 @@ namespace roguelice
 {
     class Monster : IFightable, IMoveable, IMappable, ICollidable
     {
-        public Monster(DungeonLevel level, Point position, MonsterSpecies species, MonsterModifier modifier)
+        public Monster(ILocation location, Point position, MonsterSpecies species, MonsterModifier modifier)
         {
             Species = species;
             Modifier = modifier;
             Health = MaxHealth;
-            level.Tilemap.ChangeObjectLocation(this, level, position);
+
+            if (location != null && position != null)
+            {
+                location.Tilemap.ChangeObjectLocation(this, location, position);
+            }
         }
 
         public MonsterSpecies Species { get; private set; }
         public MonsterModifier Modifier { get; private set; }
-        public DungeonLevel Location { get; set; }
+        public ILocation Location { get; set; }
         public Point Position { get; set; }
         public bool IsDead { get; set; }
         public string Overhead { get { return Name; } }
@@ -146,7 +150,7 @@ namespace roguelice
         public void Die(IFightable attacker)
         {
             IsDead = true;
-            Location.RemoveCreature(this);
+            Location.Tilemap.RemoveCreature(this);
         }
 
         public void Kill(IFightable target)

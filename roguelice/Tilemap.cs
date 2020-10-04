@@ -8,9 +8,13 @@ namespace roguelice
 {
     class Tilemap
     {
-        public Tilemap(DungeonLevel location, int width, int height)
+        private readonly List<IMappable> toUpdate;
+
+        public Tilemap(ILocation location, int width, int height)
         {
             Location = location;
+
+            toUpdate = new List<IMappable>();
 
             SetLevelSize(width, height);
         }
@@ -25,7 +29,7 @@ namespace roguelice
             Items = new IMappable[Width, Height];
         }
         
-        public DungeonLevel Location { get; private set; }
+        public ILocation Location { get; private set; }
         public int Width { get; private set; }
         public int Height { get; private set; }
         public Tile[,] Tiles { get; private set; }
@@ -66,7 +70,7 @@ namespace roguelice
             entity.Position = targetPosition;
         }
 
-        public void ChangeObjectLocation(IMappable mappableObject, DungeonLevel targetLocation, Point targetPosition)
+        public void ChangeObjectLocation(IMappable mappableObject, ILocation targetLocation, Point targetPosition)
         {
             if (mappableObject.Location != null && mappableObject.Position != null)
             {
@@ -113,7 +117,7 @@ namespace roguelice
             entity.Position = targetPosition;
         }
 
-        public void ChangeItemLocation(IMappable entity, DungeonLevel targetLocation, Point targetPosition)
+        public void ChangeItemLocation(IMappable entity, ILocation targetLocation, Point targetPosition)
         {
             if (entity.Location != null && entity.Position != null)
             {
@@ -172,6 +176,70 @@ namespace roguelice
         public bool IsWalkable(Point position)
         {
             return GetTile(position) != null && (GetTile(position).Type == Tile.TileType.floor || GetTile(position).Type == Tile.TileType.exit);
+        }
+
+        public void UpdateObjects(Player player)
+        {
+            toUpdate.Clear();
+
+            for (int y = 0; y < Height; y++)
+            {
+                for (int x = 0; x < Width; x++)
+                {
+                    FilterDeadCreatures(y, x);
+                    FilterDeadItems(y, x);
+                }
+            }
+
+            for (int u = 0; u < toUpdate.Count(); u++)
+            {
+                if (!toUpdate[u].IsDead)
+                {
+                    toUpdate[u].Update(player);
+                }
+            }
+        }
+
+        private void FilterDeadItems(int y, int x)
+        {
+            IMappable o = GetItem(new Point(x, y));
+            if (o != null)
+            {
+                if (o.IsDead)
+                {
+                    RemoveItem(o);
+                }
+                else
+                {
+                    toUpdate.Add(o);
+                }
+            }
+        }
+
+        public void RemoveItem(IMappable o)
+        {
+            SetItem(null, new Point(o.Position.X, o.Position.Y));
+        }
+
+        private void FilterDeadCreatures(int y, int x)
+        {
+            IMappable o = GetCreature(new Point(x, y));
+            if (o != null)
+            {
+                if (o.IsDead)
+                {
+                    RemoveCreature(o);
+                }
+                else
+                {
+                    toUpdate.Add(o);
+                }
+            }
+        }
+
+        public void RemoveCreature(IMappable o)
+        {
+            SetCreature(null, new Point(o.Position.X, o.Position.Y));
         }
 
         public void Draw(Graphics render, Player player)
@@ -241,6 +309,4 @@ namespace roguelice
         }
 
     }
-
-
 }

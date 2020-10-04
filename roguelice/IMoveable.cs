@@ -8,7 +8,7 @@ namespace roguelice
 {
     interface IMoveable
     {
-        DungeonLevel Location { get; set; }
+        ILocation Location { get; set; }
         Point Position { get; set; }
         bool Move(Point targetPosition);
     }

@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class DungeonLevel
+    class DungeonLevel : ILocation
     {
         private readonly Dungeon dungeon;
-        private readonly List<IMappable> toUpdate;
 
         public DungeonLevel(Dungeon dungeon, int levelIndex)
         {
@@ -17,7 +16,6 @@ namespace roguelice
             LevelIndex = levelIndex;
             Tilemap = new Tilemap(this, dungeon.Width, dungeon.Height);
             Bounds = new Rectangle(0, 0, dungeon.Width, dungeon.Height);
-            toUpdate = new List<IMappable>();
 
             GenerateLevel();
         }
@@ -38,66 +36,7 @@ namespace roguelice
 
         public void UpdateObjects(Player player)
         {
-            toUpdate.Clear();
-
-            for (int y = 0; y < Tilemap.Height; y++)
-            {
-                for (int x = 0; x < Tilemap.Width; x++)
-                {
-                    AddRemoveCreature(y, x);
-                    AddRemoveItem(y, x);
-                }
-            }
-
-            for (int u = 0; u < toUpdate.Count(); u++)
-            {
-                if (!toUpdate[u].IsDead)
-                {
-                    toUpdate[u].Update(player);
-                }
-            }
-        }
-
-        private void AddRemoveItem(int y, int x)
-        {
-            IMappable o = Tilemap.GetItem(new Point(x, y));
-            if (o != null)
-            {
-                if (o.IsDead)
-                {
-                    RemoveItem(o);
-                }
-                else
-                {
-                    toUpdate.Add(o);
-                }
-            }
-        }
-
-        public void RemoveItem(IMappable o)
-        {
-            Tilemap.SetItem(null, new Point(o.Position.X, o.Position.Y));
-        }
-
-        private void AddRemoveCreature(int y, int x)
-        {
-            IMappable o = Tilemap.GetCreature(new Point(x, y));
-            if (o != null)
-            {
-                if (o.IsDead)
-                {
-                    RemoveCreature(o);
-                }
-                else
-                {
-                    toUpdate.Add(o);
-                }
-            }
-        }
-
-        public void RemoveCreature(IMappable o)
-        {
-            Tilemap.SetCreature(null, new Point(o.Position.X, o.Position.Y));
+            Tilemap.UpdateObjects(player);
         }
 
         private void GenerateLevel()
@@ -207,7 +146,7 @@ namespace roguelice
 
         public void GoDownOneLevel(Player player)
         {
-            DungeonLevel below = dungeon.NewLevel();
+            ILocation below = dungeon.NewLevel();
 
             Tilemap.ChangeObjectLocation(player, below, new Point(below.Entrance.X + 1, below.Entrance.Y));
         }

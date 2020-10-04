@@ -67,7 +67,7 @@ namespace roguelice
                 quality, masterful, worn, tattered, crystal, spirit, light, heavy };
         }
 
-        public Monster NewMonster(DungeonLevel level, Point position, int floor)
+        public Monster NewMonster(ILocation level, Point position, int floor)
         {
             MonsterModifier mod;
             mod = Numbers.RandomNumber(1, 100) <= SpecialMonsterChance ?
@@ -76,7 +76,7 @@ namespace roguelice
             return new Monster(level, position, mnsSpecies[LevelFactor(floor, mnsSpecies.Count())], mod);
         }
 
-        public Weapon NewWeapon(DungeonLevel level, Point position, int floor)
+        public Weapon NewWeapon(ILocation level, Point position, int floor)
         {
             WeaponModifier mod;
             mod = Numbers.RandomNumber(1, 100) <= SpecialWeaponChance ?

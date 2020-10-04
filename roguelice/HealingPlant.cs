@@ -10,16 +10,20 @@ namespace roguelice
     {
         private const int RestoreHealth = 10;
 
-        public HealingPlant(DungeonLevel level, Point position)
+        public HealingPlant(ILocation location, Point position)
         {
             Name = "healing plant";
             Symbol = '\u2663';
-            level.Tilemap.ChangeObjectLocation(this, level, position);
+
+            if (location != null && position != null)
+            {
+                location.Tilemap.ChangeObjectLocation(this, location, position);
+            }
         }
 
         public string Name { get; }
         public char Symbol { get; }
-        public DungeonLevel Location { get; set; }
+        public ILocation Location { get; set; }
         public Point Position { get; set; }
         public bool IsDead { get; set; }
         public string Overhead { get { return Name; } }
@@ -27,7 +31,7 @@ namespace roguelice
         public bool OnCollision(Player player)
         {
             player.ChangeHealth(RestoreHealth);
-            Location.RemoveCreature(this);
+            Location.Tilemap.RemoveCreature(this);
             return true;
         }
 

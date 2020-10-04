@@ -13,9 +13,12 @@ namespace roguelice
         private int staminaRegen;
         private bool endTurn;
 
-        public Player(DungeonLevel level, Point position)
+        public Player(ILocation location, Point position)
         {
-            level.Tilemap.ChangeObjectLocation(this, level, position);
+            if (location != null && position != null)
+            {
+                location.Tilemap.ChangeObjectLocation(this, location, position);
+            }
 
             Name = "hero";
             Symbol = '@';
@@ -32,7 +35,7 @@ namespace roguelice
 
         public string Name { get; }
         public char Symbol { get; }
-        public DungeonLevel Location { get; set; }
+        public ILocation Location { get; set; }
         public Point Position { get; set; }
         public bool IsDead { get; set; }
         public string Overhead { get { return Name; } }
@@ -262,7 +265,7 @@ namespace roguelice
 
         private void EndTurn()
         {
-            Location.UpdateObjects(this);
+            Location.Tilemap.UpdateObjects(this);
         }
 
         private void EnterNextLevel(Dungeon dungeon)

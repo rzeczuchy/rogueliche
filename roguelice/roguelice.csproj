@@ -59,6 +59,7 @@
     <Compile Include="HealingPlant.cs" />
     <Compile Include="ICollidable.cs" />
     <Compile Include="IFightable.cs" />
+    <Compile Include="ILocation.cs" />
     <Compile Include="IMappable.cs" />
     <Compile Include="IMoveable.cs" />
     <Compile Include="Monster.cs" />

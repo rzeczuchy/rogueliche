@@ -8,16 +8,15 @@ namespace roguelice
 {
     class Weapon : IMappable
     {
-        public Weapon(DungeonLevel level, Point position, WeaponType type, WeaponModifier modifier)
+        public Weapon(ILocation location, Point position, WeaponType type, WeaponModifier modifier)
         {
             Type = type;
             Modifier = modifier;
             Durability = MaxDurability;
-            Position = position;
-            Location = level;
-            if (Location != null && Position != null)
+
+            if (location != null && position != null)
             {
-                Location.Tilemap.ChangeItemLocation(this, Location, Position);
+                location.Tilemap.ChangeItemLocation(this, location, position);
             }
         }
 
@@ -34,7 +33,7 @@ namespace roguelice
         }
         public string Overhead { get { string resulting = Name; if (IsBroken) resulting += " (broken)"; return resulting; } }
         public char Symbol { get { return Type.Symbol; } }
-        public DungeonLevel Location { get; set; }
+        public ILocation Location { get; set; }
         public Point Position { get; set; }
         public WeaponType Type { get; private set; }
         public WeaponModifier Modifier { get; private set; }
