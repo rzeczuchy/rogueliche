@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class Numbers
+    public class Numbers
     {
         private static Random random = new Random();
 
