@@ -16,9 +16,11 @@ namespace roguelice.UnitTests
         }
 
         [TestMethod]
-        public void Distance_ReturnsErrorIfPointNull()
+        public void Distance_ThrowsExceptionIfPointNull()
         {
             Assert.ThrowsException<NullReferenceException>(() => Point.Distance(null, null));
+            Assert.ThrowsException<NullReferenceException>(() => Point.Distance(new Point(0, 0), null));
+            Assert.ThrowsException<NullReferenceException>(() => Point.Distance(null, new Point(0, 0)));
         }
     }
 }
