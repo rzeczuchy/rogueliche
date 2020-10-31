@@ -108,9 +108,9 @@ namespace roguelice
 
         private void DrawOverheadAtPosition(Point pos, Tilemap tilemap, Graphics render, Player player)
         {
-            var offsetPos = new Point(pos.X - CameraTransform(player, render).X, pos.Y - CameraTransform(player, render).Y);
+            var offsetPos = new Point(pos.X - Graphics.CameraTransform(player, render).X, pos.Y - Graphics.CameraTransform(player, render).Y);
 
-            if (render.IsWithinBuffer(offsetPos) && TopMappable(pos, tilemap) is IMappable mappable)
+            if (render.IsWithinBuffer(offsetPos) && tilemap.TopMappable(pos) is IMappable mappable)
             {
                 var overheadPos = new Point(offsetPos.X + overheadOffset.X, offsetPos.Y + overheadOffset.Y);
 
@@ -122,24 +122,5 @@ namespace roguelice
         {
             render.DrawString(mappable.Overhead, pos);
         }
-
-        private IMappable TopMappable(Point pos, Tilemap tilemap)
-        {
-            if (tilemap.GetCreature(pos) is IMappable creature)
-            {
-                return creature;
-            }
-            else if (tilemap.GetItem(pos) is IMappable item)
-            {
-                return item;
-            }
-            else return null;
-        }
-
-        private static Point CameraTransform(Player player, Graphics render)
-        {
-            return new Point(player.Position.X - render.Width / 2, player.Position.Y - render.Height / 2);
-        }
-
     }
 }

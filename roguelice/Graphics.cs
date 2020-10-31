@@ -44,6 +44,11 @@ namespace roguelice
             }
         }
 
+        public void DrawChar(char c, Point pos)
+        {
+            DrawChar(c, pos.X, pos.Y);
+        }
+
         public void DrawString(string str, int x, int y)
         {
             for (int c = 0; c < str.Length; c++)
@@ -102,6 +107,11 @@ namespace roguelice
         public bool IsWithinBuffer(Point pos)
         {
             return IsWithinBuffer(pos.X, pos.Y);
+        }
+
+        public static Point CameraTransform(Player player, Graphics render)
+        {
+            return new Point(player.Position.X - render.Width / 2, player.Position.Y - render.Height / 2);
         }
     }
 }

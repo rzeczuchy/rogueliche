@@ -205,41 +205,9 @@ namespace roguelice
             }
         }
 
-        private void FilterDeadItems(int y, int x)
-        {
-            IMappable o = GetItem(new Point(x, y));
-            if (o != null)
-            {
-                if (o.IsDead)
-                {
-                    RemoveItem(o);
-                }
-                else
-                {
-                    toUpdate.Add(o);
-                }
-            }
-        }
-
         public void RemoveItem(IMappable o)
         {
             SetItem(null, new Point(o.Position.X, o.Position.Y));
-        }
-
-        private void FilterDeadCreatures(int y, int x)
-        {
-            IMappable o = GetCreature(new Point(x, y));
-            if (o != null)
-            {
-                if (o.IsDead)
-                {
-                    RemoveCreature(o);
-                }
-                else
-                {
-                    toUpdate.Add(o);
-                }
-            }
         }
 
         public void RemoveCreature(IMappable o)
@@ -262,6 +230,19 @@ namespace roguelice
                 }
         }
 
+        public IMappable TopMappable(Point pos)
+        {
+            if (GetCreature(pos) is IMappable creature)
+            {
+                return creature;
+            }
+            else if (GetItem(pos) is IMappable item)
+            {
+                return item;
+            }
+            else return null;
+        }
+
         public void Draw(Graphics render, Player player)
         {
             PerformOnVisibleTiles((point) => DrawPosition(point, render, player), render, player);
@@ -269,34 +250,46 @@ namespace roguelice
 
         private void DrawPosition(Point pos, Graphics render, Player player)
         {
-            int xCameraTransform = player.Position.X - render.Width / 2;
-            int yCameraTransform = player.Position.Y - render.Height / 2;
+            var transformedPos = TransformedPosition(pos, render, player);
 
-            if (GetTile(pos) != null)
+            if (TopMappable(pos) is IMappable mappable)
             {
-                if (render.IsWithinBuffer(pos.X - xCameraTransform, pos.Y - yCameraTransform))
-                {
-                    DrawTile(render, player, xCameraTransform, yCameraTransform, pos);
-                }
+                render.DrawChar(mappable.Symbol, transformedPos);
             }
-            if (GetItem(pos) != null && render.IsWithinBuffer(pos.X - xCameraTransform, pos.Y - yCameraTransform) && player.CanSee(pos))
-                render.DrawChar(GetItem(pos).Symbol, pos.X - xCameraTransform, pos.Y - yCameraTransform);
-
-            if (GetCreature(pos) != null && render.IsWithinBuffer(pos.X - xCameraTransform, pos.Y - yCameraTransform) && player.CanSee(pos))
-                render.DrawChar(GetCreature(pos).Symbol, pos.X - xCameraTransform, pos.Y - yCameraTransform);
+            else if (GetTile(pos) is Tile tile)
+            {
+                DrawTile(render, player, pos);
+            }
         }
 
-        private void DrawTile(Graphics render, Player player, int xCameraTransform, int yCameraTransform, Point pos)
+        private void DrawTile(Graphics render, Player player, Point pos)
         {
             char symbol = GetTile(pos).Symbol;
+            var transformedPos = TransformedPosition(pos, render, player);
 
-            if (IsTileVisible(pos, player))
+            if (IsAccessible(pos, player))
             {
-                render.DrawChar(symbol, pos.X - xCameraTransform, pos.Y - yCameraTransform);
+                render.DrawChar(symbol, transformedPos);
             }
         }
+        
+        private Point TransformedPosition(Point pos, Graphics render, Player player)
+        {
+            return new Point(pos.X - Graphics.CameraTransform(player, render).X,
+                pos.Y - Graphics.CameraTransform(player, render).Y);
+        }
 
-        private bool IsTileVisible(Point pos, Player player)
+        private bool IsAccessible(Point pos, Player player)
+        {
+            foreach (Tile t in NeighbouringTiles(pos))
+            {
+                if (t.Type == Tile.TileType.floor || t.Type == Tile.TileType.exit)
+                    return true;
+            }
+            return false;
+        }
+
+        private List<Tile> NeighbouringTiles(Point pos)
         {
             List<Tile> neighbours = new List<Tile>();
             for (int w = pos.X - 1; w <= pos.X + 1; w++)
@@ -307,14 +300,39 @@ namespace roguelice
                         neighbours.Add(Tiles[w, h]);
                 }
 
-            int floor = 0;
-            foreach (Tile t in neighbours)
-            {
-                if (t.Type == Tile.TileType.floor || t.Type == Tile.TileType.exit)
-                    floor++;
-            }
+            return neighbours;
+        }
 
-            return floor >= 1 && player.CanSee(pos);
+        private void FilterDeadCreatures(int y, int x)
+        {
+            IMappable o = GetCreature(new Point(x, y));
+            if (o != null)
+            {
+                if (o.IsDead)
+                {
+                    RemoveCreature(o);
+                }
+                else
+                {
+                    toUpdate.Add(o);
+                }
+            }
+        }
+
+        private void FilterDeadItems(int y, int x)
+        {
+            IMappable o = GetItem(new Point(x, y));
+            if (o != null)
+            {
+                if (o.IsDead)
+                {
+                    RemoveItem(o);
+                }
+                else
+                {
+                    toUpdate.Add(o);
+                }
+            }
         }
     }
 }
