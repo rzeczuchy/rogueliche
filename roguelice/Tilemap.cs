@@ -247,14 +247,20 @@ namespace roguelice
             SetCreature(null, new Point(o.Position.X, o.Position.Y));
         }
 
+        public void PerformOnVisibleTiles(Action<Point> action, Graphics render, Player player)
+        {
+            Point cameraPosition = new Point(player.Position.X - render.Width / 2, player.Position.Y - render.Height / 2);
+
+            for (int y = cameraPosition.Y; y < cameraPosition.Y + render.Height; y++)
+                for (int x = cameraPosition.X; x < cameraPosition.X + render.Width; x++)
+                {
+                    action(new Point(x,y));
+                }
+        }
+
         public void Draw(Graphics render, Player player)
         {
-            for (int y = 0; y < Height; y++)
-                for (int x = 0; x < Width; x++)
-                {
-                    var pos = new Point(x, y);
-                    DrawPosition(pos, render, player);
-                }
+            PerformOnVisibleTiles((point) => DrawPosition(point, render, player), render, player);
         }
 
         private void DrawPosition(Point pos, Graphics render, Player player)
