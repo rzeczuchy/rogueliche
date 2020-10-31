@@ -56,6 +56,11 @@ namespace roguelice
             }
         }
 
+        public void DrawString(string str, Point pos)
+        {
+            DrawString(str, pos.X, pos.Y);
+        }
+
         public void DrawStringC(string str, int y)
         {
             DrawString(str, Width / 2 - str.Length / 2, y);
@@ -96,7 +101,7 @@ namespace roguelice
 
         public bool IsWithinBuffer(Point pos)
         {
-            return pos.X >= 0 && pos.X < Width && pos.Y >= 0 && pos.Y < Height;
+            return IsWithinBuffer(pos.X, pos.Y);
         }
     }
 }

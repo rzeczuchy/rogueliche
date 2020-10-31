@@ -22,10 +22,13 @@ namespace roguelice
             displayOverheads = !displayOverheads;
         }
 
-        public void Draw(Graphics render, Player player)
+        public void Update()
         {
             flashWarnings = !flashWarnings;
+        }
 
+        public void Draw(Graphics render, Player player)
+        {
             if (displayOverheads)
             {
                 DisplayOverheads(render, player);
@@ -90,32 +93,42 @@ namespace roguelice
             render.DrawString(wgt, render.Width * 3 / 5 - wgt.Length / 2, topOffset + 5);
         }
 
-        void DisplayOverheads(Graphics render, Player player)
+        private void DisplayOverheads(Graphics render, Player player)
         {
-            int cameraTransformX = player.Position.X - render.Width / 2;
-            int cameraTransformY = player.Position.Y - render.Height / 2;
-
-            ILocation level = player.Location;
-            for (int y = 0; y < level.Tilemap.Height; y++)
-                for (int x = 0; x < level.Tilemap.Width; x++)
+            var tilemap = player.Location.Tilemap;
+            for (int y = 0; y < tilemap.Height; y++)
+                for (int x = 0; x < tilemap.Width; x++)
                 {
                     var pos = new Point(x, y);
-                    var offsetPos = new Point(x - cameraTransformX, y - cameraTransformY);
-                    var item = level.Tilemap.GetItem(pos);
-                    var creature = level.Tilemap.GetCreature(pos);
+                    var offsetPos = new Point(x - CameraTransform(player, render).X, y - CameraTransform(player, render).Y);
 
-                    if (item != null && item.Overhead != null && creature == null
-                        && render.IsWithinBuffer(offsetPos) && player.CanSee(pos))
+                    if (render.IsWithinBuffer(offsetPos) && player.CanSee(pos))
                     {
-                        render.DrawString(item.Overhead, x - cameraTransformX + overheadOffset.X, y - cameraTransformY + overheadOffset.Y);
-                    }
-
-                    if (creature != null && creature.Overhead != null
-                        && render.IsWithinBuffer(offsetPos) && player.CanSee(pos))
-                    {
-                        render.DrawString(creature.Overhead, x - cameraTransformX + overheadOffset.X, y - cameraTransformY + overheadOffset.Y);
+                        DrawOverheadAtPosition(render, tilemap, pos, offsetPos);
                     }
                 }
+        }
+
+        private void DrawOverheadAtPosition(Graphics render, Tilemap tilemap, Point pos, Point offsetPos)
+        {
+            if (tilemap.GetCreature(pos) is IMappable creature)
+            {
+                DrawOverhead(creature, new Point(offsetPos.X + overheadOffset.X, offsetPos.Y + overheadOffset.Y), render);
+            }
+            else if (tilemap.GetItem(pos) is IMappable item)
+            {
+                DrawOverhead(item, new Point(offsetPos.X + overheadOffset.X, offsetPos.Y + overheadOffset.Y), render);
+            }
+        }
+
+        public void DrawOverhead(IMappable mappable, Point pos, Graphics render)
+        {
+            render.DrawString(mappable.Overhead, pos);
+        }
+
+        public static Point CameraTransform(Player player, Graphics render)
+        {
+            return new Point(player.Position.X - render.Width / 2, player.Position.Y - render.Height / 2);
         }
 
     }

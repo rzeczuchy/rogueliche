@@ -22,6 +22,7 @@ namespace roguelice
 
         public override void Update(UI ui, ConsoleKey input)
         {
+            ui.Update();
             player.Update(input, ui, dungeon);
 
             if (player.IsDead)
