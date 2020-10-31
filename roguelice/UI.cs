@@ -8,14 +8,14 @@ namespace roguelice
 {
     class UI
     {
+        private bool flashWarnings = false;
+        private bool displayOverheads;
+        private Point overheadOffset = new Point(-2, -2);
+
         public UI()
         {
             displayOverheads = true;
         }
-
-        private bool flashWarnings = false;
-
-        private bool displayOverheads;
 
         public void ToggleOverheads()
         {
@@ -92,31 +92,28 @@ namespace roguelice
 
         void DisplayOverheads(Graphics render, Player player)
         {
-            // camera transforms
-            int xtransform = player.Position.X - render.Width / 2;
-            int ytransform = player.Position.Y - render.Height / 2;
-
-            // overhead offset
-            Point offset = new Point(-2, -2);
+            int cameraTransformX = player.Position.X - render.Width / 2;
+            int cameraTransformY = player.Position.Y - render.Height / 2;
 
             ILocation level = player.Location;
             for (int y = 0; y < level.Tilemap.Height; y++)
                 for (int x = 0; x < level.Tilemap.Width; x++)
                 {
                     var pos = new Point(x, y);
+                    var offsetPos = new Point(x - cameraTransformX, y - cameraTransformY);
                     var item = level.Tilemap.GetItem(pos);
                     var creature = level.Tilemap.GetCreature(pos);
 
                     if (item != null && item.Overhead != null && creature == null
-                        && render.IsWithinBuffer(x - xtransform, y - ytransform) && player.CanSee(pos))
+                        && render.IsWithinBuffer(offsetPos) && player.CanSee(pos))
                     {
-                        render.DrawString(item.Overhead, x - xtransform + offset.X, y - ytransform + offset.Y);
+                        render.DrawString(item.Overhead, x - cameraTransformX + overheadOffset.X, y - cameraTransformY + overheadOffset.Y);
                     }
 
                     if (creature != null && creature.Overhead != null
-                        && render.IsWithinBuffer(x - xtransform, y - ytransform) && player.CanSee(pos))
+                        && render.IsWithinBuffer(offsetPos) && player.CanSee(pos))
                     {
-                        render.DrawString(creature.Overhead, x - xtransform + offset.X, y - ytransform + offset.Y);
+                        render.DrawString(creature.Overhead, x - cameraTransformX + overheadOffset.X, y - cameraTransformY + overheadOffset.Y);
                     }
                 }
         }

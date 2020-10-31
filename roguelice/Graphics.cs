@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class Graphics
+    public class Graphics
     {
 
         private readonly char[][] buffer;
@@ -94,5 +94,9 @@ namespace roguelice
             return x >= 0 && x < Width && y >= 0 && y < Height;
         }
 
+        public bool IsWithinBuffer(Point pos)
+        {
+            return pos.X >= 0 && pos.X < Width && pos.Y >= 0 && pos.Y < Height;
+        }
     }
 }
