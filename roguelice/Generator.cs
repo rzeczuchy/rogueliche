@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class Generator
+    public class Generator
     {
         const int SpecialMonsterChance = 20;
         const int SpecialWeaponChance = 20;

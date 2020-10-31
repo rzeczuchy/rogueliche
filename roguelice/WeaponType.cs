@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class WeaponType
+    public class WeaponType
     {
         public WeaponType(string name, char symbol, int damage, int staminaCost, int maxDurability)
         {

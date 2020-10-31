@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class Tilemap
+    public class Tilemap
     {
         private readonly List<IMappable> toUpdate;
 

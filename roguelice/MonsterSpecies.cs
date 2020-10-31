@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class MonsterSpecies
+    public class MonsterSpecies
     {
         public MonsterSpecies(string name, char symbol, int maxHealth, int attack, int detectRange, int expGained)
         {

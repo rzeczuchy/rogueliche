@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    interface ILocation
+    public interface ILocation
     {
         Point Entrance { get; }
         Point Exit { get; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    interface IMappable
+    public interface IMappable
     {
         ILocation Location { get; set; }
         Point Position { get; set; }

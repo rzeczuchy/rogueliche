@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class MonsterModifier
+    public class MonsterModifier
     {
         public MonsterModifier(string prefix, double health, double attack, double detect, double exp)
         {

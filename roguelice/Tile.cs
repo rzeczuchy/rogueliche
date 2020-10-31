@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class Tile
+    public class Tile
     {
         public Tile(TileType type)
         {

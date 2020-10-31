@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class Rectangle
+    public class Rectangle
     {
         public Rectangle(Point position, Point size)
         {

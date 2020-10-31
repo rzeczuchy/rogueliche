@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class Dungeon
+    public class Dungeon
     {
         private int levelIndex;
         private int maxRoomHeight;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    interface IFightable
+    public interface IFightable
     {
         Weapon CurrentWeapon { get; }
         int Health { get; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class Weapon : IMappable
+    public class Weapon : IMappable
     {
         public Weapon(ILocation location, Point position, WeaponType type, WeaponModifier modifier)
         {

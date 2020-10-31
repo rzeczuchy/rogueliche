@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class Player : IFightable, IMoveable, IMappable
+    public class Player : IFightable, IMoveable, IMappable
     {
         private const int LevelCap = 111;
         private const int LevelIncreaseFactor = 11;

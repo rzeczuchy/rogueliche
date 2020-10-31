@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class Monster : IFightable, IMoveable, IMappable, ICollidable
+    public class Monster : IFightable, IMoveable, IMappable, ICollidable
     {
         public Monster(ILocation location, Point position, MonsterSpecies species, MonsterModifier modifier)
         {

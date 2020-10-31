@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace roguelice
 {
-    class UI
+    public class UI
     {
         private bool flashWarnings = false;
         private bool displayOverheads;
