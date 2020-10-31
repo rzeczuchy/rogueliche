@@ -31,7 +31,7 @@ namespace roguelice
 
         public void UpdateObjects(Player player)
         {
-            Tilemap.UpdateObjects(player);
+            Tilemap.Update(player);
         }
 
         private void GenerateLevel()
@@ -143,6 +143,7 @@ namespace roguelice
             ILocation below = dungeon.NewLevel();
 
             Tilemap.ChangeObjectLocation(player, below, new Point(below.Entrance.X + 1, below.Entrance.Y));
+            below.Tilemap.UpdateFieldOfView(player);
         }
     }
 }

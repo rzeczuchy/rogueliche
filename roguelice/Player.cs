@@ -18,6 +18,7 @@ namespace roguelice
             if (location != null && position != null)
             {
                 location.Tilemap.ChangeObjectLocation(this, location, position);
+                location.Tilemap.UpdateFieldOfView(this);
             }
 
             Name = "hero";
@@ -114,11 +115,6 @@ namespace roguelice
         // Update function called for objects in location on each turn.
         public void Update(Player player)
         {
-        }
-
-        public bool CanSee(Point pos)
-        {
-            return Point.Distance(Position, pos) < 25;
         }
 
         public void HandleInput(ConsoleKey input, UI ui, Dungeon dungeon)
@@ -265,7 +261,7 @@ namespace roguelice
 
         private void EndTurn()
         {
-            Location.Tilemap.UpdateObjects(this);
+            Location.Tilemap.Update(this);
         }
 
         private void EnterNextLevel(Dungeon dungeon)

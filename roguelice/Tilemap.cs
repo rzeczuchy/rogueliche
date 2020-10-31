@@ -21,8 +21,8 @@ namespace roguelice
         {
             Width = width;
             Height = height;
-            Tiles = new Tile[Width + 1, Height + 1];
-            FogOfWar = new bool[Width + 1, Height + 1];
+            Tiles = new Tile[Width, Height];
+            FieldOfView = new bool[Width, Height];
             Creatures = new IMappable[Width, Height];
             Items = new IMappable[Width, Height];
         }
@@ -31,7 +31,7 @@ namespace roguelice
         public int Width { get; private set; }
         public int Height { get; private set; }
         public Tile[,] Tiles { get; private set; }
-        public bool[,] FogOfWar { get; private set; }
+        public bool[,] FieldOfView { get; private set; }
         public IMappable[,] Creatures { get; private set; }
         public IMappable[,] Items { get; private set; }
 
@@ -181,9 +181,11 @@ namespace roguelice
             return GetTile(position) != null && (GetTile(position).Type == Tile.TileType.floor || GetTile(position).Type == Tile.TileType.exit);
         }
 
-        public void UpdateObjects(Player player)
+        public void Update(Player player)
         {
             toUpdate.Clear();
+
+            UpdateFieldOfView(player);
 
             for (int y = 0; y < Height; y++)
             {
@@ -200,6 +202,24 @@ namespace roguelice
                 {
                     toUpdate[u].Update(player);
                 }
+            }
+        }
+
+        public void UpdateFieldOfView(Player player)
+        {
+            for (int y = 0; y < Height; y++)
+                for (int x = 0; x < Width; x++)
+                {
+                    var pos = new Point(x, y);
+                    SetPositionVisibility(player, y, x, pos);
+                }
+        }
+
+        private void SetPositionVisibility(Player player, int y, int x, Point pos)
+        {
+            if (Point.Distance(pos, player.Position) <= 10)
+            {
+                FieldOfView[x, y] = true;
             }
         }
 
@@ -221,7 +241,7 @@ namespace roguelice
                 for (int x = cameraPosition.X; x < cameraPosition.X + render.Width; x++)
                 {
                     var pos = new Point(x, y);
-                    if (player.CanSee(pos))
+                    if (IsVisible(pos))
                     {
                         action(pos);
                     }
@@ -270,7 +290,7 @@ namespace roguelice
                 render.DrawChar(symbol, transformedPos);
             }
         }
-        
+
         private Point TransformedPosition(Point pos, Graphics render, Player player)
         {
             return new Point(pos.X - Graphics.CameraTransform(player, render).X,
@@ -285,6 +305,11 @@ namespace roguelice
                     return true;
             }
             return false;
+        }
+
+        private bool IsVisible(Point pos)
+        {
+            return IsPositionWithinTilemap(pos) && FieldOfView[pos.X, pos.Y] == true;
         }
 
         private List<Tile> NeighbouringTiles(Point pos)
