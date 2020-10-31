@@ -28,7 +28,7 @@ namespace roguelice
             Creatures = new IMappable[Width, Height];
             Items = new IMappable[Width, Height];
         }
-        
+
         public ILocation Location { get; private set; }
         public int Width { get; private set; }
         public int Height { get; private set; }
@@ -254,7 +254,11 @@ namespace roguelice
             for (int y = cameraPosition.Y; y < cameraPosition.Y + render.Height; y++)
                 for (int x = cameraPosition.X; x < cameraPosition.X + render.Width; x++)
                 {
-                    action(new Point(x,y));
+                    var pos = new Point(x, y);
+                    if (player.CanSee(pos))
+                    {
+                        action(pos);
+                    }
                 }
         }
 
@@ -285,7 +289,7 @@ namespace roguelice
         private void DrawTile(Graphics render, Player player, int xCameraTransform, int yCameraTransform, Point pos)
         {
             char symbol = GetTile(pos).Symbol;
-            
+
             if (IsTileVisible(pos, player))
             {
                 render.DrawChar(symbol, pos.X - xCameraTransform, pos.Y - yCameraTransform);

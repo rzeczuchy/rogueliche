@@ -8,7 +8,7 @@ namespace roguelice
 {
     public class UI
     {
-        private bool flashWarnings = false;
+        private bool warningsVisible = false;
         private bool displayOverheads;
         private Point overheadOffset = new Point(-2, -2);
 
@@ -24,11 +24,12 @@ namespace roguelice
 
         public void Update()
         {
-            flashWarnings = !flashWarnings;
         }
 
         public void Draw(Graphics render, Player player)
         {
+            FlashWarnings();
+
             if (displayOverheads)
             {
                 DisplayOverheads(render, player);
@@ -39,7 +40,12 @@ namespace roguelice
             DisplayWeaponHUD(render, player);
         }
 
-        void DisplayPlayerHUD(Graphics render, Player player)
+        private void FlashWarnings()
+        {
+            warningsVisible = !warningsVisible;
+        }
+
+        private void DisplayPlayerHUD(Graphics render, Player player)
         {
             int leftOffset = 2;
 
@@ -60,19 +66,19 @@ namespace roguelice
 
             string hp = "Health: " + player.Health + "/" + player.MaxHealth;
             render.DrawString(hp, render.Width * 1 / 4 - hp.Length / 2, 6);
-            if (player.Health <= player.MaxHealth * 1 / 5 && flashWarnings)
+            if (player.Health <= player.MaxHealth * 1 / 5 && warningsVisible)
                 render.DrawString("Health critical!", render.Width * 1 / 4 - hp.Length / 2 + hp.Length + 1, 6);
             render.DrawBar(player.Health, player.MaxHealth, hBarLength, render.Width * 1 / 4 - hBarLength / 2, 7);
 
             string exer = "Exertion: " + player.Exertion + "/" + player.MaxExertion;
             render.DrawString(exer, render.Width * 3 / 4 - exer.Length / 2, 6);
 
-            if (player.Exertion >= player.MaxExertion * 4 / 5 && flashWarnings)
+            if (player.Exertion >= player.MaxExertion * 4 / 5 && warningsVisible)
                 render.DrawString("Overexerted!", render.Width * 3 / 4 - exer.Length / 2 + exer.Length + 1, 6);
             render.DrawBar(player.Exertion, player.MaxExertion, hBarLength, render.Width * 3 / 4 - hBarLength / 2, 7);
         }
 
-        void DisplayWeaponHUD(Graphics render, Player player)
+        private void DisplayWeaponHUD(Graphics render, Player player)
         {
             int leftOffset = 2;
             int topOffset = render.Height * 7 / 8;
@@ -96,37 +102,41 @@ namespace roguelice
         private void DisplayOverheads(Graphics render, Player player)
         {
             var tilemap = player.Location.Tilemap;
-            for (int y = 0; y < tilemap.Height; y++)
-                for (int x = 0; x < tilemap.Width; x++)
-                {
-                    var pos = new Point(x, y);
-                    var offsetPos = new Point(x - CameraTransform(player, render).X, y - CameraTransform(player, render).Y);
 
-                    if (render.IsWithinBuffer(offsetPos) && player.CanSee(pos))
-                    {
-                        DrawOverheadAtPosition(render, tilemap, pos, offsetPos);
-                    }
-                }
+            tilemap.PerformOnVisibleTiles((point) => DrawOverheadAtPosition(point, tilemap, render, player), render, player);
         }
 
-        private void DrawOverheadAtPosition(Graphics render, Tilemap tilemap, Point pos, Point offsetPos)
+        private void DrawOverheadAtPosition(Point pos, Tilemap tilemap, Graphics render, Player player)
         {
-            if (tilemap.GetCreature(pos) is IMappable creature)
+            var offsetPos = new Point(pos.X - CameraTransform(player, render).X, pos.Y - CameraTransform(player, render).Y);
+
+            if (render.IsWithinBuffer(offsetPos) && TopMappable(pos, tilemap) is IMappable mappable)
             {
-                DrawOverhead(creature, new Point(offsetPos.X + overheadOffset.X, offsetPos.Y + overheadOffset.Y), render);
-            }
-            else if (tilemap.GetItem(pos) is IMappable item)
-            {
-                DrawOverhead(item, new Point(offsetPos.X + overheadOffset.X, offsetPos.Y + overheadOffset.Y), render);
+                var overheadPos = new Point(offsetPos.X + overheadOffset.X, offsetPos.Y + overheadOffset.Y);
+
+                DrawOverhead(mappable, overheadPos, render);
             }
         }
 
-        public void DrawOverhead(IMappable mappable, Point pos, Graphics render)
+        private void DrawOverhead(IMappable mappable, Point pos, Graphics render)
         {
             render.DrawString(mappable.Overhead, pos);
         }
 
-        public static Point CameraTransform(Player player, Graphics render)
+        private IMappable TopMappable(Point pos, Tilemap tilemap)
+        {
+            if (tilemap.GetCreature(pos) is IMappable creature)
+            {
+                return creature;
+            }
+            else if (tilemap.GetItem(pos) is IMappable item)
+            {
+                return item;
+            }
+            else return null;
+        }
+
+        private static Point CameraTransform(Player player, Graphics render)
         {
             return new Point(player.Position.X - render.Width / 2, player.Position.Y - render.Height / 2);
         }
