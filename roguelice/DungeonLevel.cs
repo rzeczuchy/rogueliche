@@ -36,7 +36,7 @@ namespace roguelice
 
         private void GenerateLevel()
         {
-            Tilemap.FillWithType(Bounds, Tile.TileType.wall);
+            Tilemap.FillWithTile(Bounds, Tile.TileType.wall);
             ChamberTree = new ChamberTree(Bounds.Size, dungeon.MinRooms, dungeon.MaxRooms, dungeon.MinRoomWidth, dungeon.MaxRoomWidth,
                 dungeon.MinRoomHeight, dungeon.MaxRoomHeight, dungeon.ForceRegularRooms);
             ChamberTree.FillChambersWithTile(Tile.TileType.floor, Tilemap);
@@ -143,7 +143,7 @@ namespace roguelice
             ILocation below = dungeon.NewLevel();
 
             Tilemap.ChangeObjectLocation(player, below, new Point(below.Entrance.X + 1, below.Entrance.Y));
-            below.Tilemap.UpdateFieldOfView(player);
+            below.Tilemap.UpdateFogOfWar(player);
         }
     }
 }

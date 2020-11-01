@@ -41,7 +41,7 @@ namespace roguelice
         {
             foreach (Rectangle chamber in Chambers)
             {
-                tilemap.FillWithType(chamber, tileType);
+                tilemap.FillWithTile(chamber, tileType);
             }
         }
 
