@@ -29,9 +29,27 @@ namespace roguelice
                 switch (Type)
                 {
                     case TileType.floor:
-                        return '.';
+                        return ' ';
                     case TileType.wall:
                         return '\u2591';
+                    case TileType.exit:
+                        return 'E';
+                    default:
+                        return '?';
+                }
+            }
+        }
+
+        public char NotVisibleSymbol
+        {
+            get
+            {
+                switch (Type)
+                {
+                    case TileType.floor:
+                        return ' ';
+                    case TileType.wall:
+                        return '.';
                     case TileType.exit:
                         return 'E';
                     default:

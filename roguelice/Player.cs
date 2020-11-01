@@ -19,6 +19,7 @@ namespace roguelice
             {
                 location.Tilemap.ChangeObjectLocation(this, location, position);
                 location.Tilemap.UpdateFogOfWar(this);
+                location.Tilemap.UpdateFieldOfVisibility(this);
             }
 
             Name = "hero";

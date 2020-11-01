@@ -23,7 +23,7 @@ namespace roguelice
             Height = height;
             Tiles = new Tile[Width, Height];
             FogOfWar = new bool[Width, Height];
-            FieldOfView = new bool[Width, Height];
+            FieldOfVisibility = new bool[Width, Height];
             Creatures = new IMappable[Width, Height];
             Items = new IMappable[Width, Height];
         }
@@ -33,7 +33,7 @@ namespace roguelice
         public int Height { get; private set; }
         public Tile[,] Tiles { get; private set; }
         public bool[,] FogOfWar { get; private set; }
-        public bool[,] FieldOfView { get; private set; }
+        public bool[,] FieldOfVisibility { get; private set; }
         public IMappable[,] Creatures { get; private set; }
         public IMappable[,] Items { get; private set; }
 
@@ -195,30 +195,12 @@ namespace roguelice
 
         public void Update(Player player)
         {
-            UpdateFogOfWar(player);
-
             UpdateObjects(player);
+            UpdateFogOfWar(player);
+            UpdateFieldOfVisibility(player);
         }
 
-        public void UpdateFogOfWar(Player player)
-        {
-            for (int y = 0; y < Height; y++)
-                for (int x = 0; x < Width; x++)
-                {
-                    var pos = new Point(x, y);
-                    SetFogForPosition(player, y, x, pos);
-                }
-        }
-
-        private void SetFogForPosition(Player player, int y, int x, Point pos)
-        {
-            if (Point.Distance(pos, player.Position) <= 10)
-            {
-                FogOfWar[x, y] = true;
-            }
-        }
-        
-        private void UpdateObjects(Player player)
+        public void UpdateObjects(Player player)
         {
             toUpdate.Clear();
 
@@ -240,6 +222,36 @@ namespace roguelice
             }
         }
 
+        public void UpdateFieldOfVisibility(Player player)
+        {
+            PerformOnAllTiles((pos) => SetVisibilityForPosition(player, pos));
+        }
+
+        public void UpdateFogOfWar(Player player)
+        {
+            PerformOnAllTiles((pos) => SetFogForPosition(player, pos));
+        }
+
+        public bool IsUnfogged(Point pos)
+        {
+            return IsPositionWithinTilemap(pos) && FogOfWar[pos.X, pos.Y] == true;
+        }
+
+        public bool IsVisible(Point pos)
+        {
+            return IsPositionWithinTilemap(pos) && FieldOfVisibility[pos.X, pos.Y] == true;
+        }
+
+        public void PerformOnAllTiles(Action<Point> action)
+        {
+            for (int y = 0; y < Height; y++)
+                for (int x = 0; x < Width; x++)
+                {
+                    var pos = new Point(x, y);
+                    action(pos);
+                }
+        }
+
         public void PerformOnVisibleTiles(Action<Point> action, Graphics render, Player player)
         {
             Point cameraPosition = new Point(player.Position.X - render.Width / 2, player.Position.Y - render.Height / 2);
@@ -248,7 +260,7 @@ namespace roguelice
                 for (int x = cameraPosition.X; x < cameraPosition.X + render.Width; x++)
                 {
                     var pos = new Point(x, y);
-                    if (IsUncovered(pos))
+                    if (IsUnfogged(pos))
                     {
                         action(pos);
                     }
@@ -277,7 +289,7 @@ namespace roguelice
         {
             var transformedPos = TransformedPosition(pos, render, player);
 
-            if (TopMappable(pos) is IMappable mappable)
+            if (TopMappable(pos) is IMappable mappable && IsVisible(pos))
             {
                 render.DrawChar(mappable.Symbol, transformedPos);
             }
@@ -289,11 +301,10 @@ namespace roguelice
 
         private void DrawTile(Graphics render, Player player, Point pos)
         {
-            char symbol = GetTile(pos).Symbol;
-            var transformedPos = TransformedPosition(pos, render, player);
-
-            if (IsAccessible(pos, player))
+            if (GetTile(pos) is Tile tile && IsAccessible(pos, player))
             {
+                char symbol = IsVisible(pos) ? tile.Symbol : tile.NotVisibleSymbol;
+                var transformedPos = TransformedPosition(pos, render, player);
                 render.DrawChar(symbol, transformedPos);
             }
         }
@@ -304,6 +315,19 @@ namespace roguelice
                 pos.Y - Graphics.CameraTransform(player, render).Y);
         }
 
+        private void SetVisibilityForPosition(Player player, Point pos)
+        {
+            FieldOfVisibility[pos.X, pos.Y] = Point.Distance(pos, player.Position) <= 10;
+        }
+
+        private void SetFogForPosition(Player player, Point pos)
+        {
+            if (Point.Distance(pos, player.Position) <= 10)
+            {
+                FogOfWar[pos.X, pos.Y] = true;
+            }
+        }
+
         private bool IsAccessible(Point pos, Player player)
         {
             foreach (Tile t in NeighbouringTiles(pos))
@@ -312,11 +336,6 @@ namespace roguelice
                     return true;
             }
             return false;
-        }
-
-        private bool IsUncovered(Point pos)
-        {
-            return IsPositionWithinTilemap(pos) && FogOfWar[pos.X, pos.Y] == true;
         }
 
         private List<Tile> NeighbouringTiles(Point pos)

@@ -144,6 +144,7 @@ namespace roguelice
 
             Tilemap.ChangeObjectLocation(player, below, new Point(below.Entrance.X + 1, below.Entrance.Y));
             below.Tilemap.UpdateFogOfWar(player);
+            below.Tilemap.UpdateFieldOfVisibility(player);
         }
     }
 }

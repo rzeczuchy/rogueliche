@@ -110,7 +110,7 @@ namespace roguelice
         {
             var offsetPos = new Point(pos.X - Graphics.CameraTransform(player, render).X, pos.Y - Graphics.CameraTransform(player, render).Y);
 
-            if (render.IsWithinBuffer(offsetPos) && tilemap.TopMappable(pos) is IMappable mappable)
+            if (render.IsWithinBuffer(offsetPos) && tilemap.IsVisible(pos) && tilemap.TopMappable(pos) is IMappable mappable)
             {
                 var overheadPos = new Point(offsetPos.X + overheadOffset.X, offsetPos.Y + overheadOffset.Y);
 
