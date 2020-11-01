@@ -9,6 +9,7 @@ namespace roguelice
     public interface IMappable
     {
         ILocation Location { get; set; }
+        TilemapLayer Layer { get; }
         Point Position { get; set; }
         bool IsDead { get; }
         string Name { get; }

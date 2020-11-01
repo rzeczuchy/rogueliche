@@ -10,19 +10,21 @@ namespace roguelice
     {
         public Monster(ILocation location, Point position, MonsterSpecies species, MonsterModifier modifier)
         {
+            if (location != null)
+            {
+                Layer = location.Tilemap.Creatures;
+                Layer.ChangeLocation(this, location, position);
+            }
+
             Species = species;
             Modifier = modifier;
             Health = MaxHealth;
-
-            if (location != null && position != null)
-            {
-                location.Tilemap.Creatures.ChangeLocation(this, location, position);
-            }
         }
 
         public MonsterSpecies Species { get; private set; }
         public MonsterModifier Modifier { get; private set; }
         public ILocation Location { get; set; }
+        public TilemapLayer Layer { get; }
         public Point Position { get; set; }
         public bool IsDead { get; set; }
         public string Overhead { get { return Name; } }
@@ -107,7 +109,7 @@ namespace roguelice
             {
                 if (CollidingEntity(targetPosition) == null)
                 {
-                    Location.Tilemap.Creatures.ChangePosition(this, targetPosition);
+                    Layer.ChangePosition(this, targetPosition);
                     return true;
                 }
             }
@@ -121,7 +123,7 @@ namespace roguelice
 
         public IMappable CollidingEntity(Point targetPosition)
         {
-            return Location.Tilemap.Creatures.Get(targetPosition);
+            return Layer.Get(targetPosition);
         }
 
         public void Update(Player player)
@@ -150,7 +152,7 @@ namespace roguelice
         public void Die(IFightable attacker)
         {
             IsDead = true;
-            Location.Tilemap.Creatures.Remove(this);
+            Layer.Remove(this);
         }
 
         public void Kill(IFightable target)

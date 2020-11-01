@@ -12,18 +12,20 @@ namespace roguelice
 
         public HealingPlant(ILocation location, Point position)
         {
+            if (location != null)
+            {
+                Layer = location.Tilemap.Creatures;
+                Layer.ChangeLocation(this, location, position);
+            }
+
             Name = "healing plant";
             Symbol = '\u2663';
-
-            if (location != null && position != null)
-            {
-                location.Tilemap.Creatures.ChangeLocation(this, location, position);
-            }
         }
 
         public string Name { get; }
         public char Symbol { get; }
         public ILocation Location { get; set; }
+        public TilemapLayer Layer { get; }
         public Point Position { get; set; }
         public bool IsDead { get; set; }
         public string Overhead { get { return Name; } }
@@ -31,7 +33,7 @@ namespace roguelice
         public bool OnCollision(Player player)
         {
             player.ChangeHealth(RestoreHealth);
-            Location.Tilemap.Creatures.Remove(this);
+            Layer.Remove(this);
             return true;
         }
 

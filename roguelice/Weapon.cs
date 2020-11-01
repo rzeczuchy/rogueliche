@@ -10,14 +10,15 @@ namespace roguelice
     {
         public Weapon(ILocation location, Point position, WeaponType type, WeaponModifier modifier)
         {
+            if (location != null)
+            {
+                Layer = location.Tilemap.Items;
+                Layer.ChangeLocation(this, location, position);
+            }
+
             Type = type;
             Modifier = modifier;
             Durability = MaxDurability;
-
-            if (location != null && position != null)
-            {
-                location.Tilemap.Items.ChangeLocation(this, location, position);
-            }
         }
 
         public bool IsDead { get; set; }
@@ -34,6 +35,7 @@ namespace roguelice
         public string Overhead { get { string resulting = Name; if (IsBroken) resulting += " (broken)"; return resulting; } }
         public char Symbol { get { return Type.Symbol; } }
         public ILocation Location { get; set; }
+        public TilemapLayer Layer { get; }
         public Point Position { get; set; }
         public WeaponType Type { get; private set; }
         public WeaponModifier Modifier { get; private set; }

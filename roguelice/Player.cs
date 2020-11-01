@@ -15,9 +15,10 @@ namespace roguelice
 
         public Player(ILocation location, Point position)
         {
-            if (location != null && position != null)
+            if (location != null)
             {
-                location.Tilemap.Creatures.ChangeLocation(this, location, position);
+                Layer = location.Tilemap.Creatures;
+                Layer.ChangeLocation(this, location, position);
                 location.Tilemap.UpdateFogOfWar(this);
                 location.Tilemap.UpdateFieldOfVisibility(this);
             }
@@ -38,6 +39,7 @@ namespace roguelice
         public string Name { get; }
         public char Symbol { get; }
         public ILocation Location { get; set; }
+        public TilemapLayer Layer { get; }
         public Point Position { get; set; }
         public bool IsDead { get; set; }
         public string Overhead { get { return Name; } }
@@ -194,7 +196,7 @@ namespace roguelice
                 if (entityAtTargetPosition == null)
                 {
                     staminaRegen = 0;
-                    Location.Tilemap.Creatures.ChangePosition(this, targetPosition);
+                    Layer.ChangePosition(this, targetPosition);
                     return true;
                 }
                 else if (entityAtTargetPosition != null && entityAtTargetPosition is ICollidable collidable)
@@ -257,7 +259,7 @@ namespace roguelice
 
         private IMappable CollidingEntity(Point targetPosition)
         {
-            return Location.Tilemap.Creatures.Get(targetPosition);
+            return Layer.Get(targetPosition);
         }
 
         private void EndTurn()
@@ -293,7 +295,7 @@ namespace roguelice
         {
             var item = Location.Tilemap.Items.Get(Position);
 
-            if (item != null && item is Weapon weapon)
+            if (item is Weapon weapon)
             {
                 Weapon previousWeapon = CurrentWeapon;
                 CurrentWeapon = weapon;
