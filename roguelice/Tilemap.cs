@@ -31,7 +31,7 @@ namespace roguelice
 
         public Tile GetTile(Point position)
         {
-            if (IsPositionWithinTilemap(position))
+            if (ContainsPosition(position))
             {
                 return Tiles[position.X, position.Y];
             }
@@ -43,7 +43,7 @@ namespace roguelice
 
         public void SetTile(Point position, Tile.TileType type)
         {
-            if (IsPositionWithinTilemap(position))
+            if (ContainsPosition(position))
             {
                 Tiles[position.X, position.Y] = new Tile(type);
             }
@@ -54,7 +54,7 @@ namespace roguelice
             for (int y = top; y < bottom; y++)
                 for (int x = left; x < right; x++)
                 {
-                    if (IsPositionWithinTilemap(new Point(x, y)))
+                    if (ContainsPosition(new Point(x, y)))
                     {
                         Tiles[x, y] = new Tile(type);
                     }
@@ -66,9 +66,9 @@ namespace roguelice
             FillWithTile(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom, type);
         }
 
-        public bool IsPositionWithinTilemap(Point position)
+        public bool ContainsPosition(Point pos)
         {
-            return position.X >= 0 && position.X < Width && position.Y >= 0 && position.Y < Height;
+            return pos.X >= 0 && pos.X < Width && pos.Y >= 0 && pos.Y < Height;
         }
 
         public Point RandomPosition(Rectangle rect)
@@ -92,9 +92,10 @@ namespace roguelice
         {
             ToUpdate.Clear();
 
-            PerformOnAllTiles((pos) => Creatures.RemoveDeatAtPosition(pos));
-            PerformOnAllTiles((pos) => Items.RemoveDeatAtPosition(pos));
-            ToUpdate.Where(o => !o.IsDead).ToList<IMappable>().ForEach(o => o.Update(player));
+            Creatures.FilterDead();
+            Items.FilterDead();
+
+            ToUpdate.Where(o => !o.IsDead).ToList().ForEach(o => o.Update(player));
         }
 
         public void UpdateFieldOfVisibility(Player player)
@@ -109,12 +110,12 @@ namespace roguelice
 
         public bool IsUnfogged(Point pos)
         {
-            return IsPositionWithinTilemap(pos) && FogOfWar[pos.X, pos.Y] == true;
+            return ContainsPosition(pos) && FogOfWar[pos.X, pos.Y] == true;
         }
 
         public bool IsVisible(Point pos)
         {
-            return IsPositionWithinTilemap(pos) && FieldOfVisibility[pos.X, pos.Y] == true;
+            return ContainsPosition(pos) && FieldOfVisibility[pos.X, pos.Y] == true;
         }
 
         public void PerformOnAllTiles(Action<Point> action)
@@ -220,7 +221,7 @@ namespace roguelice
                 for (int h = pos.Y - 1; h <= pos.Y + 1; h++)
                 {
                     var neighbour = new Point(w, h);
-                    if (IsPositionWithinTilemap(neighbour))
+                    if (ContainsPosition(neighbour))
                         neighbours.Add(Tiles[w, h]);
                 }
 

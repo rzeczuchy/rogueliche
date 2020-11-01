@@ -116,7 +116,7 @@ namespace roguelice
 
         public bool CanMoveToPosition(Point targetPosition)
         {
-            return Location.Tilemap.IsPositionWithinTilemap(targetPosition) && Location.Tilemap.IsWalkable(targetPosition);
+            return Location.Tilemap.ContainsPosition(targetPosition) && Location.Tilemap.IsWalkable(targetPosition);
         }
 
         public IMappable CollidingEntity(Point targetPosition)

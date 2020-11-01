@@ -127,13 +127,13 @@ namespace roguelice
 
         bool CanPlaceCreature(Point pos)
         {
-            return Tilemap.IsPositionWithinTilemap(pos) && Tilemap.IsWalkable(pos) &&
+            return Tilemap.ContainsPosition(pos) && Tilemap.IsWalkable(pos) &&
                 Tilemap.Creatures.Get(pos) == null && Tilemap.GetTile(pos).Type != Tile.TileType.exit;
         }
 
         bool CanPlaceItem(Point pos)
         {
-            return Tilemap.IsPositionWithinTilemap(pos) && Tilemap.IsWalkable(pos) &&
+            return Tilemap.ContainsPosition(pos) && Tilemap.IsWalkable(pos) &&
                 (Tilemap.Creatures.Get(pos) == null || Tilemap.Creatures.Get(pos) is Monster) &&
                 Tilemap.GetTile(pos).Type != Tile.TileType.exit;
         }

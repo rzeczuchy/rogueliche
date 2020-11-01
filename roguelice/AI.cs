@@ -93,7 +93,7 @@ namespace roguelice
 
         private static bool IsPositionOpen(IMoveable moveable, Point position, Point pos)
         {
-            return moveable.Location.Tilemap.IsPositionWithinTilemap(pos) &&
+            return moveable.Location.Tilemap.ContainsPosition(pos) &&
                 moveable.Location.Tilemap.IsWalkable(pos) &&
                 moveable.Location.Tilemap.Creatures.Get(pos) == null;
         }

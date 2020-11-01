@@ -15,7 +15,7 @@ namespace roguelice
                 {
                     Point tilePosition = new Point(xpos, ypos);
 
-                    if (tilemap.IsPositionWithinTilemap(tilePosition))
+                    if (tilemap.ContainsPosition(tilePosition))
                     {
                         SwitchTileType(tilemap, tilePosition);
                     }
@@ -46,7 +46,7 @@ namespace roguelice
             for (int x = pos.X - 1; x <= pos.X + 1; x++)
                 for (int y = pos.Y - 1; y <= pos.Y + 1; y++)
                 {
-                    if (tilemap.IsPositionWithinTilemap(new Point(x, y)))
+                    if (tilemap.ContainsPosition(new Point(x, y)))
                     {
                         neighbors.Add(tilemap.GetTile(new Point(x, y)));
                     }

@@ -19,7 +19,7 @@ namespace roguelice
 
         public IMappable Get(Point position)
         {
-            if (tilemap.IsPositionWithinTilemap(position))
+            if (tilemap.ContainsPosition(position))
             {
                 return mappables[position.X, position.Y];
             }
@@ -31,7 +31,7 @@ namespace roguelice
 
         public void Set(IMappable mappable, Point position)
         {
-            if (tilemap.IsPositionWithinTilemap(position))
+            if (tilemap.ContainsPosition(position))
             {
                 mappables[position.X, position.Y] = mappable;
             }
@@ -62,6 +62,11 @@ namespace roguelice
             }
             mappable.Location = targetLocation;
             mappable.Position = targetPosition;
+        }
+
+        public void FilterDead()
+        {
+            tilemap.PerformOnAllTiles((pos) => RemoveDeatAtPosition(pos));
         }
 
         public void RemoveDeatAtPosition(Point pos)
