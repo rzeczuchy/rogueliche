@@ -13,7 +13,7 @@ namespace roguelice
             if (location != null)
             {
                 Layer = location.Tilemap.Creatures;
-                Layer.ChangeLocation(this, location, position);
+                ChangeLocation(location, position);
             }
 
             Species = species;
@@ -24,7 +24,7 @@ namespace roguelice
         public MonsterSpecies Species { get; private set; }
         public MonsterModifier Modifier { get; private set; }
         public ILocation Location { get; set; }
-        public TilemapLayer Layer { get; }
+        public TilemapLayer Layer { get; set; }
         public Point Position { get; set; }
         public bool IsDead { get; set; }
         public string Overhead { get { return Name; } }
@@ -109,11 +109,27 @@ namespace roguelice
             {
                 if (CollidingEntity(targetPosition) == null)
                 {
-                    Layer.ChangePosition(this, targetPosition);
+                    ChangePosition(targetPosition);
                     return true;
                 }
             }
             return false;
+        }
+
+        public void ChangePosition(Point targetPosition)
+        {
+            Layer.Remove(this);
+            Layer.Set(this, targetPosition);
+            Position = targetPosition;
+        }
+
+        public void ChangeLocation(ILocation targetLocation, Point targetPosition)
+        {
+            Layer.Remove(this);
+            Layer = targetLocation.Tilemap.Creatures;
+            Layer.Set(this, targetPosition);
+            Location = targetLocation;
+            Position = targetPosition;
         }
 
         public bool CanMoveToPosition(Point targetPosition)

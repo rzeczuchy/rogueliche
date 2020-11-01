@@ -15,7 +15,7 @@ namespace roguelice
             if (location != null)
             {
                 Layer = location.Tilemap.Creatures;
-                Layer.ChangeLocation(this, location, position);
+                ChangeLocation(location, position);
             }
 
             Name = "healing plant";
@@ -25,7 +25,7 @@ namespace roguelice
         public string Name { get; }
         public char Symbol { get; }
         public ILocation Location { get; set; }
-        public TilemapLayer Layer { get; }
+        public TilemapLayer Layer { get; set; }
         public Point Position { get; set; }
         public bool IsDead { get; set; }
         public string Overhead { get { return Name; } }
@@ -35,6 +35,22 @@ namespace roguelice
             player.ChangeHealth(RestoreHealth);
             Layer.Remove(this);
             return true;
+        }
+
+        public void ChangePosition(Point targetPosition)
+        {
+            Layer.Remove(this);
+            Layer.Set(this, targetPosition);
+            Position = targetPosition;
+        }
+
+        public void ChangeLocation(ILocation targetLocation, Point targetPosition)
+        {
+            Layer.Remove(this);
+            Layer = targetLocation.Tilemap.Creatures;
+            Layer.Set(this, targetPosition);
+            Location = targetLocation;
+            Position = targetPosition;
         }
 
         public void Update(Player player)

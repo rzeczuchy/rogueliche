@@ -142,7 +142,7 @@ namespace roguelice
         {
             ILocation below = dungeon.NewLevel();
 
-            Tilemap.Creatures.ChangeLocation(player, below, new Point(below.Entrance.X + 1, below.Entrance.Y));
+            player.ChangeLocation(below, new Point(below.Entrance.X + 1, below.Entrance.Y));
             below.Tilemap.UpdateFogOfWar(player);
             below.Tilemap.UpdateFieldOfVisibility(player);
         }

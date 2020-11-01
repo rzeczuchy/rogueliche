@@ -18,7 +18,7 @@ namespace roguelice
             if (location != null)
             {
                 Layer = location.Tilemap.Creatures;
-                Layer.ChangeLocation(this, location, position);
+                ChangeLocation(location, position);
                 location.Tilemap.UpdateFogOfWar(this);
                 location.Tilemap.UpdateFieldOfVisibility(this);
             }
@@ -39,7 +39,7 @@ namespace roguelice
         public string Name { get; }
         public char Symbol { get; }
         public ILocation Location { get; set; }
-        public TilemapLayer Layer { get; }
+        public TilemapLayer Layer { get; set; }
         public Point Position { get; set; }
         public bool IsDead { get; set; }
         public string Overhead { get { return Name; } }
@@ -196,7 +196,7 @@ namespace roguelice
                 if (entityAtTargetPosition == null)
                 {
                     staminaRegen = 0;
-                    Layer.ChangePosition(this, targetPosition);
+                    ChangePosition(targetPosition);
                     return true;
                 }
                 else if (entityAtTargetPosition != null && entityAtTargetPosition is ICollidable collidable)
@@ -250,6 +250,22 @@ namespace roguelice
                     Die();
                 }
             }
+        }
+
+        public void ChangePosition(Point targetPosition)
+        {
+            Layer.Remove(this);
+            Layer.Set(this, targetPosition);
+            Position = targetPosition;
+        }
+
+        public void ChangeLocation(ILocation targetLocation, Point targetPosition)
+        {
+            Layer.Remove(this);
+            Layer = targetLocation.Tilemap.Creatures;
+            Layer.Set(this, targetPosition);
+            Location = targetLocation;
+            Position = targetPosition;
         }
 
         private bool CanMoveToPosition(Point targetPosition)

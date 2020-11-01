@@ -13,7 +13,7 @@ namespace roguelice
             if (location != null)
             {
                 Layer = location.Tilemap.Items;
-                Layer.ChangeLocation(this, location, position);
+                ChangeLocation(location, position);
             }
 
             Type = type;
@@ -35,7 +35,7 @@ namespace roguelice
         public string Overhead { get { string resulting = Name; if (IsBroken) resulting += " (broken)"; return resulting; } }
         public char Symbol { get { return Type.Symbol; } }
         public ILocation Location { get; set; }
-        public TilemapLayer Layer { get; }
+        public TilemapLayer Layer { get; set; }
         public Point Position { get; set; }
         public WeaponType Type { get; private set; }
         public WeaponModifier Modifier { get; private set; }
@@ -102,6 +102,22 @@ namespace roguelice
                 }
             }
 
+        }
+
+        public void ChangePosition(Point targetPosition)
+        {
+            Layer.Remove(this);
+            Layer.Set(this, targetPosition);
+            Position = targetPosition;
+        }
+
+        public void ChangeLocation(ILocation targetLocation, Point targetPosition)
+        {
+            Layer.Remove(this);
+            Layer = targetLocation.Tilemap.Items;
+            Layer.Set(this, targetPosition);
+            Location = targetLocation;
+            Position = targetPosition;
         }
 
         public bool OnCollision(Player player)
