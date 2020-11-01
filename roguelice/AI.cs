@@ -95,7 +95,7 @@ namespace roguelice
         {
             return moveable.Location.Tilemap.IsPositionWithinTilemap(pos) &&
                 moveable.Location.Tilemap.IsWalkable(pos) &&
-                moveable.Location.Tilemap.GetCreature(pos) == null;
+                moveable.Location.Tilemap.Creatures.Get(pos) == null;
         }
 
         public static double MovementCost(Point start, Point tested, Point target)

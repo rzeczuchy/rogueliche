@@ -17,7 +17,7 @@ namespace roguelice
 
             if (location != null && position != null)
             {
-                location.Tilemap.ChangeObjectLocation(this, location, position);
+                location.Tilemap.Creatures.ChangeLocation(this, location, position);
             }
         }
 
@@ -31,7 +31,7 @@ namespace roguelice
         public bool OnCollision(Player player)
         {
             player.ChangeHealth(RestoreHealth);
-            Location.Tilemap.RemoveCreature(this);
+            Location.Tilemap.Creatures.Remove(this);
             return true;
         }
 

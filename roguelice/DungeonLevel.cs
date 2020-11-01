@@ -128,13 +128,13 @@ namespace roguelice
         bool CanPlaceCreature(Point pos)
         {
             return Tilemap.IsPositionWithinTilemap(pos) && Tilemap.IsWalkable(pos) &&
-                Tilemap.GetCreature(pos) == null && Tilemap.GetTile(pos).Type != Tile.TileType.exit;
+                Tilemap.Creatures.Get(pos) == null && Tilemap.GetTile(pos).Type != Tile.TileType.exit;
         }
 
         bool CanPlaceItem(Point pos)
         {
             return Tilemap.IsPositionWithinTilemap(pos) && Tilemap.IsWalkable(pos) &&
-                (Tilemap.GetCreature(pos) == null || Tilemap.GetCreature(pos) is Monster) &&
+                (Tilemap.Creatures.Get(pos) == null || Tilemap.Creatures.Get(pos) is Monster) &&
                 Tilemap.GetTile(pos).Type != Tile.TileType.exit;
         }
 
@@ -142,7 +142,7 @@ namespace roguelice
         {
             ILocation below = dungeon.NewLevel();
 
-            Tilemap.ChangeObjectLocation(player, below, new Point(below.Entrance.X + 1, below.Entrance.Y));
+            Tilemap.Creatures.ChangeLocation(player, below, new Point(below.Entrance.X + 1, below.Entrance.Y));
             below.Tilemap.UpdateFogOfWar(player);
             below.Tilemap.UpdateFieldOfVisibility(player);
         }

@@ -16,7 +16,7 @@ namespace roguelice
 
             if (location != null && position != null)
             {
-                location.Tilemap.ChangeObjectLocation(this, location, position);
+                location.Tilemap.Creatures.ChangeLocation(this, location, position);
             }
         }
 
@@ -107,7 +107,7 @@ namespace roguelice
             {
                 if (CollidingEntity(targetPosition) == null)
                 {
-                    Location.Tilemap.ChangeObjectPosition(this, targetPosition);
+                    Location.Tilemap.Creatures.ChangePosition(this, targetPosition);
                     return true;
                 }
             }
@@ -121,7 +121,7 @@ namespace roguelice
 
         public IMappable CollidingEntity(Point targetPosition)
         {
-            return Location.Tilemap.GetCreature(targetPosition);
+            return Location.Tilemap.Creatures.Get(targetPosition);
         }
 
         public void Update(Player player)
@@ -150,7 +150,7 @@ namespace roguelice
         public void Die(IFightable attacker)
         {
             IsDead = true;
-            Location.Tilemap.RemoveCreature(this);
+            Location.Tilemap.Creatures.Remove(this);
         }
 
         public void Kill(IFightable target)

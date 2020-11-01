@@ -6,140 +6,28 @@ namespace roguelice
 {
     public class Tilemap
     {
-        private readonly List<IMappable> toUpdate;
-
         public Tilemap(ILocation location, int width, int height)
         {
             Location = location;
-
-            toUpdate = new List<IMappable>();
-
-            SetLevelSize(width, height);
-        }
-
-        private void SetLevelSize(int width, int height)
-        {
+            ToUpdate = new List<IMappable>();
             Width = width;
             Height = height;
             Tiles = new Tile[Width, Height];
             FogOfWar = new bool[Width, Height];
             FieldOfVisibility = new bool[Width, Height];
-            Creatures = new IMappable[Width, Height];
-            Items = new IMappable[Width, Height];
+            Creatures = new TilemapLayer(this);
+            Items = new TilemapLayer(this);
         }
 
         public ILocation Location { get; private set; }
+        public List<IMappable> ToUpdate { get; }
         public int Width { get; private set; }
         public int Height { get; private set; }
         public Tile[,] Tiles { get; private set; }
         public bool[,] FogOfWar { get; private set; }
         public bool[,] FieldOfVisibility { get; private set; }
-        public IMappable[,] Creatures { get; private set; }
-        public IMappable[,] Items { get; private set; }
-
-        public IMappable GetCreature(Point position)
-        {
-            if (IsPositionWithinTilemap(position))
-            {
-                return Creatures[position.X, position.Y];
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public void SetCreature(IMappable entity, Point position)
-        {
-            if (IsPositionWithinTilemap(position))
-            {
-                Creatures[position.X, position.Y] = entity;
-            }
-        }
-
-        public void ChangeObjectPosition(IMappable entity, Point targetPosition)
-        {
-            if (entity.Position != null)
-            {
-                entity.Location.Tilemap.SetCreature(null, entity.Position);
-            }
-            if (targetPosition != null)
-            {
-                entity.Location.Tilemap.SetCreature(entity, targetPosition);
-            }
-            entity.Position = targetPosition;
-        }
-
-        public void ChangeObjectLocation(IMappable mappableObject, ILocation targetLocation, Point targetPosition)
-        {
-            if (mappableObject.Location != null && mappableObject.Position != null)
-            {
-                mappableObject.Location.Tilemap.SetCreature(null, mappableObject.Position);
-            }
-            if (targetLocation != null && targetPosition != null)
-            {
-                targetLocation.Tilemap.SetCreature(mappableObject, targetPosition);
-            }
-            mappableObject.Location = targetLocation;
-            mappableObject.Position = targetPosition;
-        }
-
-        public IMappable GetItem(Point position)
-        {
-            if (IsPositionWithinTilemap(position))
-            {
-                return Items[position.X, position.Y];
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public void SetItem(IMappable entity, Point position)
-        {
-            if (IsPositionWithinTilemap(position))
-            {
-                Items[position.X, position.Y] = entity;
-            }
-        }
-
-        public void ChangeItemPosition(IMappable entity, Point targetPosition)
-        {
-            if (entity.Position != null)
-            {
-                entity.Location.Tilemap.SetItem(null, entity.Position);
-            }
-            if (targetPosition != null)
-            {
-                Location.Tilemap.SetItem(entity, targetPosition);
-            }
-            entity.Position = targetPosition;
-        }
-
-        public void ChangeItemLocation(IMappable entity, ILocation targetLocation, Point targetPosition)
-        {
-            if (entity.Location != null && entity.Position != null)
-            {
-                entity.Location.Tilemap.SetItem(null, entity.Position);
-            }
-            if (targetLocation != null && targetPosition != null)
-            {
-                targetLocation.Tilemap.SetItem(entity, targetPosition);
-            }
-            entity.Location = targetLocation;
-            entity.Position = targetPosition;
-        }
-
-        public void RemoveItem(IMappable o)
-        {
-            SetItem(null, new Point(o.Position.X, o.Position.Y));
-        }
-
-        public void RemoveCreature(IMappable o)
-        {
-            SetCreature(null, new Point(o.Position.X, o.Position.Y));
-        }
+        public TilemapLayer Creatures { get; private set; }
+        public TilemapLayer Items { get; private set; }
 
         public Tile GetTile(Point position)
         {
@@ -202,24 +90,11 @@ namespace roguelice
 
         public void UpdateObjects(Player player)
         {
-            toUpdate.Clear();
+            ToUpdate.Clear();
 
-            for (int y = 0; y < Height; y++)
-            {
-                for (int x = 0; x < Width; x++)
-                {
-                    FilterDeadCreatures(y, x);
-                    FilterDeadItems(y, x);
-                }
-            }
-
-            for (int u = 0; u < toUpdate.Count(); u++)
-            {
-                if (!toUpdate[u].IsDead)
-                {
-                    toUpdate[u].Update(player);
-                }
-            }
+            PerformOnAllTiles((pos) => Creatures.RemoveDeatAtPosition(pos));
+            PerformOnAllTiles((pos) => Items.RemoveDeatAtPosition(pos));
+            ToUpdate.Where(o => !o.IsDead).ToList<IMappable>().ForEach(o => o.Update(player));
         }
 
         public void UpdateFieldOfVisibility(Player player)
@@ -269,11 +144,11 @@ namespace roguelice
 
         public IMappable TopMappable(Point pos)
         {
-            if (GetCreature(pos) is IMappable creature)
+            if (Creatures.Get(pos) is IMappable creature)
             {
                 return creature;
             }
-            else if (GetItem(pos) is IMappable item)
+            else if (Items.Get(pos) is IMappable item)
             {
                 return item;
             }
@@ -350,38 +225,6 @@ namespace roguelice
                 }
 
             return neighbours;
-        }
-
-        private void FilterDeadCreatures(int y, int x)
-        {
-            IMappable o = GetCreature(new Point(x, y));
-            if (o != null)
-            {
-                if (o.IsDead)
-                {
-                    RemoveCreature(o);
-                }
-                else
-                {
-                    toUpdate.Add(o);
-                }
-            }
-        }
-
-        private void FilterDeadItems(int y, int x)
-        {
-            IMappable o = GetItem(new Point(x, y));
-            if (o != null)
-            {
-                if (o.IsDead)
-                {
-                    RemoveItem(o);
-                }
-                else
-                {
-                    toUpdate.Add(o);
-                }
-            }
         }
     }
 }

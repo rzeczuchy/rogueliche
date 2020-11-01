@@ -74,6 +74,7 @@
     <Compile Include="Rectangle.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Tilemap.cs" />
+    <Compile Include="TilemapLayer.cs" />
     <Compile Include="UI.cs" />
     <Compile Include="Weapon.cs" />
     <Compile Include="WeaponModifier.cs" />

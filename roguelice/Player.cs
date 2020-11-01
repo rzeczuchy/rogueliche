@@ -17,7 +17,7 @@ namespace roguelice
         {
             if (location != null && position != null)
             {
-                location.Tilemap.ChangeObjectLocation(this, location, position);
+                location.Tilemap.Creatures.ChangeLocation(this, location, position);
                 location.Tilemap.UpdateFogOfWar(this);
                 location.Tilemap.UpdateFieldOfVisibility(this);
             }
@@ -194,7 +194,7 @@ namespace roguelice
                 if (entityAtTargetPosition == null)
                 {
                     staminaRegen = 0;
-                    Location.Tilemap.ChangeObjectPosition(this, targetPosition);
+                    Location.Tilemap.Creatures.ChangePosition(this, targetPosition);
                     return true;
                 }
                 else if (entityAtTargetPosition != null && entityAtTargetPosition is ICollidable collidable)
@@ -257,7 +257,7 @@ namespace roguelice
 
         private IMappable CollidingEntity(Point targetPosition)
         {
-            return Location.Tilemap.GetCreature(targetPosition);
+            return Location.Tilemap.Creatures.Get(targetPosition);
         }
 
         private void EndTurn()
@@ -291,13 +291,13 @@ namespace roguelice
 
         private void SwitchWeapon()
         {
-            var item = Location.Tilemap.GetItem(Position);
+            var item = Location.Tilemap.Items.Get(Position);
 
             if (item != null && item is Weapon weapon)
             {
                 Weapon previousWeapon = CurrentWeapon;
                 CurrentWeapon = weapon;
-                Location.Tilemap.SetItem(previousWeapon, Position);
+                Location.Tilemap.Items.Set(previousWeapon, Position);
                 endTurn = true;
             }
         }

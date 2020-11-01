@@ -16,7 +16,7 @@ namespace roguelice
 
             if (location != null && position != null)
             {
-                location.Tilemap.ChangeItemLocation(this, location, position);
+                location.Tilemap.Items.ChangeLocation(this, location, position);
             }
         }
 
