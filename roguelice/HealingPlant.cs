@@ -9,13 +9,14 @@ namespace roguelice
     class HealingPlant : IMappable, ICollidable
     {
         private const int RestoreHealth = 10;
+        private TilemapLayer _layer;
 
         public HealingPlant(ILocation location, Point position)
         {
             if (location != null)
             {
-                Layer = location.Tilemap.Creatures;
-                ChangeLocation(location, position);
+                _layer = location.Tilemap.Creatures;
+                Place(location, position);
             }
 
             Name = "healing plant";
@@ -25,7 +26,6 @@ namespace roguelice
         public string Name { get; }
         public char Symbol { get; }
         public ILocation Location { get; set; }
-        public TilemapLayer Layer { get; set; }
         public Point Position { get; set; }
         public bool IsDead { get; set; }
         public string Overhead { get { return Name; } }
@@ -33,24 +33,23 @@ namespace roguelice
         public bool OnCollision(Player player)
         {
             player.Health += RestoreHealth;
-            Layer.Remove(this);
+            _layer.Remove(this);
             return true;
         }
 
-        public void ChangePosition(Point targetPosition)
+        public void Place(ILocation targetLocation, Point targetPos)
         {
-            Layer.Remove(this);
-            Layer.Set(this, targetPosition);
-            Position = targetPosition;
+            _layer = targetLocation.Tilemap.Creatures;
+            _layer.Set(this, targetPos);
+            Location = targetLocation;
+            Position = targetPos;
         }
 
-        public void ChangeLocation(ILocation targetLocation, Point targetPosition)
+        public void Remove()
         {
-            Layer.Remove(this);
-            Layer = targetLocation.Tilemap.Creatures;
-            Layer.Set(this, targetPosition);
-            Location = targetLocation;
-            Position = targetPosition;
+            _layer.Remove(this);
+            Location = null;
+            Position = null;
         }
 
         public void Update(Player player)

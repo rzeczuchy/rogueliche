@@ -60,7 +60,10 @@ namespace roguelice
 
         public void Remove(IMappable o)
         {
-            Set(null, o.Position);
+            if (o.Position != null)
+            {
+                Set(null, o.Position);
+            }
         }
     }
 }

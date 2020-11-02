@@ -10,16 +10,17 @@ namespace roguelice
     {
         private const int LevelCap = 111;
         private const float LevelIncreaseFactor = 0.9f;
-        private int staminaRegen;
+        private TilemapLayer _layer;
+        private int _staminaRegen;
         private int _health;
-        private bool endTurn;
+        private bool _endTurn;
 
         public Player(ILocation location, Point position)
         {
             if (location != null)
             {
-                Layer = location.Tilemap.Creatures;
-                ChangeLocation(location, position);
+                _layer = location.Tilemap.Creatures;
+                Place(location, position);
                 location.Tilemap.UpdateFogOfWar(this);
                 location.Tilemap.UpdateFieldOfVisibility(this);
             }
@@ -40,7 +41,6 @@ namespace roguelice
         public string Name { get; }
         public char Symbol { get; }
         public ILocation Location { get; set; }
-        public TilemapLayer Layer { get; set; }
         public Point Position { get; set; }
         public bool IsDead { get; set; }
         public string Overhead { get { return Name; } }
@@ -92,10 +92,10 @@ namespace roguelice
             {
                 HandleInput(input, ui, dungeon);
 
-                if (endTurn == true)
+                if (_endTurn == true)
                 {
                     EndTurn();
-                    endTurn = false;
+                    _endTurn = false;
                 }
             }
         }
@@ -173,21 +173,39 @@ namespace roguelice
 
         public bool Move(Point targetPosition)
         {
+            var targetLocation = Location;
+
             if (CanMoveToPosition(targetPosition))
             {
-                endTurn = true;
-                if (Layer.Get(targetPosition) == null)
+                _endTurn = true;
+                if (_layer.Get(targetPosition) == null)
                 {
-                    staminaRegen = 0;
-                    ChangePosition(targetPosition);
+                    ResetStaminaRegen();
+                    Remove();
+                    Place(targetLocation, targetPosition);
                     return true;
                 }
-                else if (Layer.Get(targetPosition) is ICollidable collidable)
+                else if (_layer.Get(targetPosition) is ICollidable collidable)
                 {
                     return collidable.OnCollision(this);
                 }
             }
             return false;
+        }
+
+        public void Place(ILocation targetLocation, Point targetPos)
+        {
+            _layer = targetLocation.Tilemap.Creatures;
+            _layer.Set(this, targetPos);
+            Location = targetLocation;
+            Position = targetPos;
+        }
+
+        public void Remove()
+        {
+            _layer.Remove(this);
+            Location = null;
+            Position = null;
         }
 
         public void Hit(Monster monster)
@@ -235,22 +253,6 @@ namespace roguelice
             }
         }
 
-        public void ChangePosition(Point targetPosition)
-        {
-            Layer.Remove(this);
-            Layer.Set(this, targetPosition);
-            Position = targetPosition;
-        }
-
-        public void ChangeLocation(ILocation targetLocation, Point targetPosition)
-        {
-            Layer.Remove(this);
-            Layer = targetLocation.Tilemap.Creatures;
-            Layer.Set(this, targetPosition);
-            Location = targetLocation;
-            Position = targetPosition;
-        }
-
         private bool CanMoveToPosition(Point targetPosition)
         {
             return Location.Tilemap.ContainsPosition(targetPosition) && Location.Tilemap.IsWalkable(targetPosition);
@@ -258,7 +260,7 @@ namespace roguelice
 
         private IMappable CollidingEntity(Point targetPosition)
         {
-            return Layer.Get(targetPosition);
+            return _layer.Get(targetPosition);
         }
 
         private void EndTurn()
@@ -281,7 +283,7 @@ namespace roguelice
         {
             if (Exertion > 0)
             {
-                Exertion -= staminaRegen;
+                Exertion -= _staminaRegen;
             }
             if (Exertion <= 0)
             {
@@ -292,27 +294,25 @@ namespace roguelice
 
         private void ResetStaminaRegen()
         {
-            staminaRegen = 0;
+            _staminaRegen = 0;
         }
 
         private void SwitchWeapon()
         {
-            var item = Location.Tilemap.Items.Get(Position);
-
-            if (item is Weapon weapon)
+            if (Location.Tilemap.Items.Get(Position) is Weapon weapon)
             {
                 Weapon previousWeapon = CurrentWeapon;
                 CurrentWeapon = weapon;
-                Location.Tilemap.Items.Set(previousWeapon, Position);
-                endTurn = true;
+                previousWeapon.Place(Location, Position);
+                _endTurn = true;
             }
         }
 
         private void Wait()
         {
-            staminaRegen++;
+            _staminaRegen++;
             RegenerateStamina();
-            endTurn = true;
+            _endTurn = true;
         }
     }
 }

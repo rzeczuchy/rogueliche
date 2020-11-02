@@ -9,13 +9,14 @@ namespace roguelice
     public class Monster : IFightable, IMoveable, IMappable, ICollidable
     {
         private int _health;
+        private TilemapLayer _layer;
 
         public Monster(ILocation location, Point position, MonsterSpecies species, MonsterModifier modifier)
         {
             if (location != null)
             {
-                Layer = location.Tilemap.Creatures;
-                ChangeLocation(location, position);
+                _layer = location.Tilemap.Creatures;
+                Place(location, position);
             }
 
             Species = species;
@@ -26,7 +27,6 @@ namespace roguelice
         public MonsterSpecies Species { get; private set; }
         public MonsterModifier Modifier { get; private set; }
         public ILocation Location { get; set; }
-        public TilemapLayer Layer { get; set; }
         public Point Position { get; set; }
         public bool IsDead { get; set; }
         public string Overhead { get { return Name; } }
@@ -94,31 +94,33 @@ namespace roguelice
 
         public bool Move(Point targetPosition)
         {
+            var targetLocation = Location;
+
             if (CanMoveToPosition(targetPosition))
             {
                 if (CollidingEntity(targetPosition) == null)
                 {
-                    ChangePosition(targetPosition);
+                    Remove();
+                    Place(targetLocation, targetPosition);
                     return true;
                 }
             }
             return false;
         }
 
-        public void ChangePosition(Point targetPosition)
+        public void Place(ILocation targetLocation, Point targetPos)
         {
-            Layer.Remove(this);
-            Layer.Set(this, targetPosition);
-            Position = targetPosition;
+            _layer = targetLocation.Tilemap.Creatures;
+            _layer.Set(this, targetPos);
+            Location = targetLocation;
+            Position = targetPos;
         }
 
-        public void ChangeLocation(ILocation targetLocation, Point targetPosition)
+        public void Remove()
         {
-            Layer.Remove(this);
-            Layer = targetLocation.Tilemap.Creatures;
-            Layer.Set(this, targetPosition);
-            Location = targetLocation;
-            Position = targetPosition;
+            _layer.Remove(this);
+            Location = null;
+            Position = null;
         }
 
         public bool CanMoveToPosition(Point targetPosition)
@@ -128,7 +130,7 @@ namespace roguelice
 
         public IMappable CollidingEntity(Point targetPosition)
         {
-            return Layer.Get(targetPosition);
+            return _layer.Get(targetPosition);
         }
 
         public void Update(Player player)
@@ -157,7 +159,7 @@ namespace roguelice
         public void Die(IFightable attacker)
         {
             IsDead = true;
-            Layer.Remove(this);
+            _layer.Remove(this);
         }
 
         public void Kill(IFightable target)
