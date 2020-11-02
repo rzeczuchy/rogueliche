@@ -8,6 +8,8 @@ namespace roguelice
 {
     public class Monster : IFightable, IMoveable, IMappable, ICollidable
     {
+        private int _health;
+
         public Monster(ILocation location, Point position, MonsterSpecies species, MonsterModifier modifier)
         {
             if (location != null)
@@ -83,25 +85,12 @@ namespace roguelice
                     return Species.ExpGained;
             }
         }
-        public virtual int Health { get; set; }
-        public Weapon CurrentWeapon { get; set; }
-
-        public void ChangeHealth(int healthChange)
+        public virtual int Health
         {
-            if (healthChange != 0)
-            {
-                Health += healthChange;
-
-                if (Health > MaxHealth)
-                {
-                    Health = MaxHealth;
-                }
-                else if (Health <= 0)
-                {
-                    Health = 0;
-                }
-            }
+            get => _health;
+            set => _health = Numbers.Clamp(value, 0, MaxHealth);
         }
+        public Weapon CurrentWeapon { get; set; }
 
         public bool Move(Point targetPosition)
         {

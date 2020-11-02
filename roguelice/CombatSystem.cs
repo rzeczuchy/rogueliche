@@ -33,7 +33,7 @@ namespace roguelice
 
         private static void InflictDamage(IFightable target, int damage)
         {
-            target.ChangeHealth(-damage);
+            target.Health -= damage;
         }
 
         private static void DamageWeapon(IFightable attacker)

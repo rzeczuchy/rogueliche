@@ -11,6 +11,7 @@ namespace roguelice
         private const int LevelCap = 111;
         private const float LevelIncreaseFactor = 0.9f;
         private int staminaRegen;
+        private int _health;
         private bool endTurn;
 
         public Player(ILocation location, Point position)
@@ -46,7 +47,11 @@ namespace roguelice
         public int KillCount { get; private set; }
         public int BrokenWeapons { get; private set; }
         public WeaponType StartingWeapon { get; private set; }
-        public int Health { get; private set; }
+        public virtual int Health
+        {
+            get => _health;
+            set => _health = Numbers.Clamp(value, 0, MaxHealth);
+        }
         public int MaxHealth { get; private set; }
         public Weapon CurrentWeapon { get; private set; }
         public int Attack { get { return CurrentWeapon.Damage; } }
@@ -79,23 +84,6 @@ namespace roguelice
             MaxHealth++;
             Health = MaxHealth;
             MaxExertion++;
-        }
-
-        public void ChangeHealth(int healthChange)
-        {
-            if (healthChange != 0)
-            {
-                Health += healthChange;
-
-                if (Health > MaxHealth)
-                {
-                    Health = MaxHealth;
-                }
-                else if (Health <= 0)
-                {
-                    Health = 0;
-                }
-            }
         }
 
         public void Update(ConsoleKey input, UI ui, Dungeon dungeon)
@@ -239,7 +227,7 @@ namespace roguelice
             if (Exertion > MaxExertion)
             {
                 int healthLoss = Exertion - MaxExertion;
-                ChangeHealth(-healthLoss);
+                Health -= healthLoss;
                 Exertion = MaxExertion;
 
                 if (Health <= 0)

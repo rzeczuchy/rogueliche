@@ -32,7 +32,7 @@ namespace roguelice
 
         public bool OnCollision(Player player)
         {
-            player.ChangeHealth(RestoreHealth);
+            player.Health += RestoreHealth;
             Layer.Remove(this);
             return true;
         }

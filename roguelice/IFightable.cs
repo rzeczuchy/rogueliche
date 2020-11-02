@@ -9,12 +9,11 @@ namespace roguelice
     public interface IFightable
     {
         Weapon CurrentWeapon { get; }
-        int Health { get; }
+        int Health { get; set; }
         int MaxHealth { get; }
         int Attack { get; }
         int ExpGained { get; }
-
-        void ChangeHealth(int amount);
+        
         void GainExp(int amount);
         void CheckLevelUp();
         void LevelUp();
