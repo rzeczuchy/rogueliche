@@ -169,22 +169,20 @@ namespace roguelice
                 default:
                     break;
             }
-
         }
 
         public bool Move(Point targetPosition)
         {
             if (CanMoveToPosition(targetPosition))
             {
-                IMappable entityAtTargetPosition = CollidingEntity(targetPosition);
                 endTurn = true;
-                if (entityAtTargetPosition == null)
+                if (Layer.Get(targetPosition) == null)
                 {
                     staminaRegen = 0;
                     ChangePosition(targetPosition);
                     return true;
                 }
-                else if (entityAtTargetPosition != null && entityAtTargetPosition is ICollidable collidable)
+                else if (Layer.Get(targetPosition) is ICollidable collidable)
                 {
                     return collidable.OnCollision(this);
                 }
@@ -195,7 +193,7 @@ namespace roguelice
         public void Hit(Monster monster)
         {
             CombatSystem.Hit(this, monster);
-            staminaRegen = 0;
+            ResetStaminaRegen();
             AddExertion(CurrentWeapon.StaminaCost);
         }
 
@@ -288,8 +286,13 @@ namespace roguelice
             if (Exertion <= 0)
             {
                 Exertion = 0;
-                staminaRegen = 0;
+                ResetStaminaRegen();
             }
+        }
+
+        private void ResetStaminaRegen()
+        {
+            staminaRegen = 0;
         }
 
         private void SwitchWeapon()
