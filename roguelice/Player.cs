@@ -9,7 +9,7 @@ namespace roguelice
     public class Player : IFightable, IMoveable, IMappable
     {
         private const int LevelCap = 111;
-        private const int LevelIncreaseFactor = 11;
+        private const float LevelIncreaseFactor = 0.9f;
         private int staminaRegen;
         private bool endTurn;
 
@@ -65,7 +65,7 @@ namespace roguelice
 
         public void CheckLevelUp()
         {
-            if (Exp >= ExpToNextLvl)
+            if (Exp >= ExpToNextLvl && Lvl < LevelCap)
             {
                 LevelUp();
             }
@@ -73,15 +73,12 @@ namespace roguelice
 
         public void LevelUp()
         {
-            if (Lvl < LevelCap)
-            {
-                Lvl++;
-                Exp -= ExpToNextLvl;
-                ExpToNextLvl += ExpToNextLvl / LevelIncreaseFactor;
-                MaxHealth++;
-                Health = MaxHealth;
-                MaxExertion++;
-            }
+            Lvl++;
+            Exp -= ExpToNextLvl;
+            ExpToNextLvl += (int)(ExpToNextLvl * LevelIncreaseFactor);
+            MaxHealth++;
+            Health = MaxHealth;
+            MaxExertion++;
         }
 
         public void ChangeHealth(int healthChange)
@@ -234,7 +231,7 @@ namespace roguelice
         {
             BrokenWeapons++;
         }
-        
+
         private void AddExertion(int amount)
         {
             Exertion += amount;
@@ -293,7 +290,7 @@ namespace roguelice
                 }
             }
         }
-        
+
         private void RegenerateStamina()
         {
             if (Exertion > 0)
