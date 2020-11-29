@@ -60,8 +60,8 @@ namespace roguelice
             string exp = "Experience: " + player.Exp + "/" + player.ExpToNextLvl;
             render.DrawString(exp, render.Width * 1 / 2 - exp.Length / 2, 3);
             render.DrawBar(player.Exp, player.ExpToNextLvl, hBarLength, render.Width / 2 - hBarLength / 2, 4);
-
-            string flr = "Location: " + player.Location.Name;
+            
+            string flr = player.Location.Name;
             render.DrawString(flr, render.Width * 4 / 5 - flr.Length / 2, 3);
 
             string hp = "Health: " + player.Health + "/" + player.MaxHealth;

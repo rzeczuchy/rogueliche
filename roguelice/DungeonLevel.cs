@@ -16,6 +16,7 @@ namespace roguelice
             LevelIndex = levelIndex;
             Tilemap = new Tilemap(this, dungeon.Width, dungeon.Height);
             Bounds = new Rectangle(0, 0, dungeon.Width, dungeon.Height);
+            Name = "Dungeon -" + levelIndex;
 
             GenerateLevel();
         }

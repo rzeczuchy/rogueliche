@@ -24,8 +24,8 @@ namespace roguelice
             Width = 200;
             Height = 200;
             LevelIndex = 0;
-            MinRooms = 2;
-            MaxRooms = 5;
+            MinRooms = 6;
+            MaxRooms = 26;
             MinRoomWidth = 3;
             MaxRoomWidth = 7;
             MinRoomHeight = 3;
