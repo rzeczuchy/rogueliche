@@ -61,7 +61,7 @@ namespace roguelice
             DrawString(str, pos.X, pos.Y);
         }
 
-        public void DrawStringC(string str, int y)
+        public void DrawCenteredString(string str, int y)
         {
             DrawString(str, Width / 2 - str.Length / 2, y);
         }
