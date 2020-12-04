@@ -23,9 +23,9 @@ namespace rogueliche
         {
             SetUpConsole();
             render = new Graphics();
-            ui = new UI();
+            ui = new UI(render);
             loopTimer = new Stopwatch();
-            
+
             gameStates = new Stack<GameState>();
             PushGameState(new GameStartState(this));
 

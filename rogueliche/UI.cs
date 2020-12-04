@@ -11,10 +11,15 @@ namespace rogueliche
         private bool warningsVisible = false;
         private bool displayOverheads;
         private Point overheadOffset = new Point(-2, -2);
+        private const int LeftHudOffset = 2;
+        private readonly int HudBarLength;
+        private readonly int WeaponHudTopOffset;
 
-        public UI()
+        public UI(Graphics render)
         {
             displayOverheads = true;
+            HudBarLength = (render.Width - LeftHudOffset * 2) / 2;
+            WeaponHudTopOffset = render.Height * 7 / 8;
         }
 
         public void ToggleOverheads()
@@ -35,9 +40,9 @@ namespace rogueliche
                 DisplayOverheads(render, player);
             }
 
-            DisplayPlayerHUD(render, player);
+            DrawPlayerHUD(render, player);
 
-            DisplayWeaponHUD(render, player);
+            DrawWeaponHUD(render, player);
         }
 
         private void FlashWarnings()
@@ -45,12 +50,8 @@ namespace rogueliche
             warningsVisible = !warningsVisible;
         }
 
-        private void DisplayPlayerHUD(Graphics render, Player player)
+        private void DrawPlayerHUD(Graphics render, Player player)
         {
-            int leftOffset = 2;
-
-            int hBarLength = (render.Width - leftOffset * 2) / 2;
-
             string name = player.Name;
             render.DrawString(name, render.Width * 1 / 2 - name.Length / 2, 1);
 
@@ -59,8 +60,8 @@ namespace rogueliche
 
             string exp = "Experience: " + player.Exp + "/" + player.ExpToNextLvl;
             render.DrawString(exp, render.Width * 1 / 2 - exp.Length / 2, 3);
-            render.DrawBar(player.Exp, player.ExpToNextLvl, hBarLength, render.Width / 2 - hBarLength / 2, 4);
-            
+            render.DrawBar(player.Exp, player.ExpToNextLvl, HudBarLength, render.Width / 2 - HudBarLength / 2, 4);
+
             string flr = player.Location.Name;
             render.DrawString(flr, render.Width * 4 / 5 - flr.Length / 2, 3);
 
@@ -68,35 +69,30 @@ namespace rogueliche
             render.DrawString(hp, render.Width * 1 / 4 - hp.Length / 2, 6);
             if (player.Health <= player.MaxHealth * 1 / 5 && warningsVisible)
                 render.DrawString("Health critical!", render.Width * 1 / 4 - hp.Length / 2 + hp.Length + 1, 6);
-            render.DrawBar(player.Health, player.MaxHealth, hBarLength, render.Width * 1 / 4 - hBarLength / 2, 7);
+            render.DrawBar(player.Health, player.MaxHealth, HudBarLength, render.Width * 1 / 4 - HudBarLength / 2, 7);
 
             string exer = "Exertion: " + player.Exertion + "/" + player.MaxExertion;
             render.DrawString(exer, render.Width * 3 / 4 - exer.Length / 2, 6);
 
             if (player.Exertion >= player.MaxExertion * 4 / 5 && warningsVisible)
                 render.DrawString("Overexerted!", render.Width * 3 / 4 - exer.Length / 2 + exer.Length + 1, 6);
-            render.DrawBar(player.Exertion, player.MaxExertion, hBarLength, render.Width * 3 / 4 - hBarLength / 2, 7);
+            render.DrawBar(player.Exertion, player.MaxExertion, HudBarLength, render.Width * 3 / 4 - HudBarLength / 2, 7);
         }
 
-        private void DisplayWeaponHUD(Graphics render, Player player)
+        private void DrawWeaponHUD(Graphics render, Player player)
         {
-            int leftOffset = 2;
-            int topOffset = render.Height * 7 / 8;
-
-            int hBarLength = (render.Width - leftOffset * 2) / 2;
-
             string wpn = player.CurrentWeapon.Overhead;
-            render.DrawString(wpn, render.Width * 1 / 2 - wpn.Length / 2, topOffset);
+            render.DrawString(wpn, render.Width * 1 / 2 - wpn.Length / 2, WeaponHudTopOffset);
 
             string drb = "Durability: " + player.CurrentWeapon.Durability + "/" + player.CurrentWeapon.MaxDurability;
-            render.DrawString(drb, render.Width * 1 / 2 - drb.Length / 2, topOffset + 2);
-            render.DrawBar(player.CurrentWeapon.Durability, player.CurrentWeapon.MaxDurability, hBarLength, render.Width / 2 - hBarLength / 2, topOffset + 3);
+            render.DrawString(drb, render.Width * 1 / 2 - drb.Length / 2, WeaponHudTopOffset + 2);
+            render.DrawBar(player.CurrentWeapon.Durability, player.CurrentWeapon.MaxDurability, HudBarLength, render.Width / 2 - HudBarLength / 2, WeaponHudTopOffset + 3);
 
             string dmg = "Damage: " + player.CurrentWeapon.Damage;
-            render.DrawString(dmg, render.Width * 2 / 5 - dmg.Length / 2, topOffset + 5);
+            render.DrawString(dmg, render.Width * 2 / 5 - dmg.Length / 2, WeaponHudTopOffset + 5);
 
             string wgt = "Weight: " + player.CurrentWeapon.StaminaCost;
-            render.DrawString(wgt, render.Width * 3 / 5 - wgt.Length / 2, topOffset + 5);
+            render.DrawString(wgt, render.Width * 3 / 5 - wgt.Length / 2, WeaponHudTopOffset + 5);
         }
 
         private void DisplayOverheads(Graphics render, Player player)
