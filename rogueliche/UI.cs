@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace rogueliche
 {
     public class UI
     {
-        private bool warningsVisible = false;
-        private bool displayOverheads;
-        private Point overheadOffset = new Point(-2, -2);
         private const int LeftHudOffset = 2;
+        private const int WarningFlashDelay = 300;
         private readonly int HudBarLength;
         private readonly int WeaponHudTopOffset;
+        private bool warningsVisible = false;
+        private float warningFlashTimer = 0;
+        private bool displayOverheads;
+        private Point overheadOffset = new Point(-2, -2);
 
         public UI(Graphics render)
         {
@@ -47,7 +50,17 @@ namespace rogueliche
 
         private void FlashWarnings()
         {
-            warningsVisible = !warningsVisible;
+            float delay = WarningFlashDelay / 1000;
+
+            if (warningFlashTimer > delay)
+            {
+                warningFlashTimer = 0;
+                warningsVisible = !warningsVisible;
+            }
+            else
+            {
+                warningFlashTimer += 0.1f;
+            }
         }
 
         private void DrawPlayerHUD(Graphics render, Player player)
