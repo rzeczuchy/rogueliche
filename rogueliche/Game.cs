@@ -9,7 +9,7 @@ namespace rogueliche
 {
     class Game
     {
-        public const string GameTitle = "Roguelice";
+        public const string GameTitle = "Rogueliche";
 
         private readonly Graphics render;
         private readonly UI ui;
