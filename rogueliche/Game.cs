@@ -64,6 +64,8 @@ namespace rogueliche
 
         private void Update()
         {
+            ui.Update();
+
             if (Console.KeyAvailable)
             {
                 ConsoleKey input = Console.ReadKey(true).Key;

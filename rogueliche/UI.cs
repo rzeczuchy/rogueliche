@@ -32,12 +32,11 @@ namespace rogueliche
 
         public void Update()
         {
+            FlashWarnings();
         }
 
         public void Draw(Graphics render, Player player)
         {
-            FlashWarnings();
-
             if (displayOverheads)
             {
                 DisplayOverheads(render, player);
