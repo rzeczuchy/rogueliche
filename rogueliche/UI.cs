@@ -42,9 +42,9 @@ namespace rogueliche
                 DisplayOverheads(render, player);
             }
 
-            DrawPlayerHUD(render, player);
+            DrawPlayerHud(render, player);
 
-            DrawWeaponHUD(render, player);
+            DrawWeaponHud(render, player);
         }
 
         private void FlashWarnings()
@@ -62,7 +62,7 @@ namespace rogueliche
             }
         }
 
-        private void DrawPlayerHUD(Graphics render, Player player)
+        private void DrawPlayerHud(Graphics render, Player player)
         {
             DrawPlayerName(render, player);
             DrawPlayerLevel(render, player);
@@ -115,7 +115,7 @@ namespace rogueliche
             render.DrawString(name, render.Width * 1 / 2 - name.Length / 2, 1);
         }
 
-        private void DrawWeaponHUD(Graphics render, Player player)
+        private void DrawWeaponHud(Graphics render, Player player)
         {
             string wpn = player.CurrentWeapon.Overhead;
             render.DrawString(wpn, render.Width * 1 / 2 - wpn.Length / 2, WeaponHudTopOffset);
