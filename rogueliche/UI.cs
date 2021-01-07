@@ -64,31 +64,55 @@ namespace rogueliche
 
         private void DrawPlayerHUD(Graphics render, Player player)
         {
-            string name = player.Name;
-            render.DrawString(name, render.Width * 1 / 2 - name.Length / 2, 1);
+            DrawPlayerName(render, player);
+            DrawPlayerLevel(render, player);
+            DrawPlayerExperience(render, player);
+            DrawPlayerLocationName(render, player);
+            DrawPlayerHealth(render, player);
+            DrawPlayerExertion(render, player);
+        }
 
-            string lvl = "Level: " + player.Lvl;
-            render.DrawString(lvl, render.Width * 1 / 5 - lvl.Length / 2, 3);
+        private void DrawPlayerExertion(Graphics render, Player player)
+        {
+            string exer = "Exertion: " + player.Exertion + "/" + player.MaxExertion;
+            render.DrawString(exer, render.Width * 3 / 4 - exer.Length / 2, 6);
+            if (player.Exertion >= player.MaxExertion * 4 / 5 && warningsVisible)
+                render.DrawString("Overexerted!", render.Width * 3 / 4 - exer.Length / 2 + exer.Length + 1, 6);
+            render.DrawBar(player.Exertion, player.MaxExertion, HudBarLength, render.Width * 3 / 4 - HudBarLength / 2, 7);
+        }
 
-            string exp = "Experience: " + player.Exp + "/" + player.ExpToNextLvl;
-            render.DrawString(exp, render.Width * 1 / 2 - exp.Length / 2, 3);
-            render.DrawBar(player.Exp, player.ExpToNextLvl, HudBarLength, render.Width / 2 - HudBarLength / 2, 4);
-
-            string flr = player.Location.Name;
-            render.DrawString(flr, render.Width * 4 / 5 - flr.Length / 2, 3);
-
+        private void DrawPlayerHealth(Graphics render, Player player)
+        {
             string hp = "Health: " + player.Health + "/" + player.MaxHealth;
             render.DrawString(hp, render.Width * 1 / 4 - hp.Length / 2, 6);
             if (player.Health <= player.MaxHealth * 1 / 5 && warningsVisible)
                 render.DrawString("Health critical!", render.Width * 1 / 4 - hp.Length / 2 + hp.Length + 1, 6);
             render.DrawBar(player.Health, player.MaxHealth, HudBarLength, render.Width * 1 / 4 - HudBarLength / 2, 7);
+        }
 
-            string exer = "Exertion: " + player.Exertion + "/" + player.MaxExertion;
-            render.DrawString(exer, render.Width * 3 / 4 - exer.Length / 2, 6);
+        private static void DrawPlayerLocationName(Graphics render, Player player)
+        {
+            string flr = player.Location.Name;
+            render.DrawString(flr, render.Width * 4 / 5 - flr.Length / 2, 3);
+        }
 
-            if (player.Exertion >= player.MaxExertion * 4 / 5 && warningsVisible)
-                render.DrawString("Overexerted!", render.Width * 3 / 4 - exer.Length / 2 + exer.Length + 1, 6);
-            render.DrawBar(player.Exertion, player.MaxExertion, HudBarLength, render.Width * 3 / 4 - HudBarLength / 2, 7);
+        private void DrawPlayerExperience(Graphics render, Player player)
+        {
+            string exp = "Experience: " + player.Exp + "/" + player.ExpToNextLvl;
+            render.DrawString(exp, render.Width * 1 / 2 - exp.Length / 2, 3);
+            render.DrawBar(player.Exp, player.ExpToNextLvl, HudBarLength, render.Width / 2 - HudBarLength / 2, 4);
+        }
+
+        private static void DrawPlayerLevel(Graphics render, Player player)
+        {
+            string lvl = "Level: " + player.Lvl;
+            render.DrawString(lvl, render.Width * 1 / 5 - lvl.Length / 2, 3);
+        }
+
+        private static void DrawPlayerName(Graphics render, Player player)
+        {
+            string name = player.Name;
+            render.DrawString(name, render.Width * 1 / 2 - name.Length / 2, 1);
         }
 
         private void DrawWeaponHUD(Graphics render, Player player)
