@@ -10,23 +10,23 @@ namespace rogueliche
     {
         const int SpecialMonsterChance = 20;
         const int SpecialWeaponChance = 20;
-        private readonly List<MonsterSpecies> mnsSpecies;
-        private readonly List<MonsterModifier> mnsModifiers;
-        private readonly List<WeaponType> wpnTypes;
-        private readonly List<WeaponModifier> wpnModifiers;
+        private readonly List<MonsterType> monsterTypes;
+        private readonly List<MonsterModifier> monsterModifiers;
+        private readonly List<WeaponType> weaponTypes;
+        private readonly List<WeaponModifier> weaponModifiers;
 
         public Generator()
         {
-            MonsterSpecies slime = new MonsterSpecies("slime", 's', 6, 2, 5, 3);
-            MonsterSpecies pest = new MonsterSpecies("pest", 'p', 10, 3, 5, 10);
-            MonsterSpecies ghoul = new MonsterSpecies("ghoul", 'g', 22, 4, 3, 15);
-            MonsterSpecies troll = new MonsterSpecies("troll", 't', 28, 4, 5, 20);
-            MonsterSpecies harpy = new MonsterSpecies("harpy", 'h', 35, 5, 8, 25);
-            MonsterSpecies minotaur = new MonsterSpecies("minotaur", 'm', 38, 6, 5, 40);
-            MonsterSpecies cyclops = new MonsterSpecies("cyclops", 'm', 40, 7, 5, 65);
-            MonsterSpecies werewolf = new MonsterSpecies("werewolf", 'w', 45, 8, 8, 75);
-            MonsterSpecies drake = new MonsterSpecies("drake", 'd', 55, 10, 8, 100);
-            mnsSpecies = new List<MonsterSpecies>() { slime, pest, ghoul, troll, harpy, minotaur, cyclops,
+            MonsterType slime = new MonsterType("slime", 's', 6, 2, 5, 3);
+            MonsterType pest = new MonsterType("pest", 'p', 10, 3, 5, 10);
+            MonsterType ghoul = new MonsterType("ghoul", 'g', 22, 4, 3, 15);
+            MonsterType troll = new MonsterType("troll", 't', 28, 4, 5, 20);
+            MonsterType harpy = new MonsterType("harpy", 'h', 35, 5, 8, 25);
+            MonsterType minotaur = new MonsterType("minotaur", 'm', 38, 6, 5, 40);
+            MonsterType cyclops = new MonsterType("cyclops", 'm', 40, 7, 5, 65);
+            MonsterType werewolf = new MonsterType("werewolf", 'w', 45, 8, 8, 75);
+            MonsterType drake = new MonsterType("drake", 'd', 55, 10, 8, 100);
+            monsterTypes = new List<MonsterType>() { slime, pest, ghoul, troll, harpy, minotaur, cyclops,
                 werewolf, drake };
 
             MonsterModifier feeble = new MonsterModifier("feeble", 0.5, 0.7, 1, 0.6);
@@ -39,7 +39,7 @@ namespace rogueliche
             MonsterModifier vicious = new MonsterModifier("vicious", 0.7, 1.8, 1.3, 1.8);
             MonsterModifier allseeing = new MonsterModifier("allseeing", 1, 1, 3, 1.4);
             MonsterModifier murderous = new MonsterModifier("murderous", 1, 2.2, 1.5, 2.1);
-            mnsModifiers = new List<MonsterModifier>() { feeble, weak, tough, noxious, monstrous, ancient,
+            monsterModifiers = new List<MonsterModifier>() { feeble, weak, tough, noxious, monstrous, ancient,
                 undying, vicious, allseeing, murderous };
 
             WeaponType knife = new WeaponType("knife", 'K', 2, 1, 20);
@@ -49,7 +49,7 @@ namespace rogueliche
             WeaponType claymore = new WeaponType("claymore", 'C', 10, 8, 30);
             WeaponType trident = new WeaponType("trident", 'T', 8, 6, 25);
             WeaponType flail = new WeaponType("flail", 'F', 8, 6, 35);
-            wpnTypes = new List<WeaponType>() { knife, bludgeon, mace, axe, claymore, trident, flail };
+            weaponTypes = new List<WeaponType>() { knife, bludgeon, mace, axe, claymore, trident, flail };
 
             WeaponModifier stinging = new WeaponModifier("stinging", 1.3, 1, 1);
             WeaponModifier bloodthirsty = new WeaponModifier("bloodthirsty", 1.6, 1, 1);
@@ -63,26 +63,24 @@ namespace rogueliche
             WeaponModifier spirit = new WeaponModifier("spirit", 2.5, 0.2, 0.2);
             WeaponModifier light = new WeaponModifier("light", 0.8, 0.8, 1);
             WeaponModifier heavy = new WeaponModifier("heavy", 1.5, 1.5, 1);
-            wpnModifiers = new List<WeaponModifier>() { stinging, bloodthirsty, sturdy, unbreakable,
+            weaponModifiers = new List<WeaponModifier>() { stinging, bloodthirsty, sturdy, unbreakable,
                 quality, masterful, worn, tattered, crystal, spirit, light, heavy };
         }
 
         public Monster NewMonster(ILocation level, Point position, int floor)
         {
-            MonsterModifier mod;
-            mod = Numbers.RandomNumber(1, 100) <= SpecialMonsterChance ?
-                mnsModifiers[Numbers.RandomNumber(0, mnsModifiers.Count - 1)] : null;
+            var modifier = Numbers.RandomNumber(1, 100) <= SpecialMonsterChance ?
+                monsterModifiers[Numbers.RandomNumber(0, monsterModifiers.Count - 1)] : null;
 
-            return new Monster(level, position, mnsSpecies[LevelFactor(floor, mnsSpecies.Count())], mod);
+            return new Monster(level, position, monsterTypes[LevelFactor(floor, monsterTypes.Count())], modifier);
         }
 
         public Weapon NewWeapon(ILocation level, Point position, int floor)
         {
-            WeaponModifier mod;
-            mod = Numbers.RandomNumber(1, 100) <= SpecialWeaponChance ?
-                wpnModifiers[Numbers.RandomNumber(0, wpnModifiers.Count - 1)] : null;
+            var modifier = Numbers.RandomNumber(1, 100) <= SpecialWeaponChance ?
+                weaponModifiers[Numbers.RandomNumber(0, weaponModifiers.Count - 1)] : null;
 
-            return new Weapon(level, position, wpnTypes[LevelFactor(floor, wpnTypes.Count())], mod);
+            return new Weapon(level, position, weaponTypes[LevelFactor(floor, weaponTypes.Count())], modifier);
         }
 
         private int LevelFactor(int floor, int listCount)
