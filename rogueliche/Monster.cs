@@ -11,7 +11,7 @@ namespace rogueliche
         private int _health;
         private TilemapLayer _layer;
 
-        public Monster(ILocation location, Point position, MonsterSpecies species, MonsterModifier modifier)
+        public Monster(ILocation location, Point position, MonsterType type, MonsterModifier modifier)
         {
             if (location != null)
             {
@@ -19,19 +19,19 @@ namespace rogueliche
                 Place(location, position);
             }
 
-            Species = species;
+            Type = type;
             Modifier = modifier;
             Health = MaxHealth;
         }
 
-        public MonsterSpecies Species { get; private set; }
+        public MonsterType Type { get; private set; }
         public MonsterModifier Modifier { get; private set; }
         public ILocation Location { get; set; }
         public Point Position { get; set; }
         public bool IsDead { get; set; }
         public string Overhead { get { return Name; } }
-        public string Name { get { return Modifier != null ? Modifier.NamePrefix + " " + Species.Name : Species.Name; } }
-        public char Symbol { get { return Species.Symbol; } }
+        public string Name { get { return Modifier != null ? Modifier.NamePrefix + " " + Type.Name : Type.Name; } }
+        public char Symbol { get { return Type.Symbol; } }
         public bool IsSpooked { get; set; }
         public int MaxHealth
         {
@@ -39,11 +39,11 @@ namespace rogueliche
             {
                 if (Modifier != null)
                 {
-                    double resulting = Species.MaxHealth * Modifier.MaxHealthMod;
+                    double resulting = Type.MaxHealth * Modifier.MaxHealthMod;
                     return (int)resulting;
                 }
                 else
-                    return Species.MaxHealth;
+                    return Type.MaxHealth;
             }
         }
         public int Attack
@@ -52,11 +52,11 @@ namespace rogueliche
             {
                 if (Modifier != null)
                 {
-                    double resulting = Species.Attack * Modifier.AttackMod;
+                    double resulting = Type.Attack * Modifier.AttackMod;
                     return (int)resulting;
                 }
                 else
-                    return Species.Attack;
+                    return Type.Attack;
             }
         }
         public int DetectRange
@@ -65,11 +65,11 @@ namespace rogueliche
             {
                 if (Modifier != null)
                 {
-                    double resulting = Species.DetectRange * Modifier.DetectRangeMod;
+                    double resulting = Type.DetectRange * Modifier.DetectRangeMod;
                     return (int)resulting;
                 }
                 else
-                    return Species.DetectRange;
+                    return Type.DetectRange;
             }
         }
         public int ExpGained
@@ -78,11 +78,11 @@ namespace rogueliche
             {
                 if (Modifier != null)
                 {
-                    double resulting = Species.ExpGained * Modifier.ExpGainedMod;
+                    double resulting = Type.ExpGained * Modifier.ExpGainedMod;
                     return (int)resulting;
                 }
                 else
-                    return Species.ExpGained;
+                    return Type.ExpGained;
             }
         }
         public virtual int Health

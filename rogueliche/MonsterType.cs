@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace rogueliche
 {
-    public class MonsterSpecies
+    public class MonsterType
     {
-        public MonsterSpecies(string name, char symbol, int maxHealth, int attack, int detectRange, int expGained)
+        public MonsterType(string name, char symbol, int maxHealth, int attack, int detectRange, int expGained)
         {
             Name = name;
             Symbol = symbol;
