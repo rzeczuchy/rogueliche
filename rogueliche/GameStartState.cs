@@ -27,7 +27,9 @@ namespace rogueliche
 
         public override void Draw(Graphics render, UI ui)
         {
-            render.DrawCenteredString("Welcome to " + Game.GameTitle + "! Press ENTER to start.", render.Height / 2);
+            render.DrawCenteredString("Welcome to " + Game.GameTitle + "!", render.Height / 2 - 2);
+            render.DrawCenteredString("Press the ENTER key to start.", render.Height / 2 + 2);
+            render.DrawCenteredString("coded by rzeczuchy 2019-2021 ver 1.0.0", render.Height - 2);
             render.Draw();
         }
 
