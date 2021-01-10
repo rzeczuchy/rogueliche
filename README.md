@@ -15,8 +15,18 @@ This game project is coded just for fun, and very open to contributions.
 
 If you wish to contribute a feature or bug fix, feel free to fork this repo and submit a pull requests once your contribution is ready.
 
-You can submit new features, updates, bug fixes - be creative with it and have fun.
+If you don't code, but would like to suggest a feature, you can create an issue and label as `enhancement`.
 
-If you don't code, but would like to suggest a feature, you can create an issue with the `enhancement` label.
+If you found a bug, create an issue with a description of the bug and label as `bug`.
 
-If you found a bug, create an issue with a description of the bug with the `bug` label.
+Contributions can be:
+* logical
+* creative
+* weird
+
+Contributions cannot be:
+* game-breaking
+* harmful
+* offensive
+
+If you contribute any code, remember to add your name to the LICENSE file ^^
