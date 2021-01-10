@@ -45,7 +45,7 @@ namespace rogueliche
 
             Entrance = new Point(ChamberTree.StartingChamber.Center.X, ChamberTree.StartingChamber.Center.Y);
 
-            if (Numbers.PassPercentileRoll(dungeon.CaveChance))
+            if (Utilities.PassPercentileRoll(dungeon.CaveChance))
             {
                 CellularAutomata.ErodeTiles(Tilemap);
             }

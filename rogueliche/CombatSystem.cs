@@ -27,7 +27,7 @@ namespace rogueliche
 
         private static int CalculateDamage(IFightable attacker, IFightable target)
         {
-            int resulting = Numbers.RandomNumber(GetMinDamage(attacker), GetMaxDamage(attacker));
+            int resulting = Utilities.RandomNumber(GetMinDamage(attacker), GetMaxDamage(attacker));
             return resulting > 0 ? resulting : 0;
         }
 
@@ -41,7 +41,7 @@ namespace rogueliche
             if (attacker is Player player)
             {
                 int chanceOfDamage = 70;// percentile
-                if (Numbers.PassPercentileRoll(chanceOfDamage))
+                if (Utilities.PassPercentileRoll(chanceOfDamage))
                 {
                     player.CurrentWeapon.DecrDurability(1, player);
                 }

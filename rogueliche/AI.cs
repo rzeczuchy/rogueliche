@@ -29,7 +29,7 @@ namespace rogueliche
             if (moveable.Position != null)
             {
                 Point pos = moveable.Position;
-                moveable.Move(new Point(Numbers.RandomNumber(pos.X - 1, pos.X + 1), Numbers.RandomNumber(pos.Y - 1, pos.Y + 1)));
+                moveable.Move(new Point(Utilities.RandomNumber(pos.X - 1, pos.X + 1), Utilities.RandomNumber(pos.Y - 1, pos.Y + 1)));
             }
         }
 

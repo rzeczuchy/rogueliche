@@ -37,19 +37,19 @@ namespace rogueliche
             ForceRegularRooms = false;
         }
 
-        public int LevelIndex { get => levelIndex; private set => levelIndex = Numbers.Clamp(value, 0, 99999); }
+        public int LevelIndex { get => levelIndex; private set => levelIndex = Utilities.Clamp(value, 0, 99999); }
         public Generator Generator { get; private set; }
         public double MonstersPerRoom { get; set; }
         public double WeaponsPerRoom { get; set; }
         public double PlantsPerRoom { get; set; }
-        public int Width { get => minWidth; set => minWidth = Numbers.Clamp(value, 20, 250); }
-        public int Height { get => minHeight; set => minHeight = Numbers.Clamp(value, 20, 250); }
-        public int MinRooms { get => minRooms; set => minRooms = Numbers.Clamp(value, 2, 250); }
-        public int MaxRooms { get => maxRooms; set => maxRooms = Numbers.Clamp(value, 2, 250); }
-        public int MinRoomWidth { get => minRoomWidth; set => minRoomWidth = Numbers.Clamp(value, 3, 10); }
-        public int MaxRoomWidth { get => maxRoomWidth; set => maxRoomWidth = Numbers.Clamp(value, 3, 10); }
-        public int MinRoomHeight { get => minRoomHeight; set => minRoomHeight = Numbers.Clamp(value, 3, 10); }
-        public int MaxRoomHeight { get => maxRoomHeight; set => maxRoomHeight = Numbers.Clamp(value, 3, 10); }
+        public int Width { get => minWidth; set => minWidth = Utilities.Clamp(value, 20, 250); }
+        public int Height { get => minHeight; set => minHeight = Utilities.Clamp(value, 20, 250); }
+        public int MinRooms { get => minRooms; set => minRooms = Utilities.Clamp(value, 2, 250); }
+        public int MaxRooms { get => maxRooms; set => maxRooms = Utilities.Clamp(value, 2, 250); }
+        public int MinRoomWidth { get => minRoomWidth; set => minRoomWidth = Utilities.Clamp(value, 3, 10); }
+        public int MaxRoomWidth { get => maxRoomWidth; set => maxRoomWidth = Utilities.Clamp(value, 3, 10); }
+        public int MinRoomHeight { get => minRoomHeight; set => minRoomHeight = Utilities.Clamp(value, 3, 10); }
+        public int MaxRoomHeight { get => maxRoomHeight; set => maxRoomHeight = Utilities.Clamp(value, 3, 10); }
         public int CaveChance { get; set; }
         public bool ForceRegularRooms { get; set; }
         

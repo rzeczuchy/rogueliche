@@ -69,16 +69,16 @@ namespace rogueliche
 
         public Monster NewMonster(ILocation level, Point position, int floor)
         {
-            var modifier = Numbers.RandomNumber(1, 100) <= SpecialMonsterChance ?
-                monsterModifiers[Numbers.RandomNumber(0, monsterModifiers.Count - 1)] : null;
+            var modifier = Utilities.PassPercentileRoll(SpecialMonsterChance) ?
+                monsterModifiers[Utilities.RandomNumber(0, monsterModifiers.Count - 1)] : null;
 
             return new Monster(level, position, monsterTypes[LevelFactor(floor, monsterTypes.Count())], modifier);
         }
 
         public Weapon NewWeapon(ILocation level, Point position, int floor)
         {
-            var modifier = Numbers.RandomNumber(1, 100) <= SpecialWeaponChance ?
-                weaponModifiers[Numbers.RandomNumber(0, weaponModifiers.Count - 1)] : null;
+            var modifier = Utilities.PassPercentileRoll(SpecialWeaponChance) ?
+                weaponModifiers[Utilities.RandomNumber(0, weaponModifiers.Count - 1)] : null;
 
             return new Weapon(level, position, weaponTypes[LevelFactor(floor, weaponTypes.Count())], modifier);
         }
@@ -93,7 +93,7 @@ namespace rogueliche
             else if (floor / 3 - 5 >= listCount - 1)
                 min = listCount - 6;
 
-            return Numbers.RandomNumber(min, max);
+            return Utilities.RandomNumber(min, max);
         }
     }
 }

@@ -55,12 +55,12 @@ namespace rogueliche
 
         public Rectangle GetRandomChamber()
         {
-            return Chambers[Numbers.RandomNumber(1, Chambers.Count - 1)];
+            return Chambers[Utilities.RandomNumber(1, Chambers.Count - 1)];
         }
 
         private void CreateChamberTree(Rectangle startingChamber)
         {
-            int chamberNumber = Numbers.RandomNumber(MinChambers, MaxChambers);
+            int chamberNumber = Utilities.RandomNumber(MinChambers, MaxChambers);
             Chambers.Add(startingChamber);
 
             int attempts = 0;
@@ -79,11 +79,11 @@ namespace rogueliche
         private void AddRandomNeighborChamber(Rectangle chamber)
         {
             Point passage = new Point(0, 0);
-            int nborWidth = Numbers.RandomNumber(MinChamberWidth, MaxChamberWidth);
-            int nborHeight = Numbers.RandomNumber(MinChamberHeight, MaxChamberHeight);
+            int nborWidth = Utilities.RandomNumber(MinChamberWidth, MaxChamberWidth);
+            int nborHeight = Utilities.RandomNumber(MinChamberHeight, MaxChamberHeight);
             Point nborPos = new Point(0, 0);
             
-            switch (Numbers.RandomNumber(1, 4))
+            switch (Utilities.RandomNumber(1, 4))
             {
                 case 1:
                     passage = PassageNorth(chamber);
@@ -127,48 +127,48 @@ namespace rogueliche
 
         private static Point ChamberEast(Point passage, int nborHeight)
         {
-            return new Point(passage.X + 1, Numbers.RandomNumber(passage.Y - nborHeight + 1, passage.Y));
+            return new Point(passage.X + 1, Utilities.RandomNumber(passage.Y - nborHeight + 1, passage.Y));
         }
 
         private static Point PassageEast(Rectangle room)
         {
-            return new Point(room.Right, Numbers.RandomNumber(room.Top, room.Bottom - 1));
+            return new Point(room.Right, Utilities.RandomNumber(room.Top, room.Bottom - 1));
         }
 
         private static Point ChamberWest(Point passage, int nborWidth, int nborHeight)
         {
-            return new Point(passage.X - nborWidth, Numbers.RandomNumber(passage.Y - nborHeight + 1, passage.Y));
+            return new Point(passage.X - nborWidth, Utilities.RandomNumber(passage.Y - nborHeight + 1, passage.Y));
         }
 
         private static Point PassageWest(Rectangle room)
         {
-            return new Point(room.Left - 1, Numbers.RandomNumber(room.Top, room.Bottom - 1));
+            return new Point(room.Left - 1, Utilities.RandomNumber(room.Top, room.Bottom - 1));
         }
 
         private static Point ChamberSouth(Point passage, int nborWidth)
         {
-            return new Point(Numbers.RandomNumber(passage.X - nborWidth + 1, passage.X), passage.Y + 1);
+            return new Point(Utilities.RandomNumber(passage.X - nborWidth + 1, passage.X), passage.Y + 1);
         }
 
         private static Point PassageSouth(Rectangle room)
         {
-            return new Point(Numbers.RandomNumber(room.Left, room.Right - 1), room.Bottom);
+            return new Point(Utilities.RandomNumber(room.Left, room.Right - 1), room.Bottom);
         }
 
         private static Point ChamberNorth(Point passage, int nborWidth, int nborHeight)
         {
-            return new Point(Numbers.RandomNumber(passage.X - nborWidth + 1, passage.X), passage.Y - nborHeight);
+            return new Point(Utilities.RandomNumber(passage.X - nborWidth + 1, passage.X), passage.Y - nborHeight);
         }
 
         private static Point PassageNorth(Rectangle room)
         {
-            return new Point(Numbers.RandomNumber(room.Left, room.Right - 1), room.Top - 1);
+            return new Point(Utilities.RandomNumber(room.Left, room.Right - 1), room.Top - 1);
         }
 
         private Rectangle NewStartingChamber()
         {
-            int width = Numbers.RandomNumber(MinChamberWidth, MaxChamberWidth);
-            int height = Numbers.RandomNumber(MinChamberHeight, MaxChamberHeight);
+            int width = Utilities.RandomNumber(MinChamberWidth, MaxChamberWidth);
+            int height = Utilities.RandomNumber(MinChamberHeight, MaxChamberHeight);
             StartingChamber = new Rectangle(Size.X / 2 - height / 2, Size.Y / 2 - width / 2, width, height);
             return StartingChamber;
         }

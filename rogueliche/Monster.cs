@@ -88,7 +88,7 @@ namespace rogueliche
         public virtual int Health
         {
             get => _health;
-            set => _health = Numbers.Clamp(value, 0, MaxHealth);
+            set => _health = Utilities.Clamp(value, 0, MaxHealth);
         }
         public Weapon CurrentWeapon { get; set; }
 

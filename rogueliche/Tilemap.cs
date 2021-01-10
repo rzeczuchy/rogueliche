@@ -73,7 +73,7 @@ namespace rogueliche
 
         public Point RandomPosition(Rectangle rect)
         {
-            return new Point(Numbers.RandomNumber(rect.Left, rect.Right), Numbers.RandomNumber(rect.Top, rect.Bottom));
+            return new Point(Utilities.RandomNumber(rect.Left, rect.Right), Utilities.RandomNumber(rect.Top, rect.Bottom));
         }
 
         public bool IsWalkable(Point position)

@@ -34,11 +34,11 @@ namespace rogueliche
 
         static void TestIfSpooked(Monster monster)
         {
-            if (AI.HasLowHealth(monster) && !monster.IsSpooked && Numbers.PassPercentileRoll(20))
+            if (AI.HasLowHealth(monster) && !monster.IsSpooked && Utilities.PassPercentileRoll(20))
             {
                 monster.IsSpooked = true;
             }
-            else if (!AI.HasLowHealth(monster) && monster.IsSpooked && Numbers.PassPercentileRoll(80))
+            else if (!AI.HasLowHealth(monster) && monster.IsSpooked && Utilities.PassPercentileRoll(80))
             {
                 monster.IsSpooked = false;
             }
