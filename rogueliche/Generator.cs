@@ -8,8 +8,8 @@ namespace rogueliche
 {
     public class Generator
     {
-        const int SpecialMonsterChance = 20;
-        const int SpecialWeaponChance = 20;
+        const int SpecialMonsterChance = 100;
+        const int SpecialWeaponChance = 100;
         private readonly List<MonsterType> monsterTypes;
         private readonly List<MonsterModifier> monsterModifiers;
         private readonly List<WeaponType> weaponTypes;
@@ -70,7 +70,7 @@ namespace rogueliche
         public Monster NewMonster(ILocation level, Point position, int floor)
         {
             var modifier = Utilities.PassPercentileRoll(SpecialMonsterChance) ?
-                monsterModifiers[Utilities.RandomNumber(0, monsterModifiers.Count - 1)] : null;
+                Utilities.GetRandomFromList(monsterModifiers): null;
 
             return new Monster(level, position, monsterTypes[LevelFactor(floor, monsterTypes.Count())], modifier);
         }
@@ -78,7 +78,7 @@ namespace rogueliche
         public Weapon NewWeapon(ILocation level, Point position, int floor)
         {
             var modifier = Utilities.PassPercentileRoll(SpecialWeaponChance) ?
-                weaponModifiers[Utilities.RandomNumber(0, weaponModifiers.Count - 1)] : null;
+                Utilities.GetRandomFromList(weaponModifiers) : null;
 
             return new Weapon(level, position, weaponTypes[LevelFactor(floor, weaponTypes.Count())], modifier);
         }

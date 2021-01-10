@@ -24,5 +24,10 @@ namespace rogueliche
         {
             return (value < min) ? min : (value > max) ? max : value;
         }
+
+        public static T GetRandomFromList<T>(List<T> list)
+        {
+            return list[RandomNumber(0, list.Count - 1)];
+        }
     }
 }
