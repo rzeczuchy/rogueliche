@@ -8,8 +8,8 @@ namespace rogueliche
 {
     public class Generator
     {
-        const int SpecialMonsterChance = 100;
-        const int SpecialWeaponChance = 100;
+        const int SpecialMonsterChance = 25;
+        const int SpecialWeaponChance = 25;
         private readonly List<MonsterType> monsterTypes;
         private readonly List<MonsterModifier> monsterModifiers;
         private readonly List<WeaponType> weaponTypes;
