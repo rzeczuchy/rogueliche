@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace rogueliche.UnitTests
 {
     [TestClass]
-    public class NumberTests
+    public class UtilitiesTests
     {
         [TestMethod]
         public void Clamp_ReturnsClampedPositive()
