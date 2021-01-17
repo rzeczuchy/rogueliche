@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace rogueliche
 {
-    class ChamberTree
+    public class ChamberTree
     {
         public ChamberTree(Point size, int minChambers, int maxChambers, int minChamberWidth, int maxChamberWidth, int minChamberHeight, int maxChamberHeight,
             bool forceRegularChambers)

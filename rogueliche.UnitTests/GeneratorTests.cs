@@ -10,12 +10,22 @@ namespace rogueliche.UnitTests
         public void NewMonster_ReturnsMonster()
         {
             var generator = new Generator();
+            var level = new DungeonLevel(new Dungeon(), 1);
+            var position = new Point(1, 1);
+            var monster = generator.NewMonster(level, position, 1);
+
+            Assert.IsInstanceOfType(monster, typeof(Monster));
+            Assert.AreEqual(monster.Location, level);
+            Assert.AreEqual(monster.Position, position);
         }
 
         [TestMethod]
         public void NewWeapon_ReturnsWeapon()
         {
+            var generator = new Generator();
+            var weapon = generator.NewWeapon(null, null, 1);
 
+            Assert.IsInstanceOfType(weapon, typeof(Weapon));
         }
     }
 }

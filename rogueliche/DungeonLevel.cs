@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace rogueliche
 {
-    class DungeonLevel : ILocation
+    public class DungeonLevel : ILocation
     {
         private readonly Dungeon dungeon;
 
