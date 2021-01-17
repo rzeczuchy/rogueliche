@@ -7,7 +7,7 @@ To start development simply clone this repository and open the solution file in 
 
 ## Projects
 
-At the moment the solution contains the main game project (rogueliche) and a separate project for unit tests (rogueliche.UnitTests).
+The solution contains the main game project (rogueliche) and a separate project for unit tests (rogueliche.UnitTests).
 
 ## Contributions
 
