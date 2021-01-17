@@ -8,8 +8,8 @@
     <ProjectGuid>{A5A0894D-A60F-4060-A9AD-30A0ECB439BE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>roguelice.UnitTests</RootNamespace>
-    <AssemblyName>roguelice.UnitTests</AssemblyName>
+    <RootNamespace>rogueliche.UnitTests</RootNamespace>
+    <AssemblyName>rogueliche.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -49,6 +49,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UnitTest1.cs" />
     <Compile Include="UtilitiesTests.cs" />
     <Compile Include="PointTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
