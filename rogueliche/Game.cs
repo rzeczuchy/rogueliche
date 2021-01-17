@@ -10,6 +10,7 @@ namespace rogueliche
     class Game
     {
         public const string GameTitle = "Rogueliche";
+        public const string Version = "1.0.2";
 
         private readonly Graphics render;
         private readonly UI ui;
