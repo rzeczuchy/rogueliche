@@ -11,6 +11,7 @@ namespace rogueliche
     {
         public const string GameTitle = "Rogueliche";
         public const string Version = "1.0.2";
+        public const string Copyright = "coded by rzeczuchy 2019-2021 ver";
 
         private readonly Graphics render;
         private readonly UI ui;

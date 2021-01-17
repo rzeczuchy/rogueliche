@@ -29,7 +29,7 @@ namespace rogueliche
         {
             render.DrawCenteredString("Welcome to " + Game.GameTitle + "!", render.Height / 2 - 2);
             render.DrawCenteredString("Press the ENTER key to start.", render.Height / 2 + 2);
-            render.DrawCenteredString("coded by rzeczuchy 2019-2021 ver " + Game.Version, render.Height - 2);
+            render.DrawCenteredString(Game.Copyright + " " + Game.Version, render.Height - 2);
             render.Draw();
         }
 
