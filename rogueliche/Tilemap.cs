@@ -12,6 +12,7 @@ namespace rogueliche
             ToUpdate = new List<IMappable>();
             Width = width;
             Height = height;
+            Bounds = new Rectangle(0, 0, width, height);
             Tiles = new Tile[Width, Height];
             FogOfWar = new bool[Width, Height];
             FieldOfVisibility = new bool[Width, Height];
@@ -21,13 +22,14 @@ namespace rogueliche
 
         public ILocation Location { get; private set; }
         public List<IMappable> ToUpdate { get; }
-        public int Width { get; private set; }
-        public int Height { get; private set; }
-        public Tile[,] Tiles { get; private set; }
-        public bool[,] FogOfWar { get; private set; }
-        public bool[,] FieldOfVisibility { get; private set; }
-        public TilemapLayer Creatures { get; private set; }
-        public TilemapLayer Items { get; private set; }
+        public int Width { get; }
+        public int Height { get; }
+        public Rectangle Bounds { get; }
+        public Tile[,] Tiles { get; }
+        public bool[,] FogOfWar { get; }
+        public bool[,] FieldOfVisibility { get; }
+        public TilemapLayer Creatures { get; }
+        public TilemapLayer Items { get; }
 
         public Tile GetTile(Point position)
         {
