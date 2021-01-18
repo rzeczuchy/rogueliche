@@ -9,12 +9,32 @@ namespace rogueliche.UnitTests
         [TestMethod]
         public void GetTile_ReturnsTile()
         {
-            var mapSize = new Point(12, 23);
+            var tilemap = TestMap(12, 23);
+
+            Assert.AreEqual(tilemap.GetTile(tilemap.Bounds.Center).Type, Tile.TileType.floor);
+            Assert.AreEqual(tilemap.GetTile(new Point(tilemap.Bounds.Right + 1, tilemap.Bounds.Bottom + 1)), null);
+        }
+
+        [TestMethod]
+        public void SetTile_SetsTileType()
+        {
+            var tilemap = TestMap(20, 30);
+            var pos = tilemap.Bounds.Center;
+            var defaultType = Tile.TileType.floor;
+            var testType = Tile.TileType.wall;
+            tilemap.SetTile(pos, testType);
+
+            Assert.AreNotEqual(testType, defaultType);
+            Assert.AreEqual(tilemap.GetTile(pos).Type, testType);
+            Assert.AreNotEqual(tilemap.GetTile(new Point(pos.X + 1, pos.Y + 1)).Type, testType);
+        }
+
+        private Tilemap TestMap(int width, int height)
+        {
+            var mapSize = new Point(width, height);
             var tilemap = new Tilemap(null, mapSize.X, mapSize.Y);
             tilemap.FillWithTile(tilemap.Bounds, Tile.TileType.floor);
-
-            Assert.AreEqual(tilemap.GetTile(new Point(mapSize.X - 1, mapSize.Y - 1)).Type, Tile.TileType.floor);
-            Assert.AreEqual(tilemap.GetTile(new Point(mapSize.X + 1, mapSize.Y + 1)), null);
+            return tilemap; 
         }
     }
 }
