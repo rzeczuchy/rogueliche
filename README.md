@@ -29,4 +29,4 @@ Contributions cannot be:
 * harmful
 * offensive
 
-If you contribute any code, remember to add your name to the LICENSE file ^^
+If you contribute any code, remember to add your name to the LICENSE file :wink:
