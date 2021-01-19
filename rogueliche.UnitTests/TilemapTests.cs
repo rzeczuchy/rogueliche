@@ -44,5 +44,16 @@ namespace rogueliche.UnitTests
                 Assert.AreEqual(tilemap.GetTile(tilemap.RandomPosition(tilemap.Bounds)).Type, testedType);
             }
         }
+
+        [TestMethod]
+        public void ContainsPosition_ChecksIfPositionContanied()
+        {
+            var tilemap = new Tilemap(null, 34, 86);
+
+            Assert.IsTrue(tilemap.ContainsPosition(tilemap.Bounds.Center));
+            Assert.IsFalse(tilemap.ContainsPosition(new Point(tilemap.Bounds.Left - 1, tilemap.Bounds.Center.Y)));
+            Assert.IsFalse(tilemap.ContainsPosition(new Point(tilemap.Bounds.Center.X, tilemap.Bounds.Bottom + 1)));
+            Assert.IsFalse(tilemap.ContainsPosition(new Point(tilemap.Bounds.Right + 1, tilemap.Bounds.Top - 1)));
+        }
     }
 }
