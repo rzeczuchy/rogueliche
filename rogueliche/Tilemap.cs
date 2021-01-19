@@ -78,6 +78,11 @@ namespace rogueliche
             return new Point(Utilities.RandomNumber(rect.Left, rect.Right - 1), Utilities.RandomNumber(rect.Top, rect.Bottom - 1));
         }
 
+        public Point RandomPosition()
+        {
+            return RandomPosition(Bounds);
+        }
+
         public bool IsWalkable(Point position)
         {
             return GetTile(position) != null && (GetTile(position).Type == Tile.TileType.floor || GetTile(position).Type == Tile.TileType.exit);
