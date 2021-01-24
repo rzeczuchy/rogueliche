@@ -60,9 +60,7 @@ namespace rogueliche.UnitTests
         public void RandomPosition_ReturnsDifferentPositions()
         {
             var tilemap = new Tilemap(null, 50, 34);
-
             var randomPos = tilemap.RandomPosition();
-
             int sameResults = 0;
             int attempts = 100;
 
