@@ -55,5 +55,30 @@ namespace rogueliche.UnitTests
             Assert.IsFalse(tilemap.ContainsPosition(new Point(tilemap.Bounds.Center.X, tilemap.Bounds.Bottom + 1)));
             Assert.IsFalse(tilemap.ContainsPosition(new Point(tilemap.Bounds.Right + 1, tilemap.Bounds.Top - 1)));
         }
+
+        [TestMethod]
+        public void RandomPosition_ReturnsDifferentPositions()
+        {
+            var tilemap = new Tilemap(null, 50, 34);
+
+            var randomPos = tilemap.RandomPosition();
+
+            int sameResults = 0;
+            int attempts = 100;
+
+            while (attempts > 0)
+            {
+                var pos = tilemap.RandomPosition();
+
+                if (pos == randomPos)
+                {
+                    sameResults++;
+                }
+
+                attempts--;
+            }
+
+            Assert.IsTrue(sameResults < 10);
+        }
     }
 }
