@@ -7,6 +7,19 @@ namespace rogueliche.UnitTests
     public class DungeonTests
     {
         [TestMethod]
+        public void Dungeon_Initializes()
+        {
+            try
+            {
+                var dungeon = new Dungeon();
+            }
+            catch
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
         public void NewLevel_ReturnsLocation()
         {
             var dungeon = new Dungeon();
