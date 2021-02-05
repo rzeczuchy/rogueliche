@@ -24,6 +24,10 @@ namespace rogueliche
                 location.Tilemap.UpdateFogOfWar(this);
                 location.Tilemap.UpdateFieldOfVisibility(this);
             }
+            else
+            {
+                throw new ArgumentNullException();
+            }
 
             Name = "hero";
             Symbol = '@';
