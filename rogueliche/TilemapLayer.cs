@@ -13,8 +13,15 @@ namespace rogueliche
 
         public TilemapLayer(Tilemap tilemap)
         {
-            this.tilemap = tilemap;
-            mappables = new IMappable[tilemap.Width, tilemap.Height];
+            if (tilemap != null)
+            {
+                this.tilemap = tilemap;
+                mappables = new IMappable[tilemap.Width, tilemap.Height];
+            }
+            else
+            {
+                throw new ArgumentNullException();
+            }
         }
 
         public IMappable Get(Point position)
