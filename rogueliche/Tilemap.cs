@@ -8,7 +8,15 @@ namespace rogueliche
     {
         public Tilemap(ILocation location, int width, int height)
         {
-            Location = location;
+            if (location != null)
+            {
+                Location = location;
+            }
+            else
+            {
+                throw new ArgumentNullException();
+            }
+
             ToUpdate = new List<IMappable>();
             Width = width;
             Height = height;
