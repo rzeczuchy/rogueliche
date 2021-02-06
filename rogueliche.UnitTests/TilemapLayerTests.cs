@@ -13,7 +13,7 @@ namespace rogueliche.UnitTests
             {
                 var dungeon = new Dungeon();
                 var level = dungeon.NewLevel();
-                var tilemap = new Tilemap(level, 100, 100);
+                var tilemap = new Tilemap(level);
                 new TilemapLayer(tilemap);
             }
             catch

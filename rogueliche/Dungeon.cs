@@ -56,7 +56,7 @@ namespace rogueliche
         public ILocation NewLevel()
         {
             LevelIndex++;
-            return new DungeonLevel(this, LevelIndex);
+            return new DungeonLevel(this);
         }
     }
 }

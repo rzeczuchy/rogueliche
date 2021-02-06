@@ -10,7 +10,7 @@ namespace rogueliche.UnitTests
         {
             var dungeon = new Dungeon();
             var level = dungeon.NewLevel();
-            return new Tilemap(level, level.Bounds.Width, level.Bounds.Height);
+            return new Tilemap(level);
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace rogueliche.UnitTests
         [TestMethod]
         public void Constructor_ThrowsExceptionWhenLocationNull()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => { new Tilemap(null, 1, 1); });
+            Assert.ThrowsException<ArgumentNullException>(() => { new Tilemap(null); });
         }
 
         [TestMethod]

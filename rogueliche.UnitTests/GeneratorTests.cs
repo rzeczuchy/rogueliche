@@ -10,7 +10,7 @@ namespace rogueliche.UnitTests
         public void NewMonster_ReturnsMonster()
         {
             var generator = new Generator();
-            var level = new DungeonLevel(new Dungeon(), 1);
+            var level = new DungeonLevel(new Dungeon());
             var position = new Point(1, 1);
             var monster = generator.NewMonster(level, position, 1);
 
@@ -23,7 +23,7 @@ namespace rogueliche.UnitTests
         public void NewWeapon_ReturnsWeapon()
         {
             var generator = new Generator();
-            var level = new DungeonLevel(new Dungeon(), 1);
+            var level = new DungeonLevel(new Dungeon());
             var position = new Point(1, 1);
             var weapon = generator.NewWeapon(level, position, 1);
 

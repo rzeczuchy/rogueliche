@@ -6,7 +6,7 @@ namespace rogueliche
 {
     public class Tilemap
     {
-        public Tilemap(ILocation location, int width, int height)
+        public Tilemap(ILocation location)
         {
             if (location != null)
             {
@@ -18,9 +18,9 @@ namespace rogueliche
             }
 
             ToUpdate = new List<IMappable>();
-            Width = width;
-            Height = height;
-            Bounds = new Rectangle(0, 0, width, height);
+            Width = Location.Bounds.Width;
+            Height = Location.Bounds.Height;
+            Bounds = new Rectangle(0, 0, Width, Height);
             Tiles = new Tile[Width, Height];
             FogOfWar = new bool[Width, Height];
             FieldOfVisibility = new bool[Width, Height];

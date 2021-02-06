@@ -10,14 +10,21 @@ namespace rogueliche
     {
         private readonly Dungeon dungeon;
 
-        public DungeonLevel(Dungeon dungeon, int levelIndex)
+        public DungeonLevel(Dungeon dungeon)
         {
-            this.dungeon = dungeon;
-            LevelIndex = levelIndex;
-            Tilemap = new Tilemap(this, dungeon.Width, dungeon.Height);
-            Bounds = new Rectangle(0, 0, dungeon.Width, dungeon.Height);
-            Name = "Dungeon -" + levelIndex;
+            if (dungeon != null)
+            {
+                this.dungeon = dungeon;
+            }
+            else
+            {
+                throw new ArgumentNullException();
+            }
 
+            LevelIndex = dungeon.LevelIndex;
+            Name = "Dungeon -" + dungeon.LevelIndex;
+            Bounds = new Rectangle(0, 0, dungeon.Width, dungeon.Height);
+            Tilemap = new Tilemap(this);
             GenerateLevel();
         }
 
