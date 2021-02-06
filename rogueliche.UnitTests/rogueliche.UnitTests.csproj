@@ -53,6 +53,7 @@
     <Compile Include="RectangleTests.cs" />
     <Compile Include="TilemapTests.cs" />
     <Compile Include="DungeonTests.cs" />
+    <Compile Include="TilemapLayerTests.cs" />
     <Compile Include="UtilitiesTests.cs" />
     <Compile Include="PointTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
