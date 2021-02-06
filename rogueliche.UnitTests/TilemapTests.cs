@@ -6,10 +6,36 @@ namespace rogueliche.UnitTests
     [TestClass]
     public class TilemapTests
     {
+        public Tilemap TestTilemap()
+        {
+            var dungeon = new Dungeon();
+            var level = dungeon.NewLevel();
+            return new Tilemap(level, level.Bounds.Width, level.Bounds.Height);
+        }
+
+        [TestMethod]
+        public void Tilemap_Initializes()
+        {
+            try
+            {
+                var Tilemap = TestTilemap();
+            }
+            catch
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public void Constructor_ThrowsExceptionWhenLocationNull()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => { new Tilemap(null, 1, 1); });
+        }
+
         [TestMethod]
         public void GetTile_ReturnsTile()
         {
-            var tilemap = new Tilemap(null, 12, 34);
+            var tilemap = TestTilemap();
             var type = Tile.TileType.floor;
             tilemap.FillWithTile(tilemap.Bounds, type);
 
@@ -20,7 +46,7 @@ namespace rogueliche.UnitTests
         [TestMethod]
         public void SetTile_SetsTileType()
         {
-            var tilemap = new Tilemap(null, 20, 30);
+            var tilemap = TestTilemap();
             var defaultType = Tile.TileType.floor;
             tilemap.FillWithTile(tilemap.Bounds, defaultType);
             var pos = tilemap.Bounds.Center;
@@ -35,7 +61,7 @@ namespace rogueliche.UnitTests
         [TestMethod]
         public void FillWithType_FillsWithType()
         {
-            var tilemap = new Tilemap(null, 10, 4);
+            var tilemap = TestTilemap();
             var testedType = Tile.TileType.floor;
             tilemap.FillWithTile(tilemap.Bounds, testedType);
 
@@ -48,7 +74,7 @@ namespace rogueliche.UnitTests
         [TestMethod]
         public void ContainsPosition_ChecksIfPositionContanied()
         {
-            var tilemap = new Tilemap(null, 34, 86);
+            var tilemap = TestTilemap();
 
             Assert.IsTrue(tilemap.ContainsPosition(tilemap.Bounds.Center));
             Assert.IsFalse(tilemap.ContainsPosition(new Point(tilemap.Bounds.Left - 1, tilemap.Bounds.Center.Y)));
@@ -59,7 +85,7 @@ namespace rogueliche.UnitTests
         [TestMethod]
         public void RandomPosition_ReturnsDifferentPositions()
         {
-            var tilemap = new Tilemap(null, 50, 34);
+            var tilemap = TestTilemap();
             var randomPos = tilemap.RandomPosition();
             int sameResults = 0;
             int attempts = 100;
