@@ -16,8 +16,14 @@ namespace rogueliche
             {
                 Place(location, position);
             }
-
-            Type = type;
+            if (type != null)
+            {
+                Type = type;
+            }
+            else
+            {
+                throw new ArgumentNullException();
+            }
             Modifier = modifier;
             Durability = MaxDurability;
         }
