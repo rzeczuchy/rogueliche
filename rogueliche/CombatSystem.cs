@@ -43,7 +43,7 @@ namespace rogueliche
                 int chanceOfDamage = 70;// percentile
                 if (Utilities.PassPercentileRoll(chanceOfDamage))
                 {
-                    player.CurrentWeapon.DecrDurability(1, player);
+                    player.CurrentWeapon.DecreaseDurability(1, player);
                 }
             }
         }

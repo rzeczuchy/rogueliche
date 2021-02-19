@@ -25,5 +25,15 @@ namespace rogueliche.UnitTests
                 Assert.Fail();
             }
         }
+
+        [TestMethod]
+        public void Damage_ReturnsCorrectDamage()
+        {
+            int damage = 10;
+            var type = new WeaponType("name", 'c', damage, 10, 10);
+            var weapon = new Weapon(null, new Point(0, 0), type, null);
+
+            Assert.AreEqual(weapon.Damage, 10);
+        }
     }
 }

@@ -95,7 +95,7 @@ namespace rogueliche
             }
         }
 
-        public void DecrDurability(int amount, Player player)
+        public void DecreaseDurability(int amount, Player player)
         {
             if (!IsBroken)
             {
