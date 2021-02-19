@@ -9,6 +9,7 @@ namespace rogueliche
     public class Weapon : IMappable
     {
         private TilemapLayer _layer;
+        private int _durability;
 
         public Weapon(ILocation location, Point position, WeaponType type, WeaponModifier modifier)
         {
@@ -45,8 +46,15 @@ namespace rogueliche
         public Point Position { get; set; }
         public WeaponType Type { get; private set; }
         public WeaponModifier Modifier { get; private set; }
-        public int Durability { get; private set; }
-        public bool IsBroken { get; private set; }
+        public int Durability
+        {
+            get => _durability;
+            set
+            {
+                _durability = Utilities.Clamp(value, 0, 9999);
+            }
+        }
+        public bool IsBroken { get { return Durability <= 0; } }
 
         public int Damage
         {
@@ -97,16 +105,21 @@ namespace rogueliche
 
         public void DecreaseDurability(int amount, Player player)
         {
-            if (!IsBroken)
+            bool wasBroken = IsBroken;
+
+            Durability -= amount;
+
+            if (!wasBroken && IsBroken)
             {
-                Durability -= amount;
-                if (Durability <= 0)
-                {
-                    Durability = 0;
-                    IsBroken = true;
-                    player.WeaponBroke();
-                }
+                Break(player);
             }
+        }
+
+        public void Break(Player player)
+        {
+            if (player == null)
+                return;
+            player.WeaponBroke();
         }
 
         public void Place(ILocation targetLocation, Point targetPos)
