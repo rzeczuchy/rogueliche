@@ -67,5 +67,14 @@ namespace rogueliche.UnitTests
             weapon.DecreaseDurability(weapon.Durability, null);
             Assert.AreEqual(weapon.Durability, 0);
         }
+
+        [TestMethod]
+        public void Place_ThrowsExceptionWhenTargetLocationNull()
+        {
+            var type = new WeaponType("name", 'c', 10, 10, 10);
+            var weapon = new Weapon(null, new Point(0, 0), type, null);
+
+            Assert.ThrowsException<ArgumentNullException>(() => { weapon.Place(null, new Point(0, 0)); });
+        }
     }
 }
