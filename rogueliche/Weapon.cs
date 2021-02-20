@@ -118,12 +118,18 @@ namespace rogueliche
         public void Break(Player player)
         {
             if (player == null)
+            {
                 return;
+            }
             player.WeaponBroke();
         }
 
         public void Place(ILocation targetLocation, Point targetPos)
         {
+            if (targetLocation == null)
+            {
+                throw new ArgumentNullException();
+            }
             _layer = targetLocation.Tilemap.Items;
             _layer.Set(this, targetPos);
             Location = targetLocation;
