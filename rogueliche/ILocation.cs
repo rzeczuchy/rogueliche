@@ -14,5 +14,7 @@ namespace rogueliche
         string Id { get; }
         Tilemap Tilemap { get; }
         Rectangle Bounds { get; }
+
+        void UpdateObjects(Player player);
     }
 }
