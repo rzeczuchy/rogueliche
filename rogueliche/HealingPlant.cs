@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace rogueliche
 {
-    class HealingPlant : IMappable, ICollidable
+    public class HealingPlant : IMappable, ICollidable
     {
         private const int RestoreHealth = 10;
         private TilemapLayer _layer;

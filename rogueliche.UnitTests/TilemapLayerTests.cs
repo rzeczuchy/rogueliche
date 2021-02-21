@@ -13,8 +13,7 @@ namespace rogueliche.UnitTests
             {
                 var dungeon = new Dungeon();
                 var level = dungeon.NewLevel();
-                var tilemap = new Tilemap(level);
-                new TilemapLayer(tilemap);
+                new TilemapLayer(level.Tilemap);
             }
             catch
             {
@@ -26,6 +25,15 @@ namespace rogueliche.UnitTests
         public void Constructor_ThrowsExceptionWhenTilemapNull()
         {
             Assert.ThrowsException<ArgumentNullException>(() => { new TilemapLayer(null); });
+        }
+
+        [TestMethod]
+        public void Get_ReturnsMappableAtPosition()
+        {
+            var pos = new Point(1, 1);
+            var level = new EmptyLevel("level", 25, 25);
+            var plant = new HealingPlant(level, pos);
+            Assert.AreEqual(level.Tilemap.Creatures.Get(pos), plant);
         }
     }
 }
