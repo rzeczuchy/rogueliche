@@ -53,6 +53,7 @@
     <Compile Include="CombatSystem.cs" />
     <Compile Include="Dungeon.cs" />
     <Compile Include="DungeonLevel.cs" />
+    <Compile Include="EmptyLevel.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameActionState.cs" />
     <Compile Include="GameOverState.cs" />
