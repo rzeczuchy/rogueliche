@@ -24,7 +24,7 @@ namespace rogueliche
             }
         }
 
-        public IMappable Get(Point position)
+        public IMappable GetMappable(Point position)
         {
             if (tilemap.ContainsPosition(position))
             {
@@ -36,7 +36,7 @@ namespace rogueliche
             }
         }
 
-        public void Set(IMappable mappable, Point position)
+        public void SetMappable(IMappable mappable, Point position)
         {
             if (tilemap.ContainsPosition(position))
             {
@@ -51,7 +51,7 @@ namespace rogueliche
 
         public void RemoveDeatAtPosition(Point pos)
         {
-            IMappable o = Get(pos);
+            IMappable o = GetMappable(pos);
             if (o != null)
             {
                 if (o.IsDead)
@@ -67,7 +67,7 @@ namespace rogueliche
 
         public void Remove(IMappable o)
         {
-            Set(null, o.Position);
+            SetMappable(null, o.Position);
         }
     }
 }

@@ -182,14 +182,14 @@ namespace rogueliche
             if (CanMoveToPosition(targetPosition))
             {
                 _endTurn = true;
-                if (_layer.Get(targetPosition) == null)
+                if (_layer.GetMappable(targetPosition) == null)
                 {
                     ResetStaminaRegen();
                     Remove();
                     Place(targetLocation, targetPosition);
                     return true;
                 }
-                else if (_layer.Get(targetPosition) is ICollidable collidable)
+                else if (_layer.GetMappable(targetPosition) is ICollidable collidable)
                 {
                     return collidable.OnCollision(this);
                 }
@@ -200,7 +200,7 @@ namespace rogueliche
         public void Place(ILocation targetLocation, Point targetPos)
         {
             _layer = targetLocation.Tilemap.Creatures;
-            _layer.Set(this, targetPos);
+            _layer.SetMappable(this, targetPos);
             Location = targetLocation;
             Position = targetPos;
         }
@@ -264,7 +264,7 @@ namespace rogueliche
 
         private IMappable CollidingEntity(Point targetPosition)
         {
-            return _layer.Get(targetPosition);
+            return _layer.GetMappable(targetPosition);
         }
 
         private void EndTurn()
@@ -303,7 +303,7 @@ namespace rogueliche
 
         private void SwitchWeapon()
         {
-            if (Location.Tilemap.Items.Get(Position) is Weapon weapon)
+            if (Location.Tilemap.Items.GetMappable(Position) is Weapon weapon)
             {
                 Weapon previousWeapon = CurrentWeapon;
                 CurrentWeapon = weapon;

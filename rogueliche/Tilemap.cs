@@ -160,11 +160,11 @@ namespace rogueliche
 
         public IMappable TopMappable(Point pos)
         {
-            if (Creatures.Get(pos) is IMappable creature)
+            if (Creatures.GetMappable(pos) is IMappable creature)
             {
                 return creature;
             }
-            else if (Items.Get(pos) is IMappable item)
+            else if (Items.GetMappable(pos) is IMappable item)
             {
                 return item;
             }

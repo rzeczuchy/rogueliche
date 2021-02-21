@@ -28,12 +28,12 @@ namespace rogueliche.UnitTests
         }
 
         [TestMethod]
-        public void Get_ReturnsMappableAtPosition()
+        public void GetMappable_ReturnsMappableAtPosition()
         {
             var pos = new Point(1, 1);
             var level = new EmptyLevel("level", 25, 25);
             var plant = new HealingPlant(level, pos);
-            Assert.AreEqual(level.Tilemap.Creatures.Get(pos), plant);
+            Assert.AreEqual(level.Tilemap.Creatures.GetMappable(pos), plant);
         }
     }
 }

@@ -136,13 +136,13 @@ namespace rogueliche
         bool CanPlaceCreature(Point pos)
         {
             return Tilemap.ContainsPosition(pos) && Tilemap.IsWalkable(pos) &&
-                Tilemap.Creatures.Get(pos) == null && Tilemap.GetTile(pos).Type != Tile.TileType.exit;
+                Tilemap.Creatures.GetMappable(pos) == null && Tilemap.GetTile(pos).Type != Tile.TileType.exit;
         }
 
         bool CanPlaceItem(Point pos)
         {
             return Tilemap.ContainsPosition(pos) && Tilemap.IsWalkable(pos) &&
-                (Tilemap.Creatures.Get(pos) == null || Tilemap.Creatures.Get(pos) is Monster) &&
+                (Tilemap.Creatures.GetMappable(pos) == null || Tilemap.Creatures.GetMappable(pos) is Monster) &&
                 Tilemap.GetTile(pos).Type != Tile.TileType.exit;
         }
 

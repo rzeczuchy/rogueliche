@@ -131,7 +131,7 @@ namespace rogueliche
                 throw new ArgumentNullException();
             }
             _layer = targetLocation.Tilemap.Items;
-            _layer.Set(this, targetPos);
+            _layer.SetMappable(this, targetPos);
             Location = targetLocation;
             Position = targetPos;
         }

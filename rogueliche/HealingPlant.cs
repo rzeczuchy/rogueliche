@@ -40,7 +40,7 @@ namespace rogueliche
         public void Place(ILocation targetLocation, Point targetPos)
         {
             _layer = targetLocation.Tilemap.Creatures;
-            _layer.Set(this, targetPos);
+            _layer.SetMappable(this, targetPos);
             Location = targetLocation;
             Position = targetPos;
         }

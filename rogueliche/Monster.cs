@@ -111,7 +111,7 @@ namespace rogueliche
         public void Place(ILocation targetLocation, Point targetPos)
         {
             _layer = targetLocation.Tilemap.Creatures;
-            _layer.Set(this, targetPos);
+            _layer.SetMappable(this, targetPos);
             Location = targetLocation;
             Position = targetPos;
         }
@@ -130,7 +130,7 @@ namespace rogueliche
 
         public IMappable CollidingEntity(Point targetPosition)
         {
-            return _layer.Get(targetPosition);
+            return _layer.GetMappable(targetPosition);
         }
 
         public void Update(Player player)

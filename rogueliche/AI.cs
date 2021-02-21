@@ -95,7 +95,7 @@ namespace rogueliche
         {
             return moveable.Location.Tilemap.ContainsPosition(pos) &&
                 moveable.Location.Tilemap.IsWalkable(pos) &&
-                moveable.Location.Tilemap.Creatures.Get(pos) == null;
+                moveable.Location.Tilemap.Creatures.GetMappable(pos) == null;
         }
 
         public static double MovementCost(Point start, Point tested, Point target)
