@@ -56,7 +56,7 @@ namespace rogueliche
             {
                 if (o.IsDead)
                 {
-                    Remove(o);
+                    RemoveMappable(o);
                 }
                 else
                 {
@@ -65,7 +65,7 @@ namespace rogueliche
             }
         }
 
-        public void Remove(IMappable o)
+        public void RemoveMappable(IMappable o)
         {
             SetMappable(null, o.Position);
         }

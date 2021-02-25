@@ -118,7 +118,7 @@ namespace rogueliche
 
         public void Remove()
         {
-            _layer.Remove(this);
+            _layer.RemoveMappable(this);
             Location = null;
             Position = null;
         }
@@ -159,7 +159,7 @@ namespace rogueliche
         public void Die(IFightable attacker)
         {
             IsDead = true;
-            _layer.Remove(this);
+            _layer.RemoveMappable(this);
         }
 
         public void Kill(IFightable target)

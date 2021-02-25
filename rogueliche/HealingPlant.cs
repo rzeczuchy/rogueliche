@@ -33,7 +33,7 @@ namespace rogueliche
         public bool OnCollision(Player player)
         {
             player.Health += RestoreHealth;
-            _layer.Remove(this);
+            _layer.RemoveMappable(this);
             return true;
         }
 
@@ -47,7 +47,7 @@ namespace rogueliche
 
         public void Remove()
         {
-            _layer.Remove(this);
+            _layer.RemoveMappable(this);
             Location = null;
             Position = null;
         }

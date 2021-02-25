@@ -90,5 +90,17 @@ namespace rogueliche.UnitTests
             level.Tilemap.Creatures.FilterDeatAtPosition(pos);
             Assert.AreEqual(level.Tilemap.Creatures.GetMappable(pos), null);
         }
+
+        [TestMethod]
+        public void RemoveMappable_RemovesMappableFromLayer()
+        {
+            var pos = new Point(1, 1);
+            var level = new EmptyLevel("level", pos.X + 10, pos.Y + 10);
+            var plant = new HealingPlant(level, pos);
+            Assert.AreEqual(level.Tilemap.Creatures.GetMappable(pos), plant);
+            
+            level.Tilemap.Creatures.RemoveMappable(plant);
+            Assert.AreEqual(level.Tilemap.Creatures.GetMappable(pos), null);
+        }
     }
 }

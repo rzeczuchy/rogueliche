@@ -207,7 +207,7 @@ namespace rogueliche
 
         public void Remove()
         {
-            _layer.Remove(this);
+            _layer.RemoveMappable(this);
             Location = null;
             Position = null;
         }
