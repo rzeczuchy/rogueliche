@@ -75,5 +75,20 @@ namespace rogueliche.UnitTests
                 Assert.Fail();
             }
         }
+
+        [TestMethod]
+        public void RemoveDeatAtPosition_RemovesOnlyDeadMappables()
+        {
+            var pos = new Point(1, 1);
+            var level = new EmptyLevel("level", pos.X + 10, pos.Y + 10);
+            var plant = new HealingPlant(level, pos);
+
+            level.Tilemap.Creatures.RemoveDeatAtPosition(pos);
+            Assert.AreEqual(level.Tilemap.Creatures.GetMappable(pos), plant);
+
+            plant.IsDead = true;
+            level.Tilemap.Creatures.RemoveDeatAtPosition(pos);
+            Assert.AreEqual(level.Tilemap.Creatures.GetMappable(pos), null);
+        }
     }
 }
