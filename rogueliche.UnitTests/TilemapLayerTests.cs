@@ -45,5 +45,35 @@ namespace rogueliche.UnitTests
 
             Assert.AreEqual(level.Tilemap.Creatures.GetMappable(pos), null);
         }
+
+        [TestMethod]
+        public void SetMappable_SetsMappableAtPosition()
+        {
+            var pos = new Point(1, 1);
+            var level = new EmptyLevel("level", pos.X + 10, pos.Y + 10);
+            var item = new Weapon(null, null, new WeaponType("type", 'W', 1, 1, 1), null);
+
+            Assert.AreEqual(level.Tilemap.Items.GetMappable(pos), null);
+
+            level.Tilemap.Items.SetMappable(item, pos);
+
+            Assert.AreEqual(level.Tilemap.Items.GetMappable(pos), item);
+        }
+
+        [TestMethod]
+        public void SetMappable_ThrowsNoExceptionWhenPositionOutOfBounds()
+        {
+            var level = new EmptyLevel("level", 10, 10);
+            var pos = new Point(level.Bounds.Right + 1, level.Bounds.Bottom + 1);
+
+            try
+            {
+                level.Tilemap.Creatures.SetMappable(null, pos);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
+        }
     }
 }
