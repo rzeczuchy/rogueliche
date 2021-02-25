@@ -83,11 +83,11 @@ namespace rogueliche.UnitTests
             var level = new EmptyLevel("level", pos.X + 10, pos.Y + 10);
             var plant = new HealingPlant(level, pos);
 
-            level.Tilemap.Creatures.RemoveDeatAtPosition(pos);
+            level.Tilemap.Creatures.FilterDeatAtPosition(pos);
             Assert.AreEqual(level.Tilemap.Creatures.GetMappable(pos), plant);
 
             plant.IsDead = true;
-            level.Tilemap.Creatures.RemoveDeatAtPosition(pos);
+            level.Tilemap.Creatures.FilterDeatAtPosition(pos);
             Assert.AreEqual(level.Tilemap.Creatures.GetMappable(pos), null);
         }
     }

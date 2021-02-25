@@ -46,10 +46,10 @@ namespace rogueliche
 
         public void FilterDead()
         {
-            tilemap.PerformOnAllTiles((pos) => RemoveDeatAtPosition(pos));
+            tilemap.PerformOnAllTiles((pos) => FilterDeatAtPosition(pos));
         }
 
-        public void RemoveDeatAtPosition(Point pos)
+        public void FilterDeatAtPosition(Point pos)
         {
             IMappable o = GetMappable(pos);
             if (o != null)
