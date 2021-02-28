@@ -57,6 +57,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="GameActionState.cs" />
     <Compile Include="GameOverState.cs" />
+    <Compile Include="GameSaver.cs" />
     <Compile Include="GameStartState.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="Generator.cs" />
