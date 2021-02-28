@@ -9,15 +9,27 @@ namespace rogueliche
     public class GameActionState : GameState
     {
         private readonly Game game;
-        private Dungeon dungeon;
-        private Player player;
+        private readonly Dungeon dungeon;
+        private readonly Player player;
+        private readonly List<ISaveable> saveables;
+        private readonly GameSaver saver;
 
         public GameActionState(Game game)
         {
             this.game = game;
-            dungeon = new Dungeon();
-            ILocation startingLevel = dungeon.NewLevel();
-            player = new Player(startingLevel, startingLevel.Entrance);
+            saver = new GameSaver();
+            saveables = new List<ISaveable>();
+            
+            if (saver.CanLoadGame())
+            {
+
+            }
+            else
+            {
+                dungeon = new Dungeon();
+                ILocation startingLevel = dungeon.NewLevel();
+                player = new Player(startingLevel, startingLevel.Entrance);
+            }
         }
 
         public override void Update(UI ui, ConsoleKey input)
@@ -26,6 +38,7 @@ namespace rogueliche
 
             if (player.IsDead)
             {
+                saver.DeleteSaveFile();
                 EndGame();
             }
         }

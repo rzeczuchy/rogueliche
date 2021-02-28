@@ -68,6 +68,7 @@
     <Compile Include="ILocation.cs" />
     <Compile Include="IMappable.cs" />
     <Compile Include="IMoveable.cs" />
+    <Compile Include="ISaveable.cs" />
     <Compile Include="Monster.cs" />
     <Compile Include="MonsterAI.cs" />
     <Compile Include="MonsterModifier.cs" />

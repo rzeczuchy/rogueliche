@@ -12,15 +12,20 @@ namespace rogueliche
     {
         private const string Savepath = "save.xml";
 
-        public void SaveGame(GameActionState state)
+        public void SaveGame(List<ISaveable> saveables)
         {
+            DeleteSaveFile();
+
             XmlWriterSettings settings = new XmlWriterSettings { Indent = true };
             using (XmlWriter writer = XmlWriter.Create(Savepath, settings))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("Save");
 
-                // save game state here
+                foreach (ISaveable s in saveables)
+                {
+                    s.Save(writer);
+                }
 
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
@@ -41,12 +46,22 @@ namespace rogueliche
             }
         }
 
-        public void DeleteSave()
+        public bool CanLoadGame()
         {
-            if (File.Exists(Savepath))
+            return SaveFileExists();
+        }
+
+        public void DeleteSaveFile()
+        {
+            if (SaveFileExists())
             {
                 File.Delete(Savepath);
             }
+        }
+
+        private bool SaveFileExists()
+        {
+            return File.Exists(Savepath);
         }
     }
 }
