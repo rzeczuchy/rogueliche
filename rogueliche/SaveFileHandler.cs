@@ -8,11 +8,11 @@ using System.Xml;
 
 namespace rogueliche
 {
-    public class GameSaver
+    public class SaveFileHandler
     {
         private const string Savepath = "save.xml";
 
-        public void SaveGame(List<ISaveable> saveables)
+        public void WriteSaveFile()
         {
             DeleteSaveFile();
 
@@ -21,29 +21,30 @@ namespace rogueliche
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("Save");
-
-                foreach (ISaveable s in saveables)
-                {
-                    s.Save(writer);
-                }
+                
+                // save game state
 
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
             }
         }
 
-        public void LoadGame()
+        public Save LoadPlayer(ILocation location)
         {
+            var save = new Save();
+
             using (XmlReader reader = XmlReader.Create(Savepath))
             {
                 while (reader.Read())
                 {
                     if (reader.IsStartElement())
                     {
-                       // load game state here 
+                       // parse save file to save
                     }
                 }
             }
+
+            return save;
         }
 
         public bool CanLoadGame()

@@ -57,7 +57,8 @@
     <Compile Include="Game.cs" />
     <Compile Include="GameActionState.cs" />
     <Compile Include="GameOverState.cs" />
-    <Compile Include="GameSaver.cs" />
+    <Compile Include="Save.cs" />
+    <Compile Include="SaveFileHandler.cs" />
     <Compile Include="GameStartState.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="Generator.cs" />
@@ -68,7 +69,6 @@
     <Compile Include="ILocation.cs" />
     <Compile Include="IMappable.cs" />
     <Compile Include="IMoveable.cs" />
-    <Compile Include="ISaveable.cs" />
     <Compile Include="Monster.cs" />
     <Compile Include="MonsterAI.cs" />
     <Compile Include="MonsterModifier.cs" />

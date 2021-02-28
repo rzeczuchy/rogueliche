@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 
 namespace rogueliche
 {
-    public interface ISaveable
+    public class Save
     {
-        void Save(XmlWriter writer);
-        void Load(XmlReader reader);
+        public ILocation Location { get; set; }
+        public Player Player { get; set; }
     }
 }
