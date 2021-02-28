@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace rogueliche
 {
-    class Game
+    public class Game
     {
         public const string GameTitle = "Rogueliche";
         public const string Version = "1.0.2";

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace rogueliche
 {
-    class GameActionState : GameState
+    public class GameActionState : GameState
     {
         private readonly Game game;
         private Dungeon dungeon;

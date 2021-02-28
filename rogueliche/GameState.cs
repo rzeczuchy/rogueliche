@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace rogueliche
 {
-    abstract class GameState
+    public abstract class GameState
     {
         public abstract void Update(UI ui, ConsoleKey input);
 

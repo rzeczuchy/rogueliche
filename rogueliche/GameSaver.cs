@@ -12,7 +12,7 @@ namespace rogueliche
     {
         private const string Savepath = "save.xml";
 
-        public void SaveGame()
+        public void SaveGame(GameActionState state)
         {
             XmlWriterSettings settings = new XmlWriterSettings { Indent = true };
             using (XmlWriter writer = XmlWriter.Create(Savepath, settings))
