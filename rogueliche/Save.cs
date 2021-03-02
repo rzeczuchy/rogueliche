@@ -17,6 +17,5 @@ namespace rogueliche
         public int PlayerExpToNextLvl { get; set; }
         public int PlayerExertion { get; set; }
         public int PlayerMaxExertion { get; set; }
-        public int PlayerExpGained { get; set; }
     }
 }

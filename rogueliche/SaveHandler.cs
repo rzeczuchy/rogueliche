@@ -26,8 +26,8 @@ namespace rogueliche
                 PlayerLvl = player.Lvl,
                 PlayerExp = player.Exp,
                 PlayerExpToNextLvl = player.ExpToNextLvl,
+                PlayerMaxExertion = player.MaxExertion,
                 PlayerExertion = player.Exertion,
-                PlayerExpGained = player.ExpGained,
             };
 
             var serializer = new XmlSerializer(save.GetType());

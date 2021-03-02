@@ -65,7 +65,7 @@ namespace rogueliche
         public int ExpToNextLvl { get; private set; }
         public int Exertion { get; private set; }
         public int MaxExertion { get; private set; }
-        public int ExpGained { get; set; }
+        public int ExpGained { get => 0; }
 
         public void GainExp(int amount)
         {
@@ -250,8 +250,8 @@ namespace rogueliche
             Lvl = save.PlayerLvl;
             Exp = save.PlayerExp;
             ExpToNextLvl = save.PlayerExpToNextLvl;
+            MaxExertion = save.PlayerMaxExertion;
             Exertion = save.PlayerExertion;
-            ExpGained = save.PlayerExpGained;
         }
 
         private void AddExertion(int amount)
