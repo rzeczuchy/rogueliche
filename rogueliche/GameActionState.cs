@@ -11,12 +11,12 @@ namespace rogueliche
         private readonly Game game;
         private Dungeon dungeon;
         private Player player;
-        private SaveFileHandler saveHandler;
+        private SaveHandler saveHandler;
 
         public GameActionState(Game game)
         {
             this.game = game;
-            saveHandler = new SaveFileHandler();
+            saveHandler = new SaveHandler();
             dungeon = new Dungeon();
 
             if (saveHandler.CanLoadGame())
@@ -35,7 +35,7 @@ namespace rogueliche
 
             if (player.IsDead)
             {
-                DeleteSave();
+                DeleteSavedGame();
                 EndGame();
             }
             else
@@ -59,15 +59,19 @@ namespace rogueliche
 
         private void SaveGame()
         {
+            saveHandler.SaveGame(player);
         }
 
         private void LoadGame()
         {
+            var startingLevel = dungeon.NewLevel();
+            player = new Player(startingLevel, startingLevel.Entrance);
+            player.Load(saveHandler.LoadGame());
         }
 
-        private void DeleteSave()
+        private void DeleteSavedGame()
         {
-            saveHandler.DeleteSaveFile();
+            saveHandler.DeleteSave();
         }
 
         private void EndGame()

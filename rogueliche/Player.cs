@@ -241,6 +241,19 @@ namespace rogueliche
             BrokenWeapons++;
         }
 
+        public void Load(Save save)
+        {
+            KillCount = save.PlayerKillCount;
+            BrokenWeapons = save.PlayerBrokenWeapons;
+            MaxHealth = save.PlayerMaxHealth;
+            _health = save.PlayerHealth;
+            Lvl = save.PlayerLvl;
+            Exp = save.PlayerExp;
+            ExpToNextLvl = save.PlayerExpToNextLvl;
+            Exertion = save.PlayerExertion;
+            ExpGained = save.PlayerExpGained;
+        }
+
         private void AddExertion(int amount)
         {
             Exertion += amount;
