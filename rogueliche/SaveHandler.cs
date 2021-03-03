@@ -16,7 +16,7 @@ namespace rogueliche
         public void SaveGame(Player player)
         {
             DeleteSave();
-            var save = CreateSave(player);
+            var save = new Save(player);
             var serializer = new XmlSerializer(save.GetType());
             var settings = new XmlWriterSettings { Indent = true };
             using (var writer = XmlWriter.Create(Savepath, settings))
@@ -53,22 +53,6 @@ namespace rogueliche
             {
                 File.Delete(Savepath);
             }
-        }
-
-        private Save CreateSave(Player player)
-        {
-            return new Save()
-            {
-                PlayerKillCount = player.KillCount,
-                PlayerBrokenWeapons = player.BrokenWeapons,
-                PlayerMaxHealth = player.MaxHealth,
-                PlayerHealth = player.Health,
-                PlayerLvl = player.Lvl,
-                PlayerExp = player.Exp,
-                PlayerExpToNextLvl = player.ExpToNextLvl,
-                PlayerMaxExertion = player.MaxExertion,
-                PlayerExertion = player.Exertion,
-            };
         }
 
         private bool CanUnpackSaveFile(XmlReader reader, XmlSerializer serializer)

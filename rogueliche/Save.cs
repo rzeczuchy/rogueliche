@@ -8,6 +8,23 @@ namespace rogueliche
 {
     public class Save
     {
+        public Save()
+        {
+        }
+
+        public Save(Player player)
+        {
+            PlayerKillCount = player.KillCount;
+            PlayerBrokenWeapons = player.BrokenWeapons;
+            PlayerMaxHealth = player.MaxHealth;
+            PlayerHealth = player.Health;
+            PlayerLvl = player.Lvl;
+            PlayerExp = player.Exp;
+            PlayerExpToNextLvl = player.ExpToNextLvl;
+            PlayerMaxExertion = player.MaxExertion;
+            PlayerExertion = player.Exertion;
+        }
+
         public int PlayerKillCount { get; set; }
         public int PlayerBrokenWeapons { get; set; }
         public int PlayerMaxHealth { get; set; }
