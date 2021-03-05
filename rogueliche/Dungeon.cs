@@ -26,7 +26,6 @@ namespace rogueliche
 
         public Dungeon(int levelIndex)
         {
-            Generator = new Generator();
             Width = 200;
             Height = 200;
             LevelIndex = levelIndex;
@@ -44,7 +43,6 @@ namespace rogueliche
         }
 
         public int LevelIndex { get => levelIndex; set => levelIndex = Utilities.Clamp(value, 0, 99999); }
-        public Generator Generator { get; private set; }
         public double MonstersPerRoom { get; set; }
         public double WeaponsPerRoom { get; set; }
         public double PlantsPerRoom { get; set; }
