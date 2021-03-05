@@ -12,6 +12,8 @@ namespace rogueliche
 
         public DungeonLevel(Dungeon dungeon)
         {
+            Generator = new Generator();
+
             if (dungeon != null)
             {
                 this.dungeon = dungeon;
@@ -28,6 +30,7 @@ namespace rogueliche
             GenerateLevel();
         }
 
+        public Generator Generator { get; private set; }
         public ChamberTree ChamberTree { get; private set; }
         public int LevelIndex { get; private set; }
         public Point Entrance { get; private set; }
@@ -103,7 +106,7 @@ namespace rogueliche
 
             if (CanPlaceCreature(pos))
             {
-                dungeon.Generator.NewMonster(this, pos, LevelIndex);
+                Generator.NewMonster(this, pos, LevelIndex);
                 return true;
             }
             return false;
@@ -115,7 +118,7 @@ namespace rogueliche
 
             if (CanPlaceItem(pos))
             {
-                dungeon.Generator.NewWeapon(this, pos, LevelIndex);
+                Generator.NewWeapon(this, pos, LevelIndex);
                 return true;
             }
             return false;

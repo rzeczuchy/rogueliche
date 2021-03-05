@@ -15,6 +15,7 @@ namespace rogueliche
             Tilemap = new Tilemap(this);
         }
 
+        public Generator Generator { get => null; }
         public Point Entrance { get => null; }
         public Point Exit { get => null; }
         public string Name { get; private set; }
