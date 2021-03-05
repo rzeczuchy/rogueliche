@@ -23,7 +23,17 @@ namespace rogueliche
             PlayerExpToNextLvl = player.ExpToNextLvl;
             PlayerMaxExertion = player.MaxExertion;
             PlayerExertion = player.Exertion;
-            LevelIndex = player.Location is DungeonLevel dungeonLevel ? dungeonLevel.LevelIndex : 0;
+            PlayerWeaponType = player.CurrentWeapon.Type.Name;
+            if (player.CurrentWeapon.Modifier != null)
+            {
+                PlayerWeaponModifier = player.CurrentWeapon.Modifier.NamePrefix;
+            }
+            else
+            {
+                PlayerWeaponModifier = null;
+            }
+            PlayerWeaponDurability = player.CurrentWeapon.Durability;
+            LevelIndex = player.Location is DungeonLevel dungeonLevel ? (dungeonLevel.LevelIndex - 1) : 0;
         }
 
         public int PlayerKillCount { get; set; }
@@ -35,6 +45,9 @@ namespace rogueliche
         public int PlayerExpToNextLvl { get; set; }
         public int PlayerExertion { get; set; }
         public int PlayerMaxExertion { get; set; }
+        public string PlayerWeaponType { get; set; }
+        public string PlayerWeaponModifier { get; set; }
+        public int PlayerWeaponDurability { get; set; }
         public int LevelIndex { get; set; }
     }
 }

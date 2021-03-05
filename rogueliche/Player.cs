@@ -252,6 +252,24 @@ namespace rogueliche
             ExpToNextLvl = save.PlayerExpToNextLvl;
             MaxExertion = save.PlayerMaxExertion;
             Exertion = save.PlayerExertion;
+            if (CanLoadWeapon(save))
+            {
+                LoadWeapon(save);
+                CurrentWeapon.Durability = save.PlayerWeaponDurability;
+            }
+        }
+
+        private void LoadWeapon(Save save)
+        {
+            var type = Location.Generator.GetWeaponType(save.PlayerWeaponType);
+            var mod = save.PlayerWeaponModifier != null ? Location.Generator.GetWeaponModifier(save.PlayerWeaponModifier) : null;
+            CurrentWeapon = new Weapon(null, null, type, mod);
+        }
+
+        private bool CanLoadWeapon(Save save)
+        {
+            return Location.Generator.WeaponTypeExists(save.PlayerWeaponType) &&
+                (Location.Generator.WeaponModifierExists(save.PlayerWeaponModifier) || save.PlayerWeaponModifier == null);
         }
 
         private void AddExertion(int amount)
