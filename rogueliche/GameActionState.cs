@@ -64,6 +64,7 @@ namespace rogueliche
 
         private void LoadGame()
         {
+            dungeon.LevelIndex = saveHandler.LoadGame().LevelIndex;
             var startingLevel = dungeon.NewLevel();
             player = new Player(startingLevel, startingLevel.Entrance);
             player.Load(saveHandler.LoadGame());

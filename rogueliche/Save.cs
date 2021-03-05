@@ -23,6 +23,7 @@ namespace rogueliche
             PlayerExpToNextLvl = player.ExpToNextLvl;
             PlayerMaxExertion = player.MaxExertion;
             PlayerExertion = player.Exertion;
+            LevelIndex = player.Location is DungeonLevel dungeonLevel ? dungeonLevel.LevelIndex : 0;
         }
 
         public int PlayerKillCount { get; set; }
@@ -34,5 +35,6 @@ namespace rogueliche
         public int PlayerExpToNextLvl { get; set; }
         public int PlayerExertion { get; set; }
         public int PlayerMaxExertion { get; set; }
+        public int LevelIndex { get; set; }
     }
 }

@@ -18,12 +18,18 @@ namespace rogueliche
         private int minRooms;
         private int maxRooms;
 
-        public Dungeon()
+        public Dungeon() :
+            this(0)
+        {
+
+        }
+
+        public Dungeon(int levelIndex)
         {
             Generator = new Generator();
             Width = 200;
             Height = 200;
-            LevelIndex = 0;
+            LevelIndex = levelIndex;
             MinRooms = 6;
             MaxRooms = 26;
             MinRoomWidth = 3;
@@ -37,7 +43,7 @@ namespace rogueliche
             ForceRegularRooms = false;
         }
 
-        public int LevelIndex { get => levelIndex; private set => levelIndex = Utilities.Clamp(value, 0, 99999); }
+        public int LevelIndex { get => levelIndex; set => levelIndex = Utilities.Clamp(value, 0, 99999); }
         public Generator Generator { get; private set; }
         public double MonstersPerRoom { get; set; }
         public double WeaponsPerRoom { get; set; }
