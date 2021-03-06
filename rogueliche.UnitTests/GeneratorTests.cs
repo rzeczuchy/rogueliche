@@ -12,7 +12,7 @@ namespace rogueliche.UnitTests
             var generator = new Generator();
             var level = new DungeonLevel(new Dungeon());
             var position = new Point(1, 1);
-            var monster = generator.NewMonster(level, position, 1);
+            var monster = generator.NewRandomMonster(level, position, 1);
 
             Assert.IsInstanceOfType(monster, typeof(Monster));
             Assert.AreEqual(monster.Location, level);
@@ -25,7 +25,7 @@ namespace rogueliche.UnitTests
             var generator = new Generator();
             var level = new DungeonLevel(new Dungeon());
             var position = new Point(1, 1);
-            var weapon = generator.NewWeapon(level, position, 1);
+            var weapon = generator.NewRandomWeapon(level, position, 1);
 
             Assert.IsInstanceOfType(weapon, typeof(Weapon));
             Assert.AreEqual(weapon.Location, level);

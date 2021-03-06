@@ -110,7 +110,7 @@ namespace rogueliche
         public WeaponModifier Light { get; private set; }
         public WeaponModifier Heavy { get; private set; }
 
-        public WeaponType GetWeaponType(string name)
+        public WeaponType GetWeaponTypeByName(string name)
         {
             return WeaponTypes.First(o => o.Name == name);
         }
@@ -120,9 +120,9 @@ namespace rogueliche
             return WeaponTypes.Any(o => o.Name == name);
         }
 
-        public WeaponModifier GetWeaponModifier(string namePrefix)
+        public WeaponModifier GetWeaponModifierByName(string name)
         {
-            return WeaponModifiers.First(o => o.NamePrefix == namePrefix);
+            return WeaponModifiers.First(o => o.NamePrefix == name);
         }
 
         public bool WeaponModifierExists(string namePrefix)
@@ -130,7 +130,7 @@ namespace rogueliche
             return WeaponModifiers.Any(o => o.NamePrefix == namePrefix);
         }
 
-        public Monster NewMonster(ILocation level, Point position, int floor)
+        public Monster NewRandomMonster(ILocation level, Point position, int floor)
         {
             var modifier = Utilities.PassPercentileRoll(SpecialMonsterChance) ?
                 Utilities.GetRandomFromList(MonsterModifiers) : null;
@@ -138,7 +138,7 @@ namespace rogueliche
             return new Monster(level, position, MonsterTypes[LevelFactor(floor, MonsterTypes.Count())], modifier);
         }
 
-        public Weapon NewWeapon(ILocation level, Point position, int floor)
+        public Weapon NewRandomWeapon(ILocation level, Point position, int floor)
         {
             var modifier = Utilities.PassPercentileRoll(SpecialWeaponChance) ?
                 Utilities.GetRandomFromList(WeaponModifiers) : null;

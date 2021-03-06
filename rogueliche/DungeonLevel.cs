@@ -106,7 +106,7 @@ namespace rogueliche
 
             if (CanPlaceCreature(pos))
             {
-                Generator.NewMonster(this, pos, LevelIndex);
+                Generator.NewRandomMonster(this, pos, LevelIndex);
                 return true;
             }
             return false;
@@ -118,7 +118,7 @@ namespace rogueliche
 
             if (CanPlaceItem(pos))
             {
-                Generator.NewWeapon(this, pos, LevelIndex);
+                Generator.NewRandomWeapon(this, pos, LevelIndex);
                 return true;
             }
             return false;

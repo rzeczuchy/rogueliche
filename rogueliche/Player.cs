@@ -261,8 +261,8 @@ namespace rogueliche
 
         private void LoadWeapon(Save save)
         {
-            var type = Location.Generator.GetWeaponType(save.PlayerWeaponType);
-            var mod = save.PlayerWeaponModifier != null ? Location.Generator.GetWeaponModifier(save.PlayerWeaponModifier) : null;
+            var type = Location.Generator.GetWeaponTypeByName(save.PlayerWeaponType);
+            var mod = save.PlayerWeaponModifier != null ? Location.Generator.GetWeaponModifierByName(save.PlayerWeaponModifier) : null;
             CurrentWeapon = new Weapon(null, null, type, mod);
         }
 
