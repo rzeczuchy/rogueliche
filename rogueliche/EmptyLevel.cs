@@ -11,11 +11,12 @@ namespace rogueliche
         public EmptyLevel(string name, int width, int height)
         {
             Name = name;
+            Generator = new Generator();
             Bounds = new Rectangle(0, 0, width, height);
             Tilemap = new Tilemap(this);
         }
 
-        public Generator Generator { get => null; }
+        public Generator Generator { get; }
         public Point Entrance { get => null; }
         public Point Exit { get => null; }
         public string Name { get; private set; }

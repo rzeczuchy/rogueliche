@@ -54,6 +54,7 @@
     <Compile Include="TilemapTests.cs" />
     <Compile Include="DungeonTests.cs" />
     <Compile Include="TilemapLayerTests.cs" />
+    <Compile Include="PlayerTests.cs" />
     <Compile Include="WeaponTests.cs" />
     <Compile Include="UtilitiesTests.cs" />
     <Compile Include="PointTests.cs" />
