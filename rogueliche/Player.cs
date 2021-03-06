@@ -52,7 +52,7 @@ namespace rogueliche
         public int KillCount { get; private set; }
         public int BrokenWeapons { get; private set; }
         public WeaponType StartingWeapon { get; private set; }
-        public virtual int Health
+        public int Health
         {
             get => _health;
             set => _health = Utilities.Clamp(value, 0, MaxHealth);
