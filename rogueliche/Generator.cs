@@ -8,11 +8,11 @@ namespace rogueliche
 {
     public class Generator
     {
-        const int SpecialMonsterChance = 25;
-        const int SpecialWeaponChance = 25;
-
         public Generator()
         {
+            SpecialMonsterChance = 25;
+            SpecialWeaponChance = 25;
+
             Slime = new MonsterType("slime", 's', 6, 2, 5, 3);
             Pest = new MonsterType("pest", 'p', 10, 3, 5, 10);
             Ghoul = new MonsterType("ghoul", 'g', 22, 4, 3, 15);
@@ -62,6 +62,9 @@ namespace rogueliche
             WeaponModifiers = new List<WeaponModifier>() { Stinging, Bloodthirsty, Sturdy, Unbreakable,
                 Quality, Masterful, Worn, Tattered, Crystal, Spirit, Light, Heavy };
         }
+        
+        public int SpecialMonsterChance { get; set; }
+        public int SpecialWeaponChance { get; set; }
 
         public List<MonsterType> MonsterTypes { get; }
         public List<MonsterModifier> MonsterModifiers { get; }

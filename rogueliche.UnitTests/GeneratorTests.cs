@@ -7,7 +7,7 @@ namespace rogueliche.UnitTests
     public class GeneratorTests
     {
         [TestMethod]
-        public void NewMonster_ReturnsMonster()
+        public void NewRandomMonster_ReturnsMonster()
         {
             var generator = new Generator();
             var level = new DungeonLevel(new Dungeon());
@@ -20,7 +20,7 @@ namespace rogueliche.UnitTests
         }
 
         [TestMethod]
-        public void NewWeapon_ReturnsWeapon()
+        public void NewRandomWeapon_ReturnsWeapon()
         {
             var generator = new Generator();
             var level = new DungeonLevel(new Dungeon());
@@ -30,6 +30,38 @@ namespace rogueliche.UnitTests
             Assert.IsInstanceOfType(weapon, typeof(Weapon));
             Assert.AreEqual(weapon.Location, level);
             Assert.AreEqual(weapon.Position, position);
+        }
+
+        [TestMethod]
+        public void GetWeaponTypeByName_ReturnsCorrectWeaponType()
+        {
+            var generator = new Generator();
+            var type = generator.Mace;
+            Assert.AreEqual(type, generator.GetWeaponTypeByName(type.Name));
+        }
+
+        [TestMethod]
+        public void WeaponTypeExists_ChecksForTypeInList()
+        {
+            var generator = new Generator();
+            var result = generator.WeaponTypeExists("jabberwocky");
+            Assert.AreEqual(false, result);
+        }
+
+        [TestMethod]
+        public void GetWeaponModifierByName_ReturnsCorrectWeaponModifier()
+        {
+            var generator = new Generator();
+            var modifier = generator.Stinging;
+            Assert.AreEqual(modifier, generator.GetWeaponModifierByName(modifier.NamePrefix));
+        }
+
+        [TestMethod]
+        public void WeaponModifierExists_ChecksForModifierInList()
+        {
+            var generator = new Generator();
+            var result = generator.WeaponModifierExists("jabberwocky");
+            Assert.AreEqual(false, result);
         }
     }
 }
