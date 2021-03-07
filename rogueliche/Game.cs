@@ -9,7 +9,7 @@ namespace rogueliche
     public class Game
     {
         public const string GameTitle = "Rogueliche";
-        public const string Version = "1.1.2";
+        public const string Version = "1.1.3";
         public const string Copyright = "coded by rzeczuchy 2019-2021 ver";
 
         private readonly Graphics render;
