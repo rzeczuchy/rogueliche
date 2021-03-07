@@ -10,7 +10,7 @@ namespace rogueliche
     public class Game
     {
         public const string GameTitle = "Rogueliche";
-        public const string Version = "1.1.1";
+        public const string Version = "1.1.2";
         public const string Copyright = "coded by rzeczuchy 2019-2021 ver";
 
         private readonly Graphics render;
@@ -18,6 +18,8 @@ namespace rogueliche
         private readonly Stopwatch loopTimer;
         private const double fps = 30;
         private const double timeStep = (1 / fps) * 1000;
+        private const int BufferWidth = 102;
+        private const int BufferHeight = 68;
         private readonly Stack<GameState> gameStates;
         private bool isRunning;
 
@@ -51,12 +53,20 @@ namespace rogueliche
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
             Console.CursorVisible = false;
-            Console.SetWindowSize(1, 1);
-            Console.SetBufferSize(128, 72);
-            int windowWidth = Console.LargestWindowWidth > Console.BufferWidth ? Console.BufferWidth : Console.LargestWindowWidth - 1;
-            int windowHeight = Console.LargestWindowHeight > Console.BufferHeight ? Console.BufferHeight : Console.LargestWindowHeight - 1;
-            Console.SetWindowSize(windowWidth, windowHeight);
+            ResetWindowSize();
             Console.OutputEncoding = Encoding.Unicode;
+        }
+
+        private static void ResetWindowSize()
+        {
+            if (Console.WindowWidth != Console.BufferWidth || Console.WindowHeight != Console.BufferHeight)
+            {
+                Console.SetWindowSize(1, 1);
+                Console.SetBufferSize(BufferWidth, BufferHeight);
+                int windowWidth = Console.LargestWindowWidth > Console.BufferWidth ? Console.BufferWidth : Console.LargestWindowWidth - 1;
+                int windowHeight = Console.LargestWindowHeight > Console.BufferHeight ? Console.BufferHeight : Console.LargestWindowHeight - 1;
+                Console.SetWindowSize(windowWidth, windowHeight);
+            }
         }
 
         private void Close()
@@ -96,6 +106,7 @@ namespace rogueliche
         {
             if (gameStates.Any())
             {
+                ResetWindowSize();
                 gameStates.Peek().Draw(render, ui);
             }
         }
