@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace rogueliche
 {
@@ -6,15 +7,13 @@ namespace rogueliche
     {
         private readonly char[][] buffer;
         
-        private const int DefaultWindowWidth = 102;
-        private const int DefaultWindowHeight = 68;
+        public const int BufferWidth = 80;
+        public const int BufferHeight = 50;
 
         public Graphics()
         {
-            ResetBufferAndWindowSize();
-
-            Width = Console.BufferWidth;
-            Height = Console.BufferHeight - 1;
+            ConfigureConsole();
+            ResetBufferAndWindow();
 
             buffer = new char[Height][];
             for (int y = 0; y < Height; y++)
@@ -24,8 +23,8 @@ namespace rogueliche
             Clear();
         }
 
-        public int Width { get; private set; }
-        public int Height { get; private set; }
+        public int Width { get => BufferWidth; }
+        public int Height { get => BufferHeight; }
 
         public void Clear()
         {
@@ -89,21 +88,9 @@ namespace rogueliche
             }
         }
 
-        private void ResetBufferAndWindowSize()
-        {
-            if (Console.WindowWidth != Console.BufferWidth || Console.WindowHeight != Console.BufferHeight)
-            {
-                Console.SetWindowSize(1, 1);
-                int windowWidth = Console.LargestWindowWidth > DefaultWindowWidth ? DefaultWindowWidth : Console.LargestWindowWidth - 1;
-                int windowHeight = Console.LargestWindowHeight > DefaultWindowHeight ? DefaultWindowHeight : Console.LargestWindowHeight - 1;
-                Console.SetBufferSize(windowWidth, windowHeight);
-                Console.SetWindowSize(windowWidth, windowHeight);
-            }
-        }
-
         public void Draw()
         {
-            ResetBufferAndWindowSize();
+            ResetBufferAndWindow();
             Console.SetCursorPosition(0, 0);
             for (int y = 0; y < Height; y++)
             {
@@ -125,6 +112,45 @@ namespace rogueliche
         public static Point CameraTransform(Player player, Graphics render)
         {
             return new Point(player.Position.X - render.Width / 2, player.Position.Y - render.Height / 2);
+        }
+
+        private static void ConfigureConsole()
+        {
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.CursorVisible = false;
+            Console.OutputEncoding = Encoding.Unicode;
+        }
+
+        private void ResetBufferAndWindow()
+        {
+            if (BufferAndWindowNeedResetting())
+            {
+                Console.SetWindowPosition(0, 0);
+                Console.SetWindowSize(1, 1);
+                Console.SetBufferSize(AdjustedWindowWidth(), AdjustedWindowHeight());
+                Console.SetWindowSize(AdjustedWindowWidth(), AdjustedWindowHeight());
+            }
+        }
+
+        private bool BufferAndWindowNeedResetting()
+        {
+            return Console.BufferWidth != AdjustedWindowWidth()
+                || Console.BufferHeight != AdjustedWindowHeight()
+                || Console.WindowWidth != AdjustedWindowWidth()
+                || Console.WindowHeight != AdjustedWindowHeight()
+                || Console.WindowLeft != 0
+                || Console.WindowTop != 0;
+        }
+
+        private int AdjustedWindowWidth()
+        {
+            return BufferWidth < Console.LargestWindowWidth ? BufferWidth : Console.LargestWindowWidth;
+        }
+
+        private int AdjustedWindowHeight()
+        {
+            return BufferHeight + 1 < Console.LargestWindowHeight ? BufferHeight + 1 : Console.LargestWindowHeight;
         }
     }
 }

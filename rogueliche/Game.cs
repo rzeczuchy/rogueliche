@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Diagnostics;
 
@@ -23,7 +22,7 @@ namespace rogueliche
 
         public Game()
         {
-            SetUpConsole();
+            SetWindowTitle(GameTitle);
             render = new Graphics();
             ui = new UI(render);
             loopTimer = new Stopwatch();
@@ -45,13 +44,9 @@ namespace rogueliche
             gameStates.Pop();
         }
 
-        private void SetUpConsole()
+        private void SetWindowTitle(string title)
         {
-            Console.Title = GameTitle;
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.CursorVisible = false;
-            Console.OutputEncoding = Encoding.Unicode;
+            Console.Title = title;
         }
 
         private void Close()
