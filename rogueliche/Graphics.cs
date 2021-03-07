@@ -5,9 +5,14 @@ namespace rogueliche
     public class Graphics
     {
         private readonly char[][] buffer;
+        
+        private const int DefaultWindowWidth = 102;
+        private const int DefaultWindowHeight = 68;
 
         public Graphics()
         {
+            ResetBufferAndWindowSize();
+
             Width = Console.BufferWidth;
             Height = Console.BufferHeight - 1;
 
@@ -84,8 +89,21 @@ namespace rogueliche
             }
         }
 
+        private void ResetBufferAndWindowSize()
+        {
+            if (Console.WindowWidth != Console.BufferWidth || Console.WindowHeight != Console.BufferHeight)
+            {
+                Console.SetWindowSize(1, 1);
+                int windowWidth = Console.LargestWindowWidth > DefaultWindowWidth ? DefaultWindowWidth : Console.LargestWindowWidth - 1;
+                int windowHeight = Console.LargestWindowHeight > DefaultWindowHeight ? DefaultWindowHeight : Console.LargestWindowHeight - 1;
+                Console.SetBufferSize(windowWidth, windowHeight);
+                Console.SetWindowSize(windowWidth, windowHeight);
+            }
+        }
+
         public void Draw()
         {
+            ResetBufferAndWindowSize();
             Console.SetCursorPosition(0, 0);
             for (int y = 0; y < Height; y++)
             {
