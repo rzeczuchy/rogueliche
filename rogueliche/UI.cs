@@ -78,7 +78,7 @@ namespace rogueliche
             var exertionText = "Exertion: " + player.Exertion + "/" + player.MaxExertion;
             var exertionTextPos = new Point(exertionPos.X - exertionText.Length, exertionPos.Y);
 
-            render.DrawString(exertionText, exertionTextPos.X, exertionTextPos.Y);
+            render.DrawString(exertionText, exertionTextPos);
 
             if (player.Exertion >= player.MaxExertion * 4 / 5 && warningsVisible)
                 render.DrawString("Overexerted!", exertionTextPos.X + exertionText.Length + 1, exertionTextPos.Y);
@@ -91,7 +91,7 @@ namespace rogueliche
             var healthText = "Health: " + player.Health + "/" + player.MaxHealth;
             var healthTextPos = new Point(healthPos.X - healthText.Length, healthPos.Y); 
 
-            render.DrawString(healthText, healthPos.X - healthText.Length, 6);
+            render.DrawString(healthText, healthTextPos);
 
             if (player.Health <= player.MaxHealth * 1 / 5 && warningsVisible)
                 render.DrawString("Health critical!", healthTextPos.X + healthText.Length + 1, healthTextPos.Y);
@@ -100,27 +100,32 @@ namespace rogueliche
 
         private static void DrawPlayerLocationName(Graphics render, Player player)
         {
-            string floorText = player.Location.Name;
-            render.DrawString(floorText, render.Width * 4 / 5 - floorText.Length / 2, 3);
+            var floorText = player.Location.Name;
+            var floorTextPos = new Point(render.Width * 4 / 5 - floorText.Length / 2, 3);
+            render.DrawString(floorText, floorTextPos.X, floorTextPos.Y);
         }
 
         private void DrawPlayerExperience(Graphics render, Player player)
         {
-            string experienceText = "Experience: " + player.Exp + "/" + player.ExpToNextLvl;
-            render.DrawString(experienceText, render.Width * 1 / 2 - experienceText.Length / 2, 3);
-            render.DrawBar(player.Exp, player.ExpToNextLvl, HudBarLength, render.Width / 2 - HudBarLength / 2, 4);
+            var experiencePos = new Point(render.Width * 1 / 2, 3);
+            var experienceText = "Experience: " + player.Exp + "/" + player.ExpToNextLvl;
+            var experienceTextPos = new Point(experiencePos.X - experienceText.Length / 2, experiencePos.Y);
+            render.DrawString(experienceText, experienceTextPos);
+            render.DrawBar(player.Exp, player.ExpToNextLvl, HudBarLength, experiencePos.X - HudBarLength / 2, experiencePos.Y + 1);
         }
 
         private static void DrawPlayerLevel(Graphics render, Player player)
         {
-            string lvl = "Level: " + player.Lvl;
-            render.DrawString(lvl, render.Width * 1 / 5 - lvl.Length / 2, 3);
+            var lvlPos = new Point(render.Width * 1 / 5, 3);
+            var lvlText = "Level: " + player.Lvl;
+            render.DrawString(lvlText, lvlPos.X - lvlText.Length / 2, lvlPos.Y);
         }
 
         private static void DrawPlayerName(Graphics render, Player player)
         {
-            string name = player.Name;
-            render.DrawString(name, render.Width * 1 / 2 - name.Length / 2, 1);
+            var namePos = new Point(render.Width * 1 / 2, 1);
+            var nameText = player.Name;
+            render.DrawString(nameText, namePos.X - nameText.Length / 2, namePos.Y);
         }
 
         private void DrawWeaponHud(Graphics render, Player player)
