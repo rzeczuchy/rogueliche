@@ -18,11 +18,15 @@ namespace rogueliche
         private bool displayOverheads;
         private Point overheadOffset = new Point(-2, -2);
 
-        public UI(Graphics render)
+        public UI(Graphics graphics)
         {
+            if (graphics == null)
+            {
+                throw new ArgumentNullException();
+            }
             displayOverheads = true;
-            HudBarLength = (render.Width - LeftHudOffset * 2) / 2;
-            WeaponHudTopOffset = render.Height * 7 / 8;
+            HudBarLength = (graphics.Width - LeftHudOffset * 2) / 2;
+            WeaponHudTopOffset = graphics.Height * 7 / 8;
         }
 
         public void ToggleOverheads()
