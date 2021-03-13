@@ -12,7 +12,7 @@ namespace rogueliche
 
         public Graphics()
         {
-            ConfigureConsole();
+            ConfigureGraphics();
             ResetBufferAndWindow();
 
             buffer = new char[Height][];
@@ -114,7 +114,7 @@ namespace rogueliche
             return new Point(player.Position.X - render.Width / 2, player.Position.Y - render.Height / 2);
         }
 
-        private static void ConfigureConsole()
+        private static void ConfigureGraphics()
         {
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
