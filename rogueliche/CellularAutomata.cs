@@ -22,6 +22,11 @@ namespace rogueliche
                 }
         }
 
+        public static void ErodeTiles(Tilemap tilemap, Rectangle bounds)
+        {
+            ErodeTiles(tilemap, bounds.Left, bounds.Top, bounds.Width, bounds.Height);
+        }
+
         public static void ErodeTiles(Tilemap tilemap)
         {
             ErodeTiles(tilemap, 0, 0, tilemap.Width, tilemap.Height);
