@@ -14,6 +14,11 @@ namespace rogueliche
 
         public Save(Player player)
         {
+            if (player == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             PlayerKillCount = player.KillCount;
             PlayerBrokenWeapons = player.BrokenWeapons;
             PlayerMaxHealth = player.MaxHealth;

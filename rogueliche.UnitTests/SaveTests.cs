@@ -20,5 +20,11 @@ namespace rogueliche.UnitTests
                 Assert.Fail();
             }
         }
+
+        [TestMethod]
+        public void Save_ThrowsExceptionIfPlayerNull()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => new Save(null));
+        }
     }
 }
