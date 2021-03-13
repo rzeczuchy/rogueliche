@@ -130,18 +130,38 @@ namespace rogueliche
 
         private void DrawWeaponHud(Graphics render, Player player)
         {
-            string wpn = player.CurrentWeapon.Overhead;
-            render.DrawString(wpn, render.Width * 1 / 2 - wpn.Length / 2, WeaponHudTopOffset);
+            DrawCurrentWeaponString(render, player);
 
-            string drb = "Durability: " + player.CurrentWeapon.Durability + "/" + player.CurrentWeapon.MaxDurability;
-            render.DrawString(drb, render.Width * 1 / 2 - drb.Length / 2, WeaponHudTopOffset + 2);
+            DrawWeaponDurability(render, player);
+
+            DrawWeaponDamage(render, player);
+
+            DrawWeaponWeight(render, player);
+        }
+
+        private void DrawCurrentWeaponString(Graphics render, Player player)
+        {
+            var weaponText = player.CurrentWeapon.Overhead;
+            render.DrawString(weaponText, render.Width * 1 / 2 - weaponText.Length / 2, WeaponHudTopOffset);
+        }
+
+        private void DrawWeaponDurability(Graphics render, Player player)
+        {
+            var durabilityText = "Durability: " + player.CurrentWeapon.Durability + "/" + player.CurrentWeapon.MaxDurability;
+            render.DrawString(durabilityText, render.Width * 1 / 2 - durabilityText.Length / 2, WeaponHudTopOffset + 2);
             render.DrawBar(player.CurrentWeapon.Durability, player.CurrentWeapon.MaxDurability, HudBarLength, render.Width / 2 - HudBarLength / 2, WeaponHudTopOffset + 3);
+        }
 
-            string dmg = "Damage: " + player.CurrentWeapon.Damage;
-            render.DrawString(dmg, render.Width * 2 / 5 - dmg.Length / 2, WeaponHudTopOffset + 5);
+        private void DrawWeaponDamage(Graphics render, Player player)
+        {
+            var damageText = "Damage: " + player.CurrentWeapon.Damage;
+            render.DrawString(damageText, render.Width * 2 / 5 - damageText.Length / 2, WeaponHudTopOffset + 5);
+        }
 
-            string wgt = "Weight: " + player.CurrentWeapon.StaminaCost;
-            render.DrawString(wgt, render.Width * 3 / 5 - wgt.Length / 2, WeaponHudTopOffset + 5);
+        private void DrawWeaponWeight(Graphics render, Player player)
+        {
+            var weightText = "Weight: " + player.CurrentWeapon.StaminaCost;
+            render.DrawString(weightText, render.Width * 3 / 5 - weightText.Length / 2, WeaponHudTopOffset + 5);
         }
 
         private void DisplayOverheads(Graphics render, Player player)
