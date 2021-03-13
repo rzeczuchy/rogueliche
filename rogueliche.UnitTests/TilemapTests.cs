@@ -104,5 +104,19 @@ namespace rogueliche.UnitTests
 
             Assert.IsTrue(sameResults < 10);
         }
+
+        [TestMethod]
+        public void IsWalkable_ReturnsIfTileWalkable()
+        {
+            var tilemap = TestTilemap();
+            var walkablePos = new Point(1, 1);
+            var nonWalkablePos = new Point(2, 2);
+
+            tilemap.SetTile(walkablePos, Tile.TileType.floor);
+            tilemap.SetTile(nonWalkablePos, Tile.TileType.wall);
+
+            Assert.AreEqual(true, tilemap.IsWalkable(walkablePos));
+            Assert.AreEqual(false, tilemap.IsWalkable(nonWalkablePos));
+        }
     }
 }
