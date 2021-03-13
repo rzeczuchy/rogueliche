@@ -19,7 +19,12 @@ namespace rogueliche
         private readonly Stack<GameState> gameStates;
         private bool isRunning;
 
-        public Game()
+        public Game() :
+            this(false)
+        {
+        }
+
+        public Game(bool testModeEnabled)
         {
             SetWindowTitle(GameTitle);
 
@@ -31,7 +36,7 @@ namespace rogueliche
             gameStates = new Stack<GameState>();
             PushGameState(new GameStartState(this));
 
-            isRunning = true;
+            isRunning = !testModeEnabled;
             Run();
         }
 
@@ -95,7 +100,7 @@ namespace rogueliche
         {
             loopTimer.Start();
             Draw();
-            while (isRunning)
+            do
             {
                 if (loopTimer.Elapsed.Milliseconds > timeStep)
                 {
@@ -103,7 +108,7 @@ namespace rogueliche
                     Draw();
                     loopTimer.Restart();
                 }
-            }
+            } while (isRunning);
         }
     }
 }
