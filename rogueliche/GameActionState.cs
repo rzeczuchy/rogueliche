@@ -9,9 +9,9 @@ namespace rogueliche
     public class GameActionState : GameState
     {
         private readonly Game game;
+        private readonly SaveHandler saveHandler;
         private Dungeon dungeon;
         private Player player;
-        private SaveHandler saveHandler;
 
         public GameActionState(Game game)
         {
