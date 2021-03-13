@@ -11,18 +11,19 @@ namespace rogueliche
         public const string GameTitle = "Rogueliche";
         public const string Version = "1.1.3";
         public const string Copyright = "coded by rzeczuchy 2019-2021 ver";
-
+        private const double fps = 30;
+        private readonly double timeStep;
         private readonly Graphics render;
         private readonly UI ui;
         private readonly Stopwatch loopTimer;
-        private const double fps = 30;
-        private const double timeStep = (1 / fps) * 1000;
         private readonly Stack<GameState> gameStates;
         private bool isRunning;
 
         public Game()
         {
             SetWindowTitle(GameTitle);
+
+            timeStep = (1 / fps) * 1000;
             render = new Graphics();
             ui = new UI(render);
             loopTimer = new Stopwatch();
