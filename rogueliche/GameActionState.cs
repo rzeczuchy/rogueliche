@@ -25,7 +25,7 @@ namespace rogueliche
             }
             else
             {
-                StartNewGame();
+                StartGame();
             }
         }
 
@@ -51,7 +51,7 @@ namespace rogueliche
             render.Draw();
         }
 
-        private void StartNewGame()
+        private void StartGame()
         {
             var startingLevel = dungeon.NewLevel();
             player = new Player(startingLevel, startingLevel.Entrance);
