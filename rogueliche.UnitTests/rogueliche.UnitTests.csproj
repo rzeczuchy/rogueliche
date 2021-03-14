@@ -58,6 +58,7 @@
     <Compile Include="SaveHandlerTests.cs" />
     <Compile Include="SaveTests.cs" />
     <Compile Include="GameTests.cs" />
+    <Compile Include="GraphicsTests.cs" />
     <Compile Include="WeaponTests.cs" />
     <Compile Include="UtilitiesTests.cs" />
     <Compile Include="PointTests.cs" />

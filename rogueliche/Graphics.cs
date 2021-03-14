@@ -5,7 +5,7 @@ namespace rogueliche
 {
     public class Graphics
     {
-        private readonly char[][] buffer;
+        private char[][] buffer;
         
         public const int BufferWidth = 80;
         public const int BufferHeight = 50;
@@ -13,8 +13,12 @@ namespace rogueliche
         public Graphics()
         {
             ConfigureGraphics();
-            ResetBufferAndWindow();
+            ResetConsoleWindow();
+            ResetBuffer();
+        }
 
+        private void ResetBuffer()
+        {
             buffer = new char[Height][];
             for (int y = 0; y < Height; y++)
             {
@@ -90,7 +94,7 @@ namespace rogueliche
 
         public void Draw()
         {
-            ResetBufferAndWindow();
+            ResetConsoleWindow();
             Console.SetCursorPosition(0, 0);
             for (int y = 0; y < Height; y++)
             {
@@ -122,9 +126,9 @@ namespace rogueliche
             Console.OutputEncoding = Encoding.Unicode;
         }
 
-        private void ResetBufferAndWindow()
+        private void ResetConsoleWindow()
         {
-            if (BufferAndWindowNeedResetting())
+            if (ConsoleNeedsResetting())
             {
                 Console.SetWindowPosition(0, 0);
                 Console.SetWindowSize(1, 1);
@@ -133,7 +137,7 @@ namespace rogueliche
             }
         }
 
-        private bool BufferAndWindowNeedResetting()
+        private bool ConsoleNeedsResetting()
         {
             return Console.BufferWidth != AdjustedWindowWidth()
                 || Console.BufferHeight != AdjustedWindowHeight()
