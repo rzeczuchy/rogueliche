@@ -12,7 +12,7 @@ namespace rogueliche
 
         public GameStartState(Game game)
         {
-            this.game = game;
+            this.game = game ?? throw new ArgumentNullException();
         }
 
         public override void Update(UI ui, ConsoleKey input)

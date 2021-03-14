@@ -15,7 +15,7 @@ namespace rogueliche
 
         public GameActionState(Game game)
         {
-            this.game = game;
+            this.game = game ?? throw new ArgumentNullException();
             saveHandler = new SaveHandler();
             dungeon = new Dungeon();
 

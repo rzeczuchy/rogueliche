@@ -13,8 +13,8 @@ namespace rogueliche
 
         public GameOverState(Game game, Player player)
         {
-            this.game = game;
-            this.player = player;
+            this.game = game ?? throw new ArgumentNullException();
+            this.player = player ?? throw new ArgumentNullException();
         }
 
         public override void Update(UI ui, ConsoleKey input)
