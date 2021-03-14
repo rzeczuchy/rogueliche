@@ -21,7 +21,6 @@ namespace rogueliche
         public Dungeon() :
             this(0)
         {
-
         }
 
         public Dungeon(int levelIndex)
