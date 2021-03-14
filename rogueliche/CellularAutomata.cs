@@ -8,33 +8,24 @@ namespace rogueliche
 {
     class CellularAutomata
     {
-        public static void ErodeTiles(Tilemap tilemap, int left, int top, int width, int height)
+        public static void ErodeTiles(Tilemap tilemap)
         {
-            for (int ypos = top; ypos < top + height; ypos++)
-                for (int xpos = left; xpos <= left + width; xpos++)
-                {
-                    Point tilePosition = new Point(xpos, ypos);
-
-                    if (tilemap.ContainsPosition(tilePosition))
-                    {
-                        SwitchTileType(tilemap, tilePosition);
-                    }
-                }
+            tilemap.PerformOnAllTiles((pos) => SwitchTileType(tilemap, pos));
         }
 
         public static void ErodeTiles(Tilemap tilemap, Rectangle bounds)
         {
-            ErodeTiles(tilemap, bounds.Left, bounds.Top, bounds.Width, bounds.Height);
+            tilemap.PerformOnTiles((pos) => SwitchTileType(tilemap, pos), bounds);
         }
 
-        public static void ErodeTiles(Tilemap tilemap)
+        public static void ErodeTiles(Tilemap tilemap, int left, int top, int width, int height)
         {
-            ErodeTiles(tilemap, 0, 0, tilemap.Width, tilemap.Height);
+            tilemap.PerformOnTiles((pos) => SwitchTileType(tilemap, pos), new Rectangle(left, top, width, height));
         }
 
-        private static void SwitchTileType(Tilemap tilemap, Point tilePosition)
+        public static void SwitchTileType(Tilemap tilemap, Point tilePosition)
         {
-            if (NumberOfFloorNeighbors(tilemap, tilePosition) > 4)
+            if (NumberOfFloorNeighbours(tilemap, tilePosition) > 4)
             {
                 tilemap.SetTile(tilePosition, Tile.TileType.floor);
             }
@@ -44,20 +35,20 @@ namespace rogueliche
             }
         }
 
-        private static int NumberOfFloorNeighbors(Tilemap tilemap, Point pos)
+        public static int NumberOfFloorNeighbours(Tilemap tilemap, Point pos)
         {
-            var neighbors = new List<Tile>();
+            var neighbours = new List<Tile>();
 
             for (int x = pos.X - 1; x <= pos.X + 1; x++)
                 for (int y = pos.Y - 1; y <= pos.Y + 1; y++)
                 {
                     if (tilemap.ContainsPosition(new Point(x, y)))
                     {
-                        neighbors.Add(tilemap.GetTile(new Point(x, y)));
+                        neighbours.Add(tilemap.GetTile(new Point(x, y)));
                     }
                 }
 
-            return neighbors.Where(i => i.Type == Tile.TileType.floor).Count();
+            return neighbours.Where(i => i.Type == Tile.TileType.floor).Count();
         }
     }
 }

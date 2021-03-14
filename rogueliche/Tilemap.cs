@@ -143,6 +143,19 @@ namespace rogueliche
                 }
         }
 
+        public void PerformOnTiles(Action<Point> action, Rectangle rectangle)
+        {
+            for (int y = rectangle.Top; y < rectangle.Bottom; y++)
+                for (int x = rectangle.Left; x <= rectangle.Right; x++)
+                {
+                    var pos = new Point(x, y);
+                    if (ContainsPosition(pos))
+                    {
+                        action(pos);
+                    }
+                }
+        }
+
         public void PerformOnVisibleTiles(Action<Point> action, Graphics render, Player player)
         {
             Point cameraPosition = new Point(player.Position.X - render.Width / 2, player.Position.Y - render.Height / 2);
